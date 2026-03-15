@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- หน้าหลัก -->
+  <url>
+    <loc>https://jbtransportservice.com/</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="th" href="https://jbtransportservice.com/"/>
+  </url>
+
+  <!-- บริการ -->
+  <url>
+    <loc>https://jbtransportservice.com/#services</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ทำไมเลือกเรา -->
+  <url>
+    <loc>https://jbtransportservice.com/#why</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ราคา -->
+  <url>
+    <loc>https://jbtransportservice.com/#pricing</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ติดตามตู้ -->
+  <url>
+    <loc>https://jbtransportservice.com/#tracking</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ขั้นตอน -->
+  <url>
+    <loc>https://jbtransportservice.com/#process</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ติดต่อ -->
+  <url>
+    <loc>https://jbtransportservice.com/#contact</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
