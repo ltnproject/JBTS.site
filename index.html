@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JB Transport Service — รับฝากตู้คอนเทนเนอร์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0b1829;
+    --navy-mid: #122038;
+    --navy-light: #1a2f50;
+    --steel: #2a3d55;
+    --amber: #f5a623;
+    --amber-light: #ffc84a;
+    --amber-dim: #b87c18;
+    --white: #f0ece4;
+    --muted: #8fa3bb;
+    --text: #cddaea;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 4%;
+    background: rgba(11,24,41,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245,166,35,0.2);
+  }
+  .logo {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-weight: 700; font-size: 1.25rem;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .logo span { color: var(--amber); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; font-size: 0.95rem; font-weight: 400;
+    color: var(--muted); transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    background: var(--amber); color: var(--navy);
+    border: none; padding: 0.55rem 1.4rem;
+    font-family: 'Sarabun', sans-serif; font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--amber-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(180deg, rgba(11,24,41,0) 60%, var(--navy) 100%),
+      repeating-linear-gradient(90deg,
+        transparent 0px, transparent 79px,
+        rgba(245,166,35,0.04) 79px, rgba(245,166,35,0.04) 80px),
+      repeating-linear-gradient(0deg,
+        transparent 0px, transparent 79px,
+        rgba(245,166,35,0.04) 79px, rgba(245,166,35,0.04) 80px);
+  }
+  /* decorative containers */
+  .hero-containers {
+    position: absolute; right: -2%; top: 50%; transform: translateY(-50%);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    opacity: 0.12; z-index: 0;
+  }
+  .hc {
+    width: 120px; height: 64px;
+    border: 2px solid var(--amber);
+    position: relative;
+  }
+  .hc::before {
+    content:''; position: absolute;
+    top: 50%; left: 0; right: 0; height: 2px;
+    background: var(--amber); transform: translateY(-50%);
+  }
+  .hc::after {
+    content:''; position: absolute;
+    top: 0; bottom: 0; left: 50%; width: 2px;
+    background: var(--amber); transform: translateX(-50%);
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 780px; }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--amber); text-transform: uppercase;
+    border-left: 3px solid var(--amber); padding-left: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800; line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal; color: var(--amber);
+    display: block;
+  }
+  .hero p {
+    font-size: 1.15rem; font-weight: 300; line-height: 1.8;
+    color: var(--text); max-width: 560px; margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--amber); color: var(--navy);
+    padding: 0.85rem 2.2rem; font-family: 'Sarabun', sans-serif;
+    font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 0.85rem 2.2rem; font-family: 'Sarabun', sans-serif;
+    font-size: 1rem; font-weight: 600; border: 1.5px solid rgba(240,236,228,0.35);
+    cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--amber); color: var(--amber); }
+
+  .hero-stats {
+    position: relative; z-index: 1;
+    display: flex; gap: 0; margin-top: 5rem;
+    border-top: 1px solid rgba(245,166,35,0.2);
+    padding-top: 2rem; flex-wrap: wrap;
+  }
+  .stat {
+    flex: 1; min-width: 150px;
+    padding: 0 2rem 0 0;
+    border-right: 1px solid rgba(245,166,35,0.15);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 2.4rem; font-weight: 700; color: var(--amber);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 5rem 4%; }
+  .section-label {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700;
+    color: var(--white); line-height: 1.2; margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; font-weight: 300; color: var(--text);
+    max-width: 520px; line-height: 1.8; margin-bottom: 3rem;
+  }
+
+  /* ── SERVICES ── */
+  .services { background: var(--navy-mid); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px; background: rgba(245,166,35,0.12);
+  }
+  .service-card {
+    background: var(--navy-mid); padding: 2.5rem 2rem;
+    transition: background 0.25s;
+  }
+  .service-card:hover { background: var(--navy-light); }
+  .service-icon {
+    width: 48px; height: 48px; margin-bottom: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .service-icon svg { width: 36px; height: 36px; }
+  .service-card h3 {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 1.15rem; font-weight: 600; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .service-card p { font-size: 0.9rem; line-height: 1.75; color: var(--text); }
+  .service-tag {
+    display: inline-block; margin-top: 1.2rem;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--amber); border: 1px solid rgba(245,166,35,0.35);
+    padding: 0.25rem 0.75rem;
+  }
+
+  /* ── WHY US ── */
+  .why { background: var(--navy); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .why-visual { position: relative; }
+
+  .why-points { list-style: none; }
+  .why-points li {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.25rem 0; border-bottom: 1px solid rgba(245,166,35,0.1);
+  }
+  .why-points li:last-child { border-bottom: none; }
+  .point-num {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 1.4rem; font-weight: 700; color: var(--amber);
+    line-height: 1; min-width: 36px;
+  }
+  .point-text strong {
+    display: block; font-size: 1rem; font-weight: 600;
+    color: var(--white); margin-bottom: 0.3rem;
+  }
+  .point-text p { font-size: 0.88rem; color: var(--text); line-height: 1.7; }
+
+  /* ── PRICING ── */
+  .pricing { background: var(--navy-mid); }
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .plan {
+    border: 1.5px solid var(--steel); padding: 2.5rem 2rem;
+    position: relative; transition: border-color 0.25s;
+  }
+  .plan:hover { border-color: rgba(245,166,35,0.5); }
+  .plan.featured { border-color: var(--amber); }
+  .plan-badge {
+    position: absolute; top: -14px; left: 2rem;
+    background: var(--amber); color: var(--navy);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+    padding: 0.25rem 1rem; text-transform: uppercase;
+  }
+  .plan-name {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .plan-price {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 2.2rem; font-weight: 700; color: var(--white);
+    line-height: 1; margin-bottom: 0.25rem;
+  }
+  .plan-price span { font-size: 0.9rem; font-weight: 400; color: var(--muted); }
+  .plan-desc { font-size: 0.85rem; color: var(--text); margin: 1rem 0 1.5rem; line-height: 1.6; }
+  .plan-features { list-style: none; }
+  .plan-features li {
+    font-size: 0.88rem; color: var(--text); padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; gap: 0.6rem; align-items: center;
+  }
+  .plan-features li::before {
+    content: ''; display: block;
+    width: 6px; height: 6px; background: var(--amber); flex-shrink: 0;
+  }
+
+  /* ── PROCESS ── */
+  .process { background: var(--navy); }
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex; gap: 2rem; align-items: flex-start;
+    padding: 2rem 0; border-bottom: 1px solid rgba(245,166,35,0.1);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 3rem; font-weight: 800; color: rgba(245,166,35,0.18);
+    line-height: 1; min-width: 70px; text-align: right;
+    transition: color 0.25s;
+  }
+  .step:hover .step-num { color: rgba(245,166,35,0.45); }
+  .step-content { flex: 1; padding-top: 0.4rem; }
+  .step-content h3 {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem;
+  }
+  .step-content p { font-size: 0.9rem; line-height: 1.75; color: var(--text); }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--navy-light); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; }
+  .contact-info h2 {
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-size: 2rem; font-weight: 700; color: var(--white); margin-bottom: 1rem;
+  }
+  .contact-info p { font-size: 0.95rem; line-height: 1.8; color: var(--text); margin-bottom: 2rem; }
+  .contact-details { list-style: none; }
+  .contact-details li {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1rem 0; border-bottom: 1px solid rgba(245,166,35,0.1);
+  }
+  .contact-details li:last-child { border-bottom: none; }
+  .c-icon { color: var(--amber); font-size: 1.2rem; min-width: 28px; }
+  .c-detail strong { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .c-detail span { font-size: 0.95rem; color: var(--white); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(11,24,41,0.6); border: 1.5px solid var(--steel);
+    color: var(--white); padding: 0.75rem 1rem;
+    font-family: 'Sarabun', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--muted); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--amber); }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    background: var(--amber); color: var(--navy);
+    border: none; padding: 1rem; width: 100%;
+    font-family: 'Sarabun', sans-serif; font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--amber-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #07111e; padding: 3rem 4% 2rem;
+    border-top: 1px solid rgba(245,166,35,0.15);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+  .footer-brand .logo { font-size: 1.4rem; margin-bottom: 0.75rem; display: block; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: var(--muted); }
+  .footer-col h4 {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.5rem; }
+  .footer-col ul li a { text-decoration: none; font-size: 0.88rem; color: var(--muted); transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(245,166,35,0.1);
+    padding-top: 1.5rem; font-size: 0.8rem; color: var(--muted);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  }
+
+  /* ── STRIP ── */
+  .ticker-strip {
+    background: var(--amber); overflow: hidden;
+    padding: 0.6rem 0; white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex; gap: 4rem;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    font-size: 0.78rem; font-weight: 700; color: var(--navy);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .why-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+    .hero-containers { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav { padding: 1rem 5%; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 500px) {
+    .hero h1 { font-size: 2.4rem; }
+    .hero-stats { flex-direction: column; gap: 1.5rem; }
+    .stat { border-right: none; border-bottom: 1px solid rgba(245,166,35,0.12); padding: 0 0 1rem; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#"><img src="https://i.ibb.co/DPHFFg0b/IMG-0532.jpg" alt="Logo" style="height:44px;width:auto;display:block;object-fit:contain;"></a>
+  <ul class="nav-links">
+    <li><a href="#services">บริการ</a></li>
+    <li><a href="#why">ทำไมเลือกเรา</a></li>
+    <li><a href="#pricing">ราคา</a></li>
+    <li><a href="#tracking">ติดตามตู้</a></li>
+    <li><a href="#process">ขั้นตอน</a></li>
+    <li><a href="#contact">ติดต่อ</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">ติดต่อเรา</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-containers" aria-hidden="true">
+    <div class="hc"></div><div class="hc"></div><div class="hc"></div>
+    <div class="hc"></div><div class="hc"></div><div class="hc"></div>
+    <div class="hc"></div><div class="hc"></div><div class="hc"></div>
+    <div class="hc"></div><div class="hc"></div><div class="hc"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">บริการรับฝากตู้คอนเทนเนอร์</p>
+    <h1>
+      JB Transport
+      <em>Service</em>
+    </h1>
+    <p>บริษัทรับฝากตู้คอนเทนเนอร์ขนาดเล็ก ลาดกระบัง กรุงเทพฯ ดูแลตู้ของคุณด้วยความใส่ใจ ราคาโปร่งใส ติดต่อง่าย เปิดทุกวัน 24 ชั่วโมง</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">สอบถามราคา</a>
+      <a href="#services" class="btn-secondary">ดูบริการทั้งหมด</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">100</div>
+      <div class="stat-label">ความจุสูงสุด (TEU)</div>
+    </div>
+    <div class="stat" style="padding-left:2rem;">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">ปีประสบการณ์ในวงการ</div>
+    </div>
+    <div class="stat" style="padding-left:2rem;">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">เปิดทุกวันตลอด 24 ชม.</div>
+    </div>
+    <div class="stat" style="padding-left:2rem;">
+      <div class="stat-num">5 วัน</div>
+      <div class="stat-label">ฟรีค่าเก็บแรกเข้า</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">ยาร์ดรับฝากตู้คอนเทนเนอร์</span>
+    <span class="ticker-item">รับฝากตู้คอนเทนเนอร์</span>
+    <span class="ticker-item">ยาร์ดกว้างขวาง</span>
+    <span class="ticker-item">ระบบรักษาความปลอดภัย 24 ชม.</span>
+    <span class="ticker-item">รับ-ส่งทั่วประเทศ</span>
+    <span class="ticker-item">ตู้ 20ft และ 40ft</span>
+    <span class="ticker-item">JB Transport Service</span>
+    <span class="ticker-item">ยาร์ดรับฝากตู้คอนเทนเนอร์</span>
+    <span class="ticker-item">รับฝากตู้คอนเทนเนอร์</span>
+    <span class="ticker-item">ยาร์ดกว้างขวาง</span>
+    <span class="ticker-item">ระบบรักษาความปลอดภัย 24 ชม.</span>
+    <span class="ticker-item">รับ-ส่งทั่วประเทศ</span>
+    <span class="ticker-item">ตู้ 20ft และ 40ft</span>
+    <span class="ticker-item">JB Transport Service</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <p class="section-label">บริการของเรา</p>
+  <h2 class="section-title">ครบวงจรด้านตู้คอนเทนเนอร์</h2>
+  <p class="section-sub">เราให้บริการครอบคลุมทุกความต้องการ ตั้งแต่รับฝาก จัดเก็บ ไปจนถึงขนส่ง</p>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="10" width="32" height="18" rx="1" stroke="#f5a623" stroke-width="1.8"/>
+          <line x1="12" y1="10" x2="12" y2="28" stroke="#f5a623" stroke-width="1.8"/>
+          <line x1="24" y1="10" x2="24" y2="28" stroke="#f5a623" stroke-width="1.8"/>
+          <line x1="2" y1="19" x2="34" y2="19" stroke="#f5a623" stroke-width="1.4" stroke-dasharray="3 2"/>
+          <circle cx="7" cy="28" r="2.5" stroke="#f5a623" stroke-width="1.5"/>
+          <circle cx="29" cy="28" r="2.5" stroke="#f5a623" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h3>รับฝากตู้คอนเทนเนอร์</h3>
+      <p>พื้นที่จอดกว้างขวาง รองรับตู้ขนาด 20 ฟุต และ 40 ฟุต ทั้งตู้เปล่าและตู้บรรจุสินค้า พร้อมระบบจัดเรียงอย่างเป็นระเบียบ</p>
+      <span class="service-tag">20ft / 40ft / 45ft</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 28 L4 14 L18 8 L32 14 L32 28 Z" stroke="#f5a623" stroke-width="1.8" stroke-linejoin="round"/>
+          <line x1="4" y1="28" x2="32" y2="28" stroke="#f5a623" stroke-width="1.8"/>
+          <line x1="18" y1="8" x2="18" y2="28" stroke="#f5a623" stroke-width="1.4"/>
+          <rect x="13" y="19" width="10" height="9" stroke="#f5a623" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h3>ยาร์ดจัดเก็บสินค้า</h3>
+      <p>โกดังและลานกลางแจ้งขนาดใหญ่ มีระบบป้องกันและควบคุมสภาพแวดล้อม เหมาะสำหรับสินค้าทุกประเภท</p>
+      <span class="service-tag">Indoor / Outdoor</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="18" width="22" height="12" rx="1" stroke="#f5a623" stroke-width="1.8"/>
+          <path d="M24 22 L34 22 L34 30 L24 30" stroke="#f5a623" stroke-width="1.8" stroke-linejoin="round"/>
+          <line x1="24" y1="18" x2="24" y2="30" stroke="#f5a623" stroke-width="1.8"/>
+          <circle cx="8" cy="30" r="3" stroke="#f5a623" stroke-width="1.5"/>
+          <circle cx="29" cy="30" r="3" stroke="#f5a623" stroke-width="1.5"/>
+          <rect x="8" y="10" width="12" height="10" rx="1" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="2.5 1.5"/>
+        </svg>
+      </div>
+      <h3>บริการขนส่งตู้</h3>
+      <p>รับส่งตู้คอนเทนเนอร์ด้วยรถหัวลากที่พร้อมใช้งาน ครอบคลุมทั่วประเทศ ตรงเวลา ปลอดภัย</p>
+      <span class="service-tag">รับ-ส่งทั่วไทย</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="13" stroke="#f5a623" stroke-width="1.8"/>
+          <polyline points="18,10 18,18 24,22" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="18" cy="18" r="2" fill="#f5a623"/>
+        </svg>
+      </div>
+      <h3>ติดตามสถานะแบบเรียลไทม์</h3>
+      <p>ระบบแจ้งเตือนและตรวจสอบตำแหน่งตู้แบบออนไลน์ ดูได้ทุกที่ทุกเวลาผ่านแอปพลิเคชันของเรา</p>
+      <span class="service-tag">Real-time Tracking</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 4 L22 14 L33 14 L24 20 L27 31 L18 25 L9 31 L12 20 L3 14 L14 14 Z" stroke="#f5a623" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>ซ่อมบำรุงตู้คอนเทนเนอร์</h3>
+      <p>ทีมช่างชำนาญซ่อมแซม ดูแลสภาพตู้ให้พร้อมใช้งาน ทั้งตู้แห้งและตู้ refrigerated</p>
+      <span class="service-tag">Dry / Reefer</span>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="26" height="22" rx="1" stroke="#f5a623" stroke-width="1.8"/>
+          <line x1="5" y1="12" x2="31" y2="12" stroke="#f5a623" stroke-width="1.5"/>
+          <line x1="14" y1="5" x2="14" y2="27" stroke="#f5a623" stroke-width="1.5"/>
+          <circle cx="10" cy="19" r="3" stroke="#f5a623" stroke-width="1.5"/>
+          <line x1="20" y1="17" x2="28" y2="17" stroke="#f5a623" stroke-width="1.5"/>
+          <line x1="20" y1="21" x2="26" y2="21" stroke="#f5a623" stroke-width="1.5"/>
+          <path d="M12 31 L24 31" stroke="#f5a623" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>จัดการเอกสารพิธีการศุลกากร</h3>
+      <p>บริการจัดเตรียมและตรวจสอบเอกสารนำเข้า-ส่งออก ประสานงานกับกรมศุลกากรให้ครบถ้วน</p>
+      <span class="service-tag">Import / Export Docs</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="why">
+  <div class="why-grid">
+    <div class="why-text">
+      <p class="section-label">ทำไมต้องเลือกเรา</p>
+      <h2 class="section-title">บริการตรงไปตรงมา<br>ราคาที่คุณไว้วางใจ</h2>
+      <ul class="why-points">
+        <li>
+          <div class="point-num">01</div>
+          <div class="point-text">
+            <strong>รองรับตู้ได้สูงสุด 100 TEU</strong>
+            <p>ยาร์ดจัดเรียงอย่างเป็นระเบียบ รองรับตู้ได้สูงสุด 100 TEU พร้อมระบบบริหารพื้นที่อย่างมีประสิทธิภาพ</p>
+          </div>
+        </li>
+        <li>
+          <div class="point-num">02</div>
+          <div class="point-text">
+            <strong>กล้อง CCTV ครอบคลุมทั้งพื้นที่</strong>
+            <p>ระบบรักษาความปลอดภัย 24 ชั่วโมง ด้วยกล้องวงจรปิดความละเอียดสูงและยาม</p>
+          </div>
+        </li>
+        <li>
+          <div class="point-num">03</div>
+          <div class="point-text">
+            <strong>ทำเลที่ตั้งสะดวก เข้าถึงง่าย</strong>
+            <p>ที่ตั้งเชิงยุทธศาสตร์ เชื่อมต่อเส้นทางหลักได้สะดวก ลดต้นทุนและเวลาในการขนส่ง</p>
+          </div>
+        </li>
+        <li>
+          <div class="point-num">04</div>
+          <div class="point-text">
+            <strong>ประสบการณ์กว่า 15 ปีในวงการ</strong>
+            <p>แม้จะเป็นบริษัทเล็กๆ แต่คนในทีมมีประสบการณ์ในธุรกิจตู้คอนเทนเนอร์มากกว่า 15 ปี พร้อมให้คำแนะนำได้ตรงจุด</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="why-visual">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div style="background:var(--navy-mid);border:1px solid rgba(245,166,35,0.2);padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">ความจุสูงสุด</div>
+          <div style="font-family:'IBM Plex Sans Thai',sans-serif;font-size:2rem;font-weight:700;color:var(--amber);line-height:1;">100 TEU</div>
+          <div style="font-size:0.82rem;color:var(--text);">20ft / 40ft / 40HQ</div>
+        </div>
+        <div style="background:var(--navy-mid);border:1px solid rgba(245,166,35,0.2);padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">รักษาความปลอดภัย</div>
+          <div style="font-family:'IBM Plex Sans Thai',sans-serif;font-size:2rem;font-weight:700;color:var(--amber);line-height:1;">24/7</div>
+          <div style="font-size:0.82rem;color:var(--text);">CCTV + ยามตลอดคืน</div>
+        </div>
+        <div style="background:var(--navy-mid);border:1px solid rgba(245,166,35,0.2);padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">ความจุยาร์ด</div>
+          <div style="font-family:'IBM Plex Sans Thai',sans-serif;font-size:2rem;font-weight:700;color:var(--amber);line-height:1;">100 TEU</div>
+          <div style="font-size:0.82rem;color:var(--text);">ความจุสูงสุดในยาร์ด</div>
+        </div>
+        <div style="background:var(--navy-mid);border:1px solid rgba(245,166,35,0.2);padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">ประสบการณ์</div>
+          <div style="font-family:'IBM Plex Sans Thai',sans-serif;font-size:2rem;font-weight:700;color:var(--amber);line-height:1;">15+ ปี</div>
+          <div style="font-size:0.82rem;color:var(--text);">ในวงการตู้คอนเทนเนอร์</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <p class="section-label">ราคาบริการ</p>
+  <h2 class="section-title">โปร่งใส ไม่มีค่าใช้จ่ายซ่อนเร้น</h2>
+  <p class="section-sub">ฟรีค่าเก็บ 5 วันแรก — หลังจากนั้นคิดค่าบริการตามขนาดตู้ ไม่มีค่าใช้จ่ายแอบแฝง</p>
+
+  <!-- Free Days Banner -->
+  <div style="background:rgba(245,166,35,0.08);border:1.5px solid rgba(245,166,35,0.35);padding:1.2rem 2rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+    <div style="font-family:'IBM Plex Sans Thai',sans-serif;font-size:2.5rem;font-weight:800;color:var(--amber);line-height:1;">5 วัน</div>
+    <div>
+      <div style="font-size:1rem;font-weight:600;color:var(--white);">ฟรีค่าเก็บสำหรับทุกขนาดตู้</div>
+      <div style="font-size:0.88rem;color:var(--muted);margin-top:0.2rem;">นับจากวันเวลาที่ตู้เข้ายาร์ด — ไม่คิดค่าใช้จ่ายใดๆ ใน 5 วันแรก</div>
+    </div>
+  </div>
+
+  <div class="pricing-grid">
+
+    <div class="plan featured">
+      <div class="plan-badge">ตู้ขนาดเล็ก</div>
+      <div class="plan-name">20 ฟุต (20ft)</div>
+      <div class="plan-price">฿30 <span>/ วัน</span></div>
+      <div class="plan-desc">หลังจากช่วงฟรี 5 วัน คิดค่าเก็บ ฿30 ต่อวัน ไม่จำกัดระยะเวลา</div>
+      <ul class="plan-features">
+        <li>5 วันแรก: ฟรี</li>
+        <li>วันที่ 6 เป็นต้นไป: ฿30 / วัน</li>
+        <li>รักษาความปลอดภัย 24 ชม.</li>
+        <li>ติดตามสถานะออนไลน์</li>
+        <li>เข้า-ออกยาร์ดได้ทุกวัน</li>
+      </ul>
+    </div>
+
+    <div class="plan featured" style="border-color:var(--amber);">
+      <div class="plan-badge">ตู้ขนาดใหญ่</div>
+      <div class="plan-name">40ft / 45ft / ตู้เย็น ❄️</div>
+      <div class="plan-price">฿50 <span>/ วัน</span></div>
+      <div class="plan-desc">ครอบคลุมทุกขนาดตู้ 40 ฟุต, 45 ฟุต รวมถึงตู้ควบคุมอุณหภูมิ (Reefer)</div>
+      <ul class="plan-features">
+        <li>5 วันแรก: ฟรี</li>
+        <li>วันที่ 6 เป็นต้นไป: ฿50 / วัน</li>
+        <li>รองรับ 40ft, 45ft, 40R, 45R</li>
+        <li>รักษาความปลอดภัย 24 ชม.</li>
+        <li>ติดตามสถานะออนไลน์</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Price example -->
+  <div style="margin-top:2rem;background:var(--navy-light);border:1px solid rgba(245,166,35,0.15);padding:1.5rem 2rem;">
+    <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;color:var(--amber);text-transform:uppercase;margin-bottom:1rem;">ตัวอย่างการคำนวณ</div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:0.82rem;color:var(--muted);">ฝากตู้ 20ft เป็นเวลา 10 วัน</div>
+        <div style="font-size:1rem;color:var(--white);margin-top:0.3rem;">5 วันฟรี + 5 วัน × ฿30 = <strong style="color:var(--amber);">฿150</strong></div>
+      </div>
+      <div style="border-left:1px solid rgba(245,166,35,0.2);padding-left:2rem;">
+        <div style="font-size:0.82rem;color:var(--muted);">ฝากตู้ 40ft เป็นเวลา 20 วัน</div>
+        <div style="font-size:1rem;color:var(--white);margin-top:0.3rem;">5 วันฟรี + 15 วัน × ฿50 = <strong style="color:var(--amber);">฿750</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:1.2rem;font-size:0.82rem;color:var(--muted);text-align:center;">* ราคาข้างต้นเป็นราคามาตรฐาน สำหรับปริมาณมาก <a href="#contact" style="color:var(--amber);text-decoration:none;">ติดต่อเพื่อรับราคาพิเศษ →</a></p>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start;">
+    <div>
+      <p class="section-label">ขั้นตอนการใช้บริการ</p>
+      <h2 class="section-title">ง่าย รวดเร็ว ใน 4 ขั้นตอน</h2>
+      <p class="section-sub">เริ่มต้นใช้บริการได้ทันที ทีมงานของเราพร้อมดูแลทุกขั้นตอน</p>
+      <a href="#contact" class="btn-primary" style="display:inline-block;">เริ่มต้นเลย</a>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>ติดต่อและแจ้งความต้องการ</h3>
+          <p>กรอกแบบฟอร์มหรือโทรติดต่อทีมงาน แจ้งจำนวนตู้ ขนาด และระยะเวลาที่ต้องการฝาก เราจะจัดเตรียมใบเสนอราคาให้ภายใน 2 ชั่วโมง</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>ตกลงราคาและทำสัญญา</h3>
+          <p>รับใบเสนอราคา ตกลงเงื่อนไข และลงนามในสัญญาบริการ กระบวนการเรียบง่าย โปร่งใส ไม่มีค่าใช้จ่ายแอบแฝง</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>นำตู้เข้ายาร์ด</h3>
+          <p>นัดวันเวลานำตู้เข้า เจ้าหน้าที่ตรวจรับสภาพตู้ ถ่ายภาพและบันทึกข้อมูล แจ้งตำแหน่งจัดเก็บให้ทราบทันที</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>ติดตามและรับตู้คืน</h3>
+          <p>ติดตามสถานะผ่านแอปหรือไลน์ได้ตลอดเวลา เมื่อต้องการรับตู้คืนแจ้งล่วงหน้า 24 ชั่วโมง เราจัดเตรียมให้พร้อม</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p class="section-label">ติดต่อเรา</p>
+      <h2>พร้อมให้บริการ<br>ทุกวัน ทุกเวลา</h2>
+      <p>เราเป็นบริษัทเล็กๆ ที่พร้อมดูแลตู้ของคุณอย่างใกล้ชิด ติดต่อมาได้เลยครับ ไม่มีระบบซับซ้อน คุยกันตรงๆ</p>
+      <ul class="contact-details">
+        <li>
+          <div class="c-icon">📍</div>
+          <div class="c-detail">
+            <strong>ที่อยู่</strong>
+            <span>PQV9+32X คลองสามประเวศ เขตลาดกระบัง กรุงเทพมหานคร 10520</span>
+            <a href="https://maps.app.goo.gl/V7qNirwYk4XpeRKq7" target="_blank"
+               style="display:inline-block;margin-top:0.4rem;font-size:0.8rem;color:var(--amber);text-decoration:none;">
+              📍 ดูแผนที่ Google Maps →
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="c-icon">📞</div>
+          <div class="c-detail">
+            <strong>โทรศัพท์</strong>
+            <span>061 393 9888</span>
+          </div>
+        </li>
+        <li>
+          <div class="c-icon">📧</div>
+          <div class="c-detail">
+            <strong>อีเมล</strong>
+            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cca5a2aaa38cb8a4adb8a9beb9adb8b9b8a4ada5e2afa3a1">[email&#160;protected]</a></span>
+          </div>
+        </li>
+        <li>
+          <div class="c-icon">🕐</div>
+          <div class="c-detail">
+            <strong>เวลาทำการ</strong>
+            <span>เปิดทุกวัน 24 ชั่วโมง</span>
+          </div>
+        </li>
+        <li>
+          <div class="c-icon">🔧</div>
+          <div class="c-detail">
+            <strong>อู่รถหัวลาก</strong>
+            <span>ทุกวัน 09:00 – 18:00 น.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <a href="tel:0613939888" class="btn-primary" style="display:block;text-align:center;padding:1.1rem;">
+          📞 โทรหาเราเลย 061 393 9888
+        </a>
+        <a href="https://maps.app.goo.gl/V7qNirwYk4XpeRKq7" target="_blank"
+           style="display:block;overflow:hidden;border:1.5px solid var(--steel);margin-top:0.5rem;">
+          <iframe
+            src="https://maps.google.com/maps?q=PQV9%2B32X+Khwaeng+Khlong+Sam+Prawet+Khet+Lat+Krabang+Bangkok&output=embed&z=16"
+            width="100%" height="220" style="border:0;display:block;filter:grayscale(30%);"
+            allowfullscreen="" loading="lazy"></iframe>
+          <div style="background:var(--navy-light);padding:0.6rem 1rem;font-size:0.8rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;">
+            <span>📍 คลองสามประเวศ เขตลาดกระบัง กทม.</span>
+            <span style="color:var(--amber);">เปิดใน Maps →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<!-- TRACKING -->
+<section id="tracking" style="background:var(--navy-mid);padding:5rem 4%;">
+  <p class="section-label">ติดตามตู้คอนเทนเนอร์</p>
+  <h2 class="section-title">Real-Time Container Tracking</h2>
+  <p class="section-sub">ค้นหาสถานะตู้ของคุณได้ทันที ข้อมูลอัปเดตแบบเรียลไทม์จากระบบของเรา</p>
+
+  <!-- Search bar -->
+  <div style="display:flex;gap:0;max-width:600px;margin-bottom:2rem;">
+    <input id="trackInput" type="text" placeholder="กรอกเลขตู้คอนเทนเนอร์ เช่น ABCU1234567"
+      style="flex:1;padding:1rem 1.4rem;background:var(--navy);border:1.5px solid var(--steel);border-right:none;
+             color:var(--white);font-family:'Sarabun',sans-serif;font-size:1rem;outline:none;"
+      oninput="this.value=this.value.toUpperCase();trackSearch()"
+      onkeydown="if(event.key==='Enter')trackSearch()">
+    <button onclick="trackSearch()"
+      style="padding:1rem 2rem;background:var(--amber);color:var(--navy);border:none;
+             font-family:'Sarabun',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;">
+      ค้นหา
+    </button>
+  </div>
+
+  <!-- Live count badge -->
+  <div id="trackLiveBar" style="display:flex;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span style="width:8px;height:8px;background:#28a745;border-radius:50%;display:inline-block;animation:pulse 2s infinite;"></span>
+      <span style="font-size:0.82rem;color:var(--muted);">ตู้ในระบบ: <strong id="liveTotal" style="color:var(--white);">—</strong></span>
+    </div>
+    <div style="font-size:0.82rem;color:var(--muted);">ฟรีค่าเก็บ: <strong id="liveFree" style="color:#28a745;">—</strong></div>
+    <div style="font-size:0.82rem;color:var(--muted);">คิดค่าเก็บ: <strong id="liveCharging" style="color:var(--amber);">—</strong></div>
+    <div id="liveSync" style="font-size:0.75rem;color:var(--muted);margin-left:auto;"></div>
+  </div>
+
+  <!-- Results area -->
+  <div id="trackResults"></div>
+</section>
+
+<style>
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.track-card {
+  border:1.5px solid var(--steel);background:var(--navy);
+  padding:2rem; max-width:680px; margin-bottom:1rem;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+.track-card.found { border-color:var(--amber); }
+.track-badge {
+  display:inline-block;padding:0.3rem 0.9rem;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;
+}
+.track-badge.free  { background:rgba(40,167,69,0.15);color:#4cdd80;border:1px solid rgba(40,167,69,0.3); }
+.track-badge.charging { background:rgba(245,166,35,0.15);color:var(--amber);border:1px solid rgba(245,166,35,0.3); }
+.track-badge.overdue  { background:rgba(220,53,69,0.15);color:#ff6b7a;border:1px solid rgba(220,53,69,0.3); }
+.track-row { display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid rgba(245,166,35,0.08); }
+.track-row:last-child { border-bottom:none; }
+.track-row .lbl { font-size:0.82rem;color:var(--muted); }
+.track-row .val { font-size:0.92rem;color:var(--white);font-weight:500; }
+.track-progress-bar { height:6px;background:var(--steel);margin:1.2rem 0 0.3rem;position:relative; }
+.track-progress-fill { height:100%;background:var(--amber);transition:width 0.6s ease; }
+</style>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyARRWLc-UfDrnFCGnJLA7vAHMzMjPWUark",
+    authDomain: "jbts-2026.firebaseapp.com",
+    databaseURL: "https://jbts-2026-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "jbts-2026",
+    storageBucket: "jbts-2026.firebasestorage.app",
+    messagingSenderId: "1073142548606",
+    appId: "1:1073142548606:web:2c7ae432661a06ed47b02f"
+  };
+
+  const app = initializeApp(firebaseConfig, "public-tracking");
+  const db  = getDatabase(app);
+  let allContainers = {};
+
+  function daysStored(dateTimeIn) {
+    return Math.floor((Date.now() - new Date(dateTimeIn)) / 86400000);
+  }
+
+  function calcPrice(c) {
+    if (c.checkedOut) return c.finalPrice || 0;
+    const chargeable = Math.max(0, daysStored(c.dateTimeIn) - (c.freeDays || 5));
+    const rate = String(c.size).startsWith('20') ? 30 : 50;
+    return chargeable * rate;
+  }
+
+  function getStatus(c) {
+    const days = daysStored(c.dateTimeIn);
+    const left  = (c.freeDays || 5) - days;
+    if (left > 0)    return { label:'ฟรีค่าเก็บ',   cls:'free',     daysLeft: left };
+    if (days < 10)   return { label:'คิดค่าเก็บ',  cls:'charging', daysLeft: 0 };
+    return               { label:'เกิน 10 วัน', cls:'overdue',  daysLeft: 0 };
+  }
+
+  function thaiDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    const m = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()+543} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} น.`;
+  }
+
+  function updateLiveBar() {
+    const list = Object.values(allContainers);
+    document.getElementById('liveTotal').textContent    = list.length;
+    document.getElementById('liveFree').textContent     = list.filter(c => getStatus(c).cls === 'free').length;
+    document.getElementById('liveCharging').textContent = list.filter(c => getStatus(c).cls !== 'free').length;
+    const now = new Date();
+    document.getElementById('liveSync').textContent = `อัปเดตล่าสุด ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} น.`;
+  }
+
+  onValue(ref(db, 'containers'), snap => {
+    allContainers = snap.val() || {};
+    updateLiveBar();
+    const q = document.getElementById('trackInput').value.trim().toUpperCase();
+    if (q) renderResults(q);
+  });
+
+  function renderResults(query) {
+    const box = document.getElementById('trackResults');
+    if (!query) { box.innerHTML = ''; return; }
+
+    const matches = Object.values(allContainers).filter(c =>
+      c.containerNo && c.containerNo.toUpperCase().includes(query)
+    );
+
+    if (!matches.length) {
+      box.innerHTML = `<div class="track-card" style="color:var(--muted);font-size:0.95rem;">
+        ไม่พบตู้หมายเลข <strong style="color:var(--white);">${query}</strong> ในระบบ
+        <br><span style="font-size:0.82rem;margin-top:0.4rem;display:block;">กรุณาตรวจสอบเลขตู้และลองใหม่อีกครั้ง</span>
+      </div>`;
+      return;
+    }
+
+    box.innerHTML = matches.map(c => {
+      const days    = daysStored(c.dateTimeIn);
+      const status  = getStatus(c);
+      const price   = calcPrice(c);
+      const rate    = String(c.size).startsWith('20') ? 30 : 50;
+      const freeDays = c.freeDays || 5;
+      const progress = Math.min(100, Math.round((days / Math.max(days, freeDays + 5)) * 100));
+      const sizeLabel = c.size + ' ฟุต' + (String(c.size).includes('R') ? ' ❄️' : '');
+
+      return `<div class="track-card found">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem;flex-wrap:wrap;gap:0.5rem;">
+          <div>
+            <div style="font-family:'IBM Plex Sans Thai',sans-serif;font-size:1.5rem;font-weight:700;color:var(--white);">${c.containerNo}</div>
+            <div style="font-size:0.82rem;color:var(--muted);margin-top:0.2rem;">${sizeLabel} · ${c.type === 'R' ? 'ตู้เย็น' : 'ธรรมดา'}</div>
+          </div>
+          <span class="track-badge ${status.cls}">${status.label}</span>
+        </div>
+
+        <div class="track-progress-bar">
+          <div class="track-progress-fill" style="width:${progress}%;background:${status.cls==='free'?'#28a745':status.cls==='overdue'?'#dc3545':'var(--amber)'};"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);margin-bottom:1rem;">
+          <span>วันเข้า</span><span>วันที่ ${freeDays} (หมดฟรี)</span>
+        </div>
+
+        <div class="track-row"><span class="lbl">วันเวลาเข้ายาร์ด</span><span class="val">${thaiDate(c.dateTimeIn)}</span></div>
+        <div class="track-row"><span class="lbl">จำนวนวันที่เก็บ</span><span class="val">${days} วัน</span></div>
+        <div class="track-row">
+          <span class="lbl">วันฟรีคงเหลือ</span>
+          <span class="val" style="color:${status.cls==='free'?'#4cdd80':'var(--muted)'};">
+            ${status.cls==='free' ? status.daysLeft + ' วัน' : 'หมดแล้ว'}
+          </span>
+        </div>
+        <div class="track-row">
+          <span class="lbl">ค่าเก็บปัจจุบัน</span>
+          <span class="val" style="font-family:'IBM Plex Sans Thai';font-size:1.1rem;color:var(--amber);">
+            ฿${price.toLocaleString()}
+          </span>
+        </div>
+        <div class="track-row"><span class="lbl">อัตราค่าเก็บ (หลังฟรี)</span><span class="val">฿${rate} / วัน</span></div>
+        ${c.notes ? `<div class="track-row"><span class="lbl">หมายเหตุ</span><span class="val" style="color:var(--muted);font-size:0.85rem;">${c.notes}</span></div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  window.trackSearch = () => {
+    const q = document.getElementById('trackInput').value.trim().toUpperCase();
+    renderResults(q);
+  };
+</script>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="https://i.ibb.co/DPHFFg0b/IMG-0532.jpg" alt="Logo" style="height:52px;width:auto;display:block;object-fit:contain;margin-bottom:0.75rem;">
+      <p>บริษัทรับฝากตู้คอนเทนเนอร์ขนาดเล็ก ตั้งอยู่ที่ลาดกระบัง กรุงเทพฯ บริการตรงไปตรงมา ราคาโปร่งใส ดูแลใกล้ชิด</p>
+    </div>
+    <div class="footer-col">
+      <h4>บริการ</h4>
+      <ul>
+        <li><a href="#services">รับฝากตู้คอนเทนเนอร์</a></li>
+        <li><a href="#services">ยาร์ดจัดเก็บสินค้า</a></li>
+        <li><a href="#services">บริการขนส่ง</a></li>
+        <li><a href="#services">ซ่อมบำรุงตู้</a></li>
+        <li><a href="#services">จัดการเอกสาร</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>เกี่ยวกับเรา</h4>
+      <ul>
+        <li><a href="#">ประวัติบริษัท</a></li>
+        <li><a href="#">ทีมงาน</a></li>
+        <li><a href="#">ข่าวสาร</a></li>
+        <li><a href="#">ร่วมงานกับเรา</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>ติดต่อ</h4>
+      <ul>
+        <li><a href="tel:0613939888">โทร: 061 393 9888</a></li>
+        <li><a href="#"><span class="__cf_email__" data-cfemail="3950575f56794d51584d5c4b4c584d4c4d515850175a5654">[email&#160;protected]</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2567 JB Transport Service จำกัด. สงวนลิขสิทธิ์ทุกประการ</span>
+    <span>นโยบายความเป็นส่วนตัว · ข้อกำหนดการ�ใช้งาน</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
