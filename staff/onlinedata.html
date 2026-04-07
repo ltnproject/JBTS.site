@@ -87,6 +87,58 @@
         .status-free     { background:#d4edda; color:#155724; }
         .status-charging { background:#fff3cd; color:#856404; }
         .status-overdue  { background:#f8d7da; color:#721c24; }
+
+        /* ── CSV Dropdown ── */
+        .csv-dropdown-wrap { position:relative; display:inline-block; }
+        .csv-dropdown-wrap .csv-main-btn {
+            display:flex; align-items:center; gap:0;
+            width:auto; padding:0;
+        }
+        .csv-btn-label {
+            padding:8px 14px; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            color:white; border:none; border-radius:8px 0 0 8px;
+            font-size:14px; font-weight:600; cursor:pointer;
+            font-family:'Sarabun',sans-serif; transition:opacity .2s;
+        }
+        .csv-btn-label:hover { opacity:.88; }
+        .csv-arrow-btn {
+            padding:8px 10px; background:linear-gradient(135deg,#5a6fd6 0%,#6a3f96 100%);
+            color:white; border:none; border-left:1px solid rgba(255,255,255,.25);
+            border-radius:0 8px 8px 0; cursor:pointer; font-size:13px;
+            font-family:'Sarabun',sans-serif; transition:opacity .2s;
+        }
+        .csv-arrow-btn:hover { opacity:.88; }
+        .csv-dropdown-menu {
+            display:none; position:absolute; top:calc(100% + 6px); left:0;
+            background:white; border-radius:10px; min-width:210px;
+            box-shadow:0 8px 25px rgba(0,0,0,.18); z-index:500;
+            overflow:hidden; border:1px solid #e0e0e0;
+        }
+        .csv-dropdown-menu.open { display:block; }
+        .csv-dropdown-menu button {
+            display:flex; align-items:center; gap:10px;
+            width:100%; padding:13px 18px; border:none; background:white;
+            font-family:'Sarabun',sans-serif; font-size:14px; font-weight:600;
+            color:#333; cursor:pointer; text-align:left; transition:background .15s;
+        }
+        .csv-dropdown-menu button:hover { background:#f0f2ff; color:#667eea; }
+        .csv-dropdown-menu button .dd-icon { font-size:1.1rem; }
+        .csv-dropdown-menu button .dd-sub { font-size:11px; color:#999; font-weight:400; display:block; }
+        .csv-dropdown-menu hr { border:none; border-top:1px solid #eee; margin:0; }
+
+        /* Cloud-saved CSV notification */
+        .cloud-toast {
+            position:fixed; bottom:24px; right:24px; z-index:9999;
+            background:white; border-radius:12px; padding:14px 20px;
+            box-shadow:0 8px 30px rgba(0,0,0,.18); display:flex;
+            align-items:center; gap:12px; font-family:'Sarabun',sans-serif;
+            font-size:14px; font-weight:600; border-left:4px solid #28a745;
+            transform:translateY(80px); opacity:0;
+            transition:transform .35s cubic-bezier(.175,.885,.32,1.275),opacity .35s;
+        }
+        .cloud-toast.show { transform:translateY(0); opacity:1; }
+        .cloud-toast .toast-icon { font-size:1.5rem; }
+
         .file-section {
             background:white; padding:28px; border-radius:15px;
             box-shadow:0 5px 15px rgba(0,0,0,.1); margin-bottom:20px;
@@ -127,9 +179,7 @@
         }
         .db-usage-wrap { margin-bottom:18px; }
         .db-usage-wrap label { font-size:13px; color:#555; font-weight:600; display:block; margin-bottom:6px; }
-        .db-usage-bar-bg {
-            background:#eee; border-radius:999px; height:14px; overflow:hidden;
-        }
+        .db-usage-bar-bg { background:#eee; border-radius:999px; height:14px; overflow:hidden; }
         .db-usage-bar-fill {
             height:100%; border-radius:999px;
             background:linear-gradient(90deg,#28a745,#ffc107,#dc3545);
@@ -204,6 +254,7 @@
             .controls-row,.upload-meta-row,.search-filter-row,.file-actions { flex-direction:column; }
             .tabs { flex-direction:column; }
             .file-row { flex-direction:column; align-items:flex-start; }
+            .csv-dropdown-menu { min-width:180px; }
         }
     </style>
 </head>
@@ -269,7 +320,32 @@
             </div>
             <div class="controls-row" style="margin-top:15px;">
                 <button class="btn btn-success btn-small" onclick="openAddModal()">➕ เพิ่มตู้คอนเทนเนอร์</button>
-                <button class="btn btn-small" onclick="exportToCSV()">📊 ส่งออกเป็น CSV</button>
+
+                <!-- ── CSV Export Dropdown ── -->
+                <div class="csv-dropdown-wrap" id="csvDropdownWrap">
+                    <div class="csv-main-btn">
+                        <button class="csv-btn-label" onclick="exportToCSV()">📊 ส่งออกเป็น CSV</button>
+                        <button class="csv-arrow-btn" onclick="toggleCsvDropdown(event)" title="เลือกวิธีบันทึก">▾</button>
+                    </div>
+                    <div class="csv-dropdown-menu" id="csvDropdownMenu">
+                        <button onclick="exportToCSV(); closeCsvDropdown();">
+                            <span class="dd-icon">💾</span>
+                            <span>
+                                บันทึกลงเครื่อง
+                                <span class="dd-sub">ดาวน์โหลด .csv ไปยังอุปกรณ์นี้</span>
+                            </span>
+                        </button>
+                        <hr>
+                        <button onclick="exportToCloud(); closeCsvDropdown();">
+                            <span class="dd-icon">☁️</span>
+                            <span>
+                                บันทึกลงคลาวด์
+                                <span class="dd-sub">บันทึก .csv ไว้ใน Firebase (ดูใน Tab ไฟล์)</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <!-- ── End CSV Dropdown ── -->
             </div>
         </div>
         <div class="table-container">
@@ -277,7 +353,9 @@
             <table id="containerTableElement" style="display:none;">
                 <thead><tr>
                     <th>เลขตู้</th><th>ขนาด</th><th>ประเภท</th><th>วันเวลาเข้า</th>
-                    <th>จำนวนวันเก็บ</th><th>ฟรีเหลือ</th><th>ค่าเก็บปัจจุบัน</th>
+                    <th>จำนวนวันเก็บ</th><th>ฟรีเหลือ</th>
+                    <th>Lift on+off</th>
+                    <th>ค่าเก็บปัจจุบัน</th>
                     <th>สถานะ</th><th>หมายเหตุ</th><th>จัดการ</th>
                 </tr></thead>
                 <tbody id="containerTable"></tbody>
@@ -333,6 +411,12 @@
         </div>
     </div>
 </div><!-- /main-container -->
+
+<!-- Cloud Toast -->
+<div class="cloud-toast" id="cloudToast">
+    <span class="toast-icon">☁️</span>
+    <span id="cloudToastMsg">บันทึก CSV ลงคลาวด์สำเร็จ!</span>
+</div>
 
 <!-- CONTAINER MODAL -->
 <div class="modal" id="containerModal">
@@ -406,22 +490,42 @@
     const MAX_FILE_BYTES = 10 * 1024 * 1024;
     const DB_LIMIT_BYTES = 1 * 1024 * 1024 * 1024;
 
-    window.login            = login;
-    window.logout           = logout;
-    window.switchTab        = switchTab;
-    window.openAddModal     = openAddModal;
-    window.closeModal       = closeModal;
-    window.saveContainer    = saveContainer;
-    window.filterContainers = filterContainers;
-    window.checkOut         = checkOut;
-    window.deleteContainer  = deleteContainer;
-    window.exportToCSV      = exportToCSV;
-    window.renderFileList   = renderFileList;
-    window.openSendModal    = openSendModal;
-    window.closeSendModal   = closeSendModal;
-    window.copyLink         = copyLink;
-    window.deleteFileRecord = deleteFileRecord;
-    window.downloadFromModal= downloadFromModal;
+    window.login             = login;
+    window.logout            = logout;
+    window.switchTab         = switchTab;
+    window.openAddModal      = openAddModal;
+    window.closeModal        = closeModal;
+    window.saveContainer     = saveContainer;
+    window.filterContainers  = filterContainers;
+    window.checkOut          = checkOut;
+    window.deleteContainer   = deleteContainer;
+    window.exportToCSV       = exportToCSV;
+    window.exportToCloud     = exportToCloud;
+    window.toggleCsvDropdown = toggleCsvDropdown;
+    window.closeCsvDropdown  = closeCsvDropdown;
+    window.renderFileList    = renderFileList;
+    window.openSendModal     = openSendModal;
+    window.closeSendModal    = closeSendModal;
+    window.copyLink          = copyLink;
+    window.deleteFileRecord  = deleteFileRecord;
+    window.downloadFromModal = downloadFromModal;
+
+    /* ── CSV Dropdown ── */
+    function toggleCsvDropdown(e) {
+        e.stopPropagation();
+        document.getElementById('csvDropdownMenu').classList.toggle('open');
+    }
+    function closeCsvDropdown() {
+        document.getElementById('csvDropdownMenu').classList.remove('open');
+    }
+    document.addEventListener('click', ()=>closeCsvDropdown());
+
+    function showCloudToast(msg) {
+        const t = document.getElementById('cloudToast');
+        document.getElementById('cloudToastMsg').textContent = msg;
+        t.classList.add('show');
+        setTimeout(()=>t.classList.remove('show'), 3500);
+    }
 
     function switchTab(name, btn) {
         document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -511,10 +615,13 @@
         const fees={'20':200,'40':400,'45':500,'40R':600,'45R':700};
         return fees[size]||0;
     }
+    function calcStorageOnly(c){
+        if(c.checkedOut) return c.finalPrice - getLiftFee(c.size);
+        return Math.max(0, calcDays(c.dateTimeIn)-c.freeDays) * (c.size==='20'?30:50);
+    }
     function calcPrice(c){
         if(c.checkedOut) return c.finalPrice;
-        const storage=Math.max(0,calcDays(c.dateTimeIn)-c.freeDays)*(c.size==='20'?30:50);
-        return storage+getLiftFee(c.size);
+        return calcStorageOnly(c) + getLiftFee(c.size);
     }
 
     function getStatus(c){
@@ -537,6 +644,7 @@
         const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
         filterContainersArr().forEach(([key,c])=>{
             const d=calcDays(c.dateTimeIn),fl=Math.max(0,c.freeDays-d),p=calcPrice(c),st=getStatus(c);
+            const liftFee=getLiftFee(c.size);
             const di=new Date(c.dateTimeIn);
             const ds=`${di.getDate()} ${m[di.getMonth()]} ${di.getFullYear()+543} ${String(di.getHours()).padStart(2,'0')}:${String(di.getMinutes()).padStart(2,'0')}`;
             const row=document.createElement('tr');
@@ -544,6 +652,7 @@
                 <td>${c.size} ฟุต${c.size.includes('R')?` <span class="cold-indicator">❄️</span>`:''}</td>
                 <td>${c.type==='R'?'<span class="cold-indicator">❄️ ตู้เย็น</span>':'ธรรมดา'}</td>
                 <td>${ds}</td><td>${d} วัน</td><td>${fl} วัน</td>
+                <td style="color:#764ba2;font-weight:600;">฿${liftFee.toLocaleString()}</td>
                 <td><strong>฿${p.toLocaleString()}</strong></td>
                 <td><span class="status-badge ${st.class}">${st.text}</span></td>
                 <td>${c.notes||'-'}</td>
@@ -574,17 +683,54 @@
         try{await remove(dbRef(database,`containers/${key}`));}
         catch(e){alert('เกิดข้อผิดพลาด: '+e.message);}
     }
+
+    /* ── Export to Device (download .csv) ── */
+    function buildCsvContent(rows) {
+        let csv='เลขตู้,ขนาด,ประเภท,วันเวลาเข้า,จำนวนวันเก็บ,ฟรีเหลือ,Lift on+off (฿),ค่าเก็บปัจจุบัน (฿),สถานะ,หมายเหตุ\n';
+        rows.forEach(([,c])=>{
+            const d=calcDays(c.dateTimeIn),fl=Math.max(0,c.freeDays-d);
+            csv+=`${c.containerNo},${c.size},${c.type},${new Date(c.dateTimeIn).toLocaleString('th-TH')},${d},${fl},${getLiftFee(c.size)},${calcPrice(c)},${getStatus(c).text},${c.notes||''}\n`;
+        });
+        return csv;
+    }
     function exportToCSV() {
         const rows=filterContainersArr();
         if(!rows.length){alert('ไม่มีข้อมูลสำหรับส่งออก');return;}
-        let csv='เลขตู้,ขนาด,ประเภท,วันเวลาเข้า,จำนวนวันเก็บ,ฟรีเหลือ,ค่าเก็บปัจจุบัน,สถานะ,หมายเหตุ\n';
-        rows.forEach(([,c])=>{
-            const d=calcDays(c.dateTimeIn),fl=Math.max(0,c.freeDays-d);
-            csv+=`${c.containerNo},${c.size},${c.type},${new Date(c.dateTimeIn).toLocaleString('th-TH')},${d},${fl},${calcPrice(c)},${getStatus(c).text},${c.notes||''}\n`;
-        });
+        const csv=buildCsvContent(rows);
         const a=document.createElement('a');
         a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
         a.download=`containers_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+    }
+
+    /* ── Export to Cloud (save .csv as file record in Firebase) ── */
+    async function exportToCloud() {
+        const rows=filterContainersArr();
+        if(!rows.length){alert('ไม่มีข้อมูลสำหรับบันทึก');return;}
+        const csv=buildCsvContent(rows);
+        const filename=`containers_${new Date().toISOString().slice(0,10)}.csv`;
+        const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+
+        // Convert to base64
+        const b64=await new Promise(res=>{
+            const r=new FileReader();
+            r.onload=()=>res(r.result.split(',')[1]);
+            r.readAsDataURL(blob);
+        });
+
+        try {
+            const newRef=push(dbRef(database,'files'));
+            await set(newRef,{
+                name: filename,
+                size: blob.size,
+                type: 'text/csv',
+                b64:  b64,
+                category: 'CSV Export',
+                uploadedBy: currentUser||'ระบบ',
+                note: `ส่งออกจากระบบตู้คอนเทนเนอร์ (${rows.length} รายการ)`,
+                uploadedAt: Date.now()
+            });
+            showCloudToast(`☁️ บันทึก "${filename}" ลงคลาวด์สำเร็จ! ดูได้ใน Tab ไฟล์`);
+        } catch(e){alert('เกิดข้อผิดพลาดในการบันทึกคลาวด์: '+e.message);}
     }
 
     /* ═══════════════════════════════════════════════════
