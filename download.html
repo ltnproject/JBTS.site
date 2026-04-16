@@ -233,18 +233,29 @@
       border-radius: var(--radius);
       overflow: hidden;
       background: #1a1a1a;
+      aspect-ratio: 16/9;
+      cursor: pointer;
     }
     .video-lock iframe {
       display: block;
       width: 100%;
-      aspect-ratio: 16/9;
+      height: 100%;
       border: none;
-      pointer-events: none;
+      position: absolute;
+      inset: 0;
+    }
+    .video-thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      display: block;
     }
     .video-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.78);
+      background: rgba(0,0,0,0.72);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -252,8 +263,9 @@
       gap: 12px;
       cursor: pointer;
       transition: background 0.2s;
+      z-index: 10;
     }
-    .video-overlay:hover { background: rgba(0,0,0,0.65); }
+    .video-overlay:hover { background: rgba(0,0,0,0.55); }
     .video-overlay .lock-icon { font-size: 40px; }
     .video-overlay .lock-text { color: white; font-size: 15px; font-weight: 600; }
     .video-overlay .lock-sub { color: rgba(255,255,255,0.65); font-size: 13px; }
@@ -479,14 +491,12 @@
         </div>
       </div>
       <div class="video-container">
-        <div class="video-lock">
-          <iframe
-            id="yt-iframe"
-            src="https://www.youtube.com/embed/GsWAUKzipo4?enablejsapi=1"
-            title="JBTS Tutorial"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+        <div class="video-lock" id="video-lock">
+          <img
+            class="video-thumbnail"
+            src="https://img.youtube.com/vi/GsWAUKzipo4/hqdefault.jpg"
+            alt="JBTS Tutorial thumbnail"
+          />
           <div class="video-overlay" id="video-overlay" onclick="askPassword(null, null, 'video')">
             <div class="lock-icon">🔒</div>
             <div class="lock-text">กดเพื่อดูวิดีโอ</div>
@@ -695,11 +705,10 @@
     }
 
     function unlockVideo() {
-      document.getElementById('video-overlay').classList.add('hidden');
-      // Re-set iframe src with autoplay
-      const iframe = document.getElementById('yt-iframe');
-      iframe.style.pointerEvents = 'auto';
-      iframe.src = 'https://www.youtube.com/embed/GsWAUKzipo4?autoplay=1&enablejsapi=1';
+      const overlay = document.getElementById('video-overlay');
+      const lock = document.getElementById('video-lock');
+      // Remove thumbnail and overlay, inject real iframe
+      lock.innerHTML = '<iframe src="https://www.youtube.com/embed/GsWAUKzipo4?autoplay=1" title="JBTS Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
     }
 
     function togglePwVis() {
