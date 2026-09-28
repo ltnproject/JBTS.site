@@ -599,6 +599,12 @@ const database = getDatabase(app);
 const auth     = getAuth(app);
 const firestore= getFirestore(app);
 
+const GOOGLE_PROVIDER = new GoogleAuthProvider();
+
+GOOGLE_PROVIDER.addScope(
+    'https://www.googleapis.com/auth/drive.file'
+);
+
 const ALLOWED_EMAIL = 'staff@jbts.qzz.io';
 const MAX_FILE_BYTES  = 10 * 1024 * 1024;
 const DB_LIMIT_BYTES  = 1  * 1024 * 1024 * 1024;
