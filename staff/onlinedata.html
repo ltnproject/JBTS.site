@@ -571,7 +571,12 @@ import { initializeApp }
 import { getDatabase, ref as dbRef, set, onValue, remove, push, get }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import {
-    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    signInWithPopup,
+    GoogleAuthProvider
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
     getFirestore, collection, doc, setDoc, getDocs,
