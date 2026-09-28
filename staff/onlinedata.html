@@ -11,1872 +11,1298 @@
             background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
             min-height:100vh; padding:20px;
         }
+        /* ── Login ── */
         .login-container {
-            max-width:400px; margin:100px auto; background:white;
-            padding:40px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,.3);
+            max-width:420px; margin:80px auto; background:white;
+            padding:48px 40px; border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,.25);
+            text-align:center;
         }
-        .login-container h1 { color:#667eea; margin-bottom:10px; text-align:center; font-size:24px; }
-        .login-container p  { color:#666; text-align:center; margin-bottom:30px; }
-        .form-group { margin-bottom:20px; }
-        .form-group label { display:block; margin-bottom:5px; color:#333; font-weight:600; }
-        .form-group input,.form-group select,.form-group textarea {
-            width:100%; padding:12px; border:2px solid #e0e0e0; border-radius:8px;
-            font-size:14px; transition:border-color .3s; font-family:'Sarabun',sans-serif;
+        .login-logo { font-size:3rem; margin-bottom:12px; }
+        .login-container h1 { color:#667eea; margin-bottom:8px; font-size:26px; }
+        .login-container .sub { color:#888; font-size:14px; margin-bottom:8px; }
+        .domain-badge {
+            display:inline-block; background:#eef0ff; color:#667eea;
+            border:1px solid #c0c8f0; border-radius:20px; padding:4px 14px;
+            font-size:13px; font-weight:700; margin-bottom:32px;
         }
-        .form-group input:focus,.form-group select:focus,.form-group textarea:focus { outline:none; border-color:#667eea; }
+        .google-btn {
+            display:flex; align-items:center; justify-content:center; gap:12px;
+            width:100%; padding:14px 20px; border:2px solid #e0e0e0;
+            border-radius:12px; background:white; cursor:pointer;
+            font-family:'Sarabun',sans-serif; font-size:16px; font-weight:700; color:#333;
+            transition:all .2s; box-shadow:0 2px 8px rgba(0,0,0,.08);
+        }
+        .google-btn:hover { border-color:#667eea; box-shadow:0 4px 20px rgba(102,126,234,.25); transform:translateY(-1px); }
+        .google-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+        .login-error {
+            margin-top:16px; padding:12px 16px; background:#fff0f0; border:1px solid #f5c6cb;
+            border-radius:8px; color:#721c24; font-size:13px; display:none;
+        }
+        /* ── Buttons ── */
         .btn {
-            width:100%; padding:12px;
-            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
-            color:white; border:none; border-radius:8px;
-            font-size:16px; font-weight:600; cursor:pointer;
-            transition:transform .2s; font-family:'Sarabun',sans-serif;
+            padding:10px 18px; border:none; border-radius:8px; cursor:pointer;
+            font-family:'Sarabun',sans-serif; font-size:14px; font-weight:700;
+            color:white; transition:all .2s; display:inline-flex; align-items:center; gap:6px;
         }
-        .btn:hover { transform:translateY(-2px); }
-        .btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
-        .btn-secondary { background:#6c757d; margin-top:10px; }
-        .btn-success   { background:#28a745; }
-        .btn-danger    { background:#dc3545; }
-        .btn-info      { background:#17a2b8; }
-        .btn-warning   { background:#fd7e14; }
-        .btn-small     { width:auto; padding:8px 16px; font-size:14px; }
+        .btn:hover { opacity:.88; transform:translateY(-1px); }
+        .btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+        .btn-primary  { background:linear-gradient(135deg,#667eea,#764ba2); }
+        .btn-success  { background:#28a745; }
+        .btn-danger   { background:#dc3545; }
+        .btn-info     { background:#17a2b8; }
+        .btn-secondary{ background:#6c757d; }
+        .btn-warning  { background:#fd7e14; }
+        .btn-google   { background:#fff; border:2px solid #e0e0e0; color:#333; }
+        .btn-google:hover { border-color:#667eea; }
+        .btn-sm { padding:6px 14px; font-size:13px; }
+        /* ── Layout ── */
         .main-container { max-width:1400px; margin:0 auto; display:none; }
         .header {
-            background:white; padding:20px 30px; border-radius:15px; margin-bottom:20px;
+            background:white; padding:18px 28px; border-radius:15px; margin-bottom:20px;
             display:flex; justify-content:space-between; align-items:center;
             box-shadow:0 5px 15px rgba(0,0,0,.1);
         }
-        .header h1 { color:#667eea; font-size:28px; }
-        .header-info { text-align:right; }
-        .header-info span { display:block; color:#666; font-size:14px; }
+        .header h1 { color:#667eea; font-size:26px; margin-bottom:4px; }
+        .header-right { text-align:right; }
+        .user-pill {
+            display:inline-flex; align-items:center; gap:10px;
+            background:#eef0ff; border-radius:30px; padding:6px 16px 6px 8px;
+            margin-bottom:10px;
+        }
+        .user-avatar { width:32px; height:32px; border-radius:50%; border:2px solid #667eea; }
+        .user-name { font-weight:700; color:#667eea; font-size:14px; }
+        .sync-badge {
+            display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px;
+            font-weight:700; background:#d4edda; color:#155724;
+        }
+        .sync-badge.error { background:#f8d7da; color:#721c24; }
+        /* ── Tabs ── */
         .tabs {
-            display:flex; margin-bottom:20px; background:white;
-            border-radius:15px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,.1);
+            display:flex; margin-bottom:20px; background:white; border-radius:15px;
+            overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,.1);
         }
         .tab-btn {
             flex:1; padding:16px; border:none; cursor:pointer;
-            font-family:'Sarabun',sans-serif; font-size:15px; font-weight:600;
-            background:white; color:#666; transition:all .2s;
-            border-bottom:3px solid transparent;
+            font-family:'Sarabun',sans-serif; font-size:15px; font-weight:700;
+            background:white; color:#666; transition:all .2s; border-bottom:3px solid transparent;
         }
         .tab-btn:hover { background:#f8f9fa; color:#667eea; }
-        .tab-btn.active { color:#667eea; border-bottom:3px solid #667eea; background:#f0f2ff; }
+        .tab-btn.active { color:#667eea; border-bottom-color:#667eea; background:#f0f2ff; }
         .tab-content { display:none; }
         .tab-content.active { display:block; }
+        /* ── Dashboard cards ── */
         .dashboard {
-            display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-            gap:20px; margin-bottom:20px;
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+            gap:16px; margin-bottom:20px;
         }
         .stat-card { background:white; padding:20px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,.1); }
-        .stat-card h3 { color:#666; font-size:14px; margin-bottom:10px; }
-        .stat-card .value { font-size:32px; font-weight:bold; color:#667eea; }
+        .stat-card h3 { color:#888; font-size:13px; margin-bottom:8px; }
+        .stat-card .value { font-size:30px; font-weight:800; color:#667eea; }
+        /* ── Controls ── */
         .controls {
-            background:white; padding:20px; border-radius:15px;
+            background:white; padding:18px; border-radius:15px;
             margin-bottom:20px; box-shadow:0 5px 15px rgba(0,0,0,.1);
         }
-        .controls-row { display:flex; gap:15px; flex-wrap:wrap; align-items:flex-end; }
-        .controls-row .form-group { flex:1; min-width:200px; margin-bottom:0; }
-        .table-container {
+        .controls-row { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; }
+        .controls-row .form-group { flex:1; min-width:180px; margin-bottom:0; }
+        .form-group { margin-bottom:18px; }
+        .form-group label { display:block; margin-bottom:5px; color:#444; font-weight:700; font-size:13px; }
+        .form-group input,.form-group select,.form-group textarea {
+            width:100%; padding:10px 12px; border:2px solid #e0e0e0; border-radius:8px;
+            font-size:14px; font-family:'Sarabun',sans-serif; transition:border-color .2s; outline:none;
+        }
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:#667eea; }
+        /* ── Table ── */
+        .table-wrap {
             background:white; padding:20px; border-radius:15px;
             box-shadow:0 5px 15px rgba(0,0,0,.1); overflow-x:auto;
         }
         table { width:100%; border-collapse:collapse; }
-        th { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:15px; text-align:left; font-weight:600; }
-        td { padding:15px; border-bottom:1px solid #e0e0e0; }
-        tr:hover { background:#f8f9fa; }
-        .status-badge { display:inline-block; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; }
-        .status-free     { background:#d4edda; color:#155724; }
-        .status-charging { background:#fff3cd; color:#856404; }
-        .status-overdue  { background:#f8d7da; color:#721c24; }
-
-        /* ── CSV Dropdown ── */
-        .csv-dropdown-wrap { position:relative; display:inline-block; }
-        .csv-dropdown-wrap .csv-main-btn {
-            display:flex; align-items:center; gap:0;
-            width:auto; padding:0;
+        th { background:linear-gradient(135deg,#667eea,#764ba2); color:white; padding:13px 15px; text-align:left; font-weight:700; font-size:13px; }
+        td { padding:13px 15px; border-bottom:1px solid #f0f0f0; font-size:13px; }
+        tr:hover td { background:#f8f9ff; }
+        .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+        .badge-free    { background:#d4edda; color:#155724; }
+        .badge-charging{ background:#fff3cd; color:#856404; }
+        .badge-overdue { background:#f8d7da; color:#721c24; }
+        .cold { color:#17a2b8; font-weight:700; }
+        .loading { text-align:center; padding:40px; color:#667eea; font-size:18px; }
+        .empty-state { text-align:center; padding:50px 20px; color:#bbb; }
+        .empty-state span { font-size:3.5rem; display:block; margin-bottom:12px; }
+        /* ── CSV dropdown ── */
+        .split-btn { display:inline-flex; position:relative; }
+        .split-btn .main { border-radius:8px 0 0 8px; }
+        .split-btn .arrow {
+            border-radius:0 8px 8px 0; padding:6px 10px;
+            border-left:1px solid rgba(255,255,255,.3);
+            background:linear-gradient(135deg,#5a6fd6,#6a3f96);
+            color:white; border-top:none; border-right:none; border-bottom:none;
+            cursor:pointer; font-size:13px; transition:opacity .2s;
         }
-        .csv-btn-label {
-            padding:8px 14px; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
-            color:white; border:none; border-radius:8px 0 0 8px;
-            font-size:14px; font-weight:600; cursor:pointer;
-            font-family:'Sarabun',sans-serif; transition:opacity .2s;
-        }
-        .csv-btn-label:hover { opacity:.88; }
-        .csv-arrow-btn {
-            padding:8px 10px; background:linear-gradient(135deg,#5a6fd6 0%,#6a3f96 100%);
-            color:white; border:none; border-left:1px solid rgba(255,255,255,.25);
-            border-radius:0 8px 8px 0; cursor:pointer; font-size:13px;
-            font-family:'Sarabun',sans-serif; transition:opacity .2s;
-        }
-        .csv-arrow-btn:hover { opacity:.88; }
-        .csv-dropdown-menu {
+        .split-btn .arrow:hover { opacity:.85; }
+        .dropdown-menu {
             display:none; position:absolute; top:calc(100% + 6px); left:0;
-            background:white; border-radius:10px; min-width:210px;
-            box-shadow:0 8px 25px rgba(0,0,0,.18); z-index:500;
-            overflow:hidden; border:1px solid #e0e0e0;
+            background:white; border-radius:12px; min-width:230px;
+            box-shadow:0 8px 30px rgba(0,0,0,.18); z-index:500;
+            border:1px solid #e8e8e8; overflow:hidden;
         }
-        .csv-dropdown-menu.open { display:block; }
-        .csv-dropdown-menu button {
-            display:flex; align-items:center; gap:10px;
-            width:100%; padding:13px 18px; border:none; background:white;
-            font-family:'Sarabun',sans-serif; font-size:14px; font-weight:600;
+        .dropdown-menu.open { display:block; }
+        .dropdown-item {
+            display:flex; align-items:center; gap:12px;
+            padding:13px 18px; border:none; background:white; width:100%;
+            font-family:'Sarabun',sans-serif; font-size:14px; font-weight:700;
             color:#333; cursor:pointer; text-align:left; transition:background .15s;
         }
-        .csv-dropdown-menu button:hover { background:#f0f2ff; color:#667eea; }
-        .csv-dropdown-menu button .dd-icon { font-size:1.1rem; }
-        .csv-dropdown-menu button .dd-sub { font-size:11px; color:#999; font-weight:400; display:block; }
-        .csv-dropdown-menu hr { border:none; border-top:1px solid #eee; margin:0; }
-
-        /* Cloud-saved CSV notification */
-        .cloud-toast {
-            position:fixed; bottom:24px; right:24px; z-index:9999;
-            background:white; border-radius:12px; padding:14px 20px;
-            box-shadow:0 8px 30px rgba(0,0,0,.18); display:flex;
-            align-items:center; gap:12px; font-family:'Sarabun',sans-serif;
-            font-size:14px; font-weight:600; border-left:4px solid #28a745;
-            transform:translateY(80px); opacity:0;
-            transition:transform .35s cubic-bezier(.175,.885,.32,1.275),opacity .35s;
-        }
-        .cloud-toast.show { transform:translateY(0); opacity:1; }
-        .cloud-toast .toast-icon { font-size:1.5rem; }
-
+        .dropdown-item:hover { background:#f0f2ff; color:#667eea; }
+        .dropdown-item .icon { font-size:1.15rem; }
+        .dropdown-item .sub { font-size:11px; color:#999; font-weight:400; display:block; }
+        .dropdown-item hr { border:none; border-top:1px solid #eee; margin:0; }
+        /* ── File tab ── */
         .file-section {
             background:white; padding:28px; border-radius:15px;
             box-shadow:0 5px 15px rgba(0,0,0,.1); margin-bottom:20px;
         }
         .file-section h2 { color:#667eea; margin-bottom:6px; font-size:20px; }
-        .file-section .desc { color:#666; font-size:14px; margin-bottom:20px; }
-        .info-banner {
-            background:#e8f4fd; border:1.5px solid #b8ddf7; border-radius:10px;
+        .file-section .desc { color:#777; font-size:13px; margin-bottom:20px; }
+        .info-box {
+            background:#eef5ff; border:1.5px solid #c0d8f8; border-radius:10px;
             padding:12px 16px; margin-bottom:18px; font-size:13px; color:#1a5276;
             display:flex; align-items:flex-start; gap:10px;
         }
-        .info-banner .icon { font-size:1.3rem; flex-shrink:0; }
+        .info-box .icon { font-size:1.3rem; flex-shrink:0; }
         .drop-zone {
             border:2.5px dashed #c0c8f0; border-radius:12px; padding:36px 20px;
             text-align:center; cursor:pointer; transition:all .25s;
-            background:#f7f8ff; margin-bottom:16px; user-select:none;
+            background:#f7f8ff; margin-bottom:14px; user-select:none;
         }
-        .drop-zone:hover,.drop-zone.drag-over { border-color:#667eea; background:#eef0ff; }
+        .drop-zone:hover,.drop-zone.over { border-color:#667eea; background:#eef0ff; }
         .drop-zone .dz-icon { font-size:2.8rem; display:block; margin-bottom:10px; }
-        .drop-zone p { color:#888; font-size:14px; }
-        .upload-meta-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
-        .upload-meta-row input,.upload-meta-row select {
-            flex:1; min-width:160px; padding:10px 12px;
-            border:2px solid #e0e0e0; border-radius:8px;
-            font-size:14px; font-family:'Sarabun',sans-serif; transition:border-color .2s;
+        .drop-zone p { color:#999; font-size:13px; }
+        .meta-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+        .meta-row input { flex:1; min-width:150px; padding:9px 12px; border:2px solid #e0e0e0; border-radius:8px; font-size:13px; font-family:'Sarabun',sans-serif; outline:none; }
+        .meta-row input:focus { border-color:#667eea; }
+        .progress-wrap {
+            display:none; background:#eef0ff; border-radius:999px; height:28px;
+            overflow:hidden; border:1px solid #c0c8f0; margin-bottom:10px;
         }
-        .upload-meta-row input:focus,.upload-meta-row select:focus { outline:none; border-color:#667eea; }
-        .upload-progress-wrap {
-            display:none; margin-bottom:14px; background:#eef0ff;
-            border-radius:999px; height:30px; overflow:hidden; border:1px solid #c0c8f0;
-        }
-        .upload-progress-bar {
+        .progress-bar {
             height:100%; background:linear-gradient(90deg,#667eea,#764ba2);
             border-radius:999px; transition:width .2s;
             display:flex; align-items:center; justify-content:flex-end;
-            padding-right:10px; font-size:12px; font-weight:700; color:#fff;
-            min-width:40px;
+            padding-right:10px; font-size:12px; font-weight:700; color:#fff; min-width:36px;
         }
-        .db-usage-wrap { margin-bottom:18px; }
-        .db-usage-wrap label { font-size:13px; color:#555; font-weight:600; display:block; margin-bottom:6px; }
-        .db-usage-bar-bg { background:#eee; border-radius:999px; height:14px; overflow:hidden; }
-        .db-usage-bar-fill {
-            height:100%; border-radius:999px;
-            background:linear-gradient(90deg,#28a745,#ffc107,#dc3545);
-            transition:width .5s;
-        }
-        .db-usage-text { font-size:12px; color:#888; margin-top:4px; }
-        .file-list { margin-top:6px; }
+        .usage-wrap { margin-bottom:16px; }
+        .usage-wrap label { font-size:12px; color:#666; font-weight:700; display:block; margin-bottom:5px; }
+        .usage-bg { background:#eee; border-radius:999px; height:12px; overflow:hidden; }
+        .usage-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,#28a745,#ffc107,#dc3545); transition:width .5s; }
+        .usage-text { font-size:11px; color:#999; margin-top:3px; }
         .file-row {
-            display:flex; align-items:center; gap:12px;
-            padding:14px 16px; border:1px solid #e8eaf6;
-            border-radius:10px; margin-bottom:10px; background:#fafbff;
-            transition:box-shadow .2s;
+            display:flex; align-items:center; gap:12px; padding:12px 16px;
+            border:1px solid #eaecf7; border-radius:10px; margin-bottom:8px;
+            background:#fafbff; transition:box-shadow .2s;
         }
         .file-row:hover { box-shadow:0 3px 12px rgba(102,126,234,.15); }
-        .file-row .file-icon { font-size:1.6rem; flex-shrink:0; }
-        .file-row .file-info { flex:1; min-width:0; }
-        .file-row .file-name { font-weight:700; color:#333; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .file-row .file-meta { font-size:12px; color:#888; margin-top:2px; }
-        .file-row .file-cat { font-size:11px; background:#eef0ff; color:#667eea; padding:2px 8px; border-radius:20px; font-weight:600; }
-        .file-actions { display:flex; gap:8px; flex-shrink:0; }
-        .send-modal {
-            display:none; position:fixed; inset:0;
-            background:rgba(0,0,0,.55); z-index:2000;
-            align-items:center; justify-content:center;
-        }
-        .send-modal-box {
-            background:white; border-radius:16px; padding:32px;
-            max-width:480px; width:90%; box-shadow:0 20px 50px rgba(0,0,0,.3);
-        }
-        .send-modal-box h3 { color:#667eea; margin-bottom:6px; font-size:18px; }
-        .send-modal-box .hint { color:#666; font-size:13px; margin-bottom:18px; }
-        .link-box {
-            display:flex; gap:8px; align-items:center;
-            background:#f3f4ff; border:1.5px solid #c0c8f0;
-            border-radius:8px; padding:10px 14px; margin-bottom:16px;
-        }
-        .link-box span { flex:1; font-size:12px; color:#444; word-break:break-all; font-family:monospace; }
-        .qr-wrap { text-align:center; margin-bottom:16px; }
-        .qr-wrap img { width:180px; height:180px; border:4px solid #eef0ff; border-radius:12px; }
-        .qr-wrap p { font-size:13px; color:#888; margin-top:6px; }
-        .modal {
-            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,.5); z-index:1000; align-items:center; justify-content:center;
-        }
-        .modal-content {
-            background:white; padding:30px; border-radius:15px;
-            max-width:500px; width:90%; max-height:90vh; overflow-y:auto;
-        }
-        .modal-content h2 { color:#667eea; margin-bottom:20px; }
-        .close-modal { float:right; font-size:28px; cursor:pointer; color:#999; }
-        .close-modal:hover { color:#333; }
-        .cold-indicator { color:#17a2b8; font-weight:bold; }
-        .action-buttons { display:flex; gap:10px; }
-        .loading { text-align:center; padding:20px; color:#667eea; font-size:18px; }
-        .sync-status {
-            display:inline-block; padding:5px 10px; background:#d4edda;
-            color:#155724; border-radius:5px; font-size:12px; margin-left:10px;
-        }
-        .empty-state { text-align:center; padding:40px 20px; color:#aaa; }
-        .empty-state span { font-size:3rem; display:block; margin-bottom:12px; }
-        .search-filter-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
-        .search-filter-row input,.search-filter-row select {
-            flex:1; min-width:160px; padding:10px 14px;
-            border:2px solid #e0e0e0; border-radius:8px;
-            font-size:14px; font-family:'Sarabun',sans-serif; outline:none;
-        }
-        .search-filter-row input:focus,.search-filter-row select:focus { border-color:#667eea; }
+        .file-row .ficon { font-size:1.6rem; flex-shrink:0; }
+        .file-row .finfo { flex:1; min-width:0; }
+        .file-row .fname { font-weight:700; color:#333; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .file-row .fmeta { font-size:11px; color:#999; margin-top:2px; }
+        .file-cat-tag { background:#eef0ff; color:#667eea; font-size:10px; padding:2px 8px; border-radius:20px; font-weight:700; }
         .size-warn { color:#856404; background:#fff3cd; border:1px solid #ffc107; border-radius:6px; padding:6px 10px; font-size:12px; margin-top:6px; display:none; }
-        @media (max-width:768px) {
-            .header { flex-direction:column; text-align:center; }
-            .header-info { text-align:center; margin-top:10px; }
-            .controls-row,.upload-meta-row,.search-filter-row,.file-actions { flex-direction:column; }
+        .search-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+        .search-row input,.search-row select {
+            flex:1; min-width:150px; padding:9px 12px; border:2px solid #e0e0e0;
+            border-radius:8px; font-size:13px; font-family:'Sarabun',sans-serif; outline:none;
+        }
+        .search-row input:focus,.search-row select:focus { border-color:#667eea; }
+        /* ── Google Sheets tab ── */
+        .sheets-container {
+            background:white; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,.1);
+            overflow:hidden; min-height:600px; display:flex; flex-direction:column;
+        }
+        .sheets-toolbar {
+            padding:14px 20px; background:#f8f9ff; border-bottom:1px solid #e8eaf6;
+            display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+        }
+        .sheets-toolbar h2 { color:#667eea; font-size:17px; flex:1; min-width:150px; }
+        .sheets-frame-wrap { flex:1; position:relative; min-height:560px; }
+        .sheets-frame {
+            width:100%; height:100%; border:none;
+            min-height:580px;
+        }
+        .sheets-placeholder {
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            height:100%; min-height:500px; gap:20px; padding:40px; text-align:center;
+        }
+        .sheets-placeholder .big-icon { font-size:5rem; }
+        .sheets-placeholder h3 { color:#667eea; font-size:22px; }
+        .sheets-placeholder p { color:#888; max-width:420px; line-height:1.6; font-size:14px; }
+        .sheets-list { padding:20px; }
+        .sheet-item {
+            display:flex; align-items:center; gap:14px; padding:14px 18px;
+            border:1px solid #eaecf7; border-radius:12px; margin-bottom:10px;
+            background:#fafbff; transition:box-shadow .2s; cursor:pointer;
+        }
+        .sheet-item:hover { box-shadow:0 3px 14px rgba(102,126,234,.18); border-color:#c0c8f0; }
+        .sheet-item .sicon { font-size:2rem; flex-shrink:0; }
+        .sheet-item .sinfo { flex:1; min-width:0; }
+        .sheet-item .sname { font-weight:700; color:#333; font-size:14px; }
+        .sheet-item .smeta { font-size:11px; color:#999; margin-top:3px; }
+        /* ── Modals ── */
+        .modal {
+            display:none; position:fixed; inset:0; background:rgba(0,0,0,.5);
+            z-index:1000; align-items:center; justify-content:center;
+        }
+        .modal.open { display:flex; }
+        .modal-box {
+            background:white; padding:32px; border-radius:18px;
+            max-width:520px; width:90%; max-height:90vh; overflow-y:auto;
+            box-shadow:0 20px 60px rgba(0,0,0,.3);
+        }
+        .modal-box h2 { color:#667eea; margin-bottom:20px; font-size:20px; }
+        .modal-close { float:right; font-size:26px; cursor:pointer; color:#bbb; line-height:1; }
+        .modal-close:hover { color:#333; }
+        .modal-footer { display:flex; gap:10px; margin-top:20px; }
+        /* ── Send modal ── */
+        .link-box {
+            display:flex; gap:8px; align-items:center; background:#f3f4ff;
+            border:1.5px solid #c0c8f0; border-radius:8px; padding:10px 14px; margin-bottom:14px;
+        }
+        .link-box span { flex:1; font-size:12px; color:#555; word-break:break-all; font-family:monospace; }
+        .qr-wrap { text-align:center; margin-bottom:14px; }
+        .qr-wrap img { width:175px; height:175px; border:4px solid #eef0ff; border-radius:12px; }
+        /* ── Toast ── */
+        .toast {
+            position:fixed; bottom:24px; right:24px; z-index:9999; background:white;
+            border-radius:12px; padding:14px 20px; box-shadow:0 8px 30px rgba(0,0,0,.18);
+            display:flex; align-items:center; gap:12px; font-family:'Sarabun',sans-serif;
+            font-size:14px; font-weight:700; border-left:4px solid #28a745;
+            transform:translateY(80px); opacity:0;
+            transition:transform .35s cubic-bezier(.175,.885,.32,1.275),opacity .35s;
+            max-width:360px;
+        }
+        .toast.show { transform:translateY(0); opacity:1; }
+        .toast.error { border-left-color:#dc3545; }
+        .toast .ticon { font-size:1.4rem; flex-shrink:0; }
+        /* ── Responsive ── */
+        @media(max-width:768px){
+            .header { flex-direction:column; gap:14px; text-align:center; }
+            .header-right { text-align:center; }
+            .controls-row,.meta-row,.search-row { flex-direction:column; }
             .tabs { flex-direction:column; }
             .file-row { flex-direction:column; align-items:flex-start; }
-            .csv-dropdown-menu { min-width:180px; }
+            .sheets-toolbar { flex-direction:column; }
         }
-
-        /* ══════════════ SPREADSHEET STYLES ══════════════ */
-        #tab-spreadsheet { user-select:none; }
-        .ss-toolbar {
-            background:white; border-radius:15px; padding:10px 16px;
-            margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,.1);
-            display:flex; flex-wrap:wrap; gap:6px; align-items:center;
-        }
-        .ss-toolbar-group {
-            display:flex; gap:4px; align-items:center;
-            padding-right:10px; border-right:1.5px solid #e0e0e0; margin-right:4px;
-        }
-        .ss-toolbar-group:last-child { border-right:none; }
-        .ss-btn {
-            padding:5px 10px; border:1.5px solid #ddd; border-radius:6px;
-            background:white; cursor:pointer; font-size:13px; font-family:'Sarabun',sans-serif;
-            color:#333; transition:all .15s; white-space:nowrap;
-        }
-        .ss-btn:hover { background:#f0f2ff; border-color:#667eea; color:#667eea; }
-        .ss-btn.active { background:#667eea; color:white; border-color:#667eea; }
-        .ss-btn-icon { padding:5px 8px; font-size:14px; }
-        .ss-separator { width:1px; background:#e0e0e0; height:24px; margin:0 2px; }
-        .ss-formula-bar {
-            background:white; border-radius:12px; padding:8px 14px;
-            margin-bottom:8px; box-shadow:0 3px 10px rgba(0,0,0,.08);
-            display:flex; align-items:center; gap:10px;
-        }
-        .ss-cell-ref {
-            font-size:13px; font-weight:700; color:#667eea; min-width:56px;
-            padding:4px 8px; border:1.5px solid #c0c8f0; border-radius:6px;
-            text-align:center; font-family:monospace; background:#f7f8ff;
-        }
-        .ss-formula-icon { color:#667eea; font-weight:700; font-size:15px; }
-        .ss-formula-input {
-            flex:1; border:1.5px solid #e0e0e0; border-radius:6px; padding:5px 10px;
-            font-size:14px; font-family:'Courier New',monospace; outline:none;
-            transition:border-color .2s;
-        }
-        .ss-formula-input:focus { border-color:#667eea; }
-        .ss-grid-wrap {
-            background:white; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,.1);
-            overflow:auto; max-height:calc(100vh - 320px); min-height:400px; position:relative;
-        }
-        .ss-table { border-collapse:collapse; table-layout:fixed; }
-        .ss-table .col-header {
-            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
-            color:white; padding:6px 4px; text-align:center; font-size:12px; font-weight:700;
-            border:1px solid #5a6fd6; min-width:80px; position:sticky; top:0; z-index:20;
-            cursor:pointer; user-select:none;
-        }
-        .ss-table .col-header:first-child {
-            min-width:44px; width:44px; background:#e8eaf6; color:#667eea;
-            border-color:#c0c8f0; position:sticky; left:0; z-index:30;
-        }
-        .ss-table .col-header.selected { background:linear-gradient(135deg,#4a5fc4,#5a3982); }
-        .ss-table .row-header {
-            background:#e8eaf6; color:#667eea; text-align:center; font-size:12px; font-weight:700;
-            border:1px solid #c0c8f0; min-width:44px; width:44px; padding:4px;
-            position:sticky; left:0; z-index:10; cursor:pointer; user-select:none;
-        }
-        .ss-table .row-header.selected { background:#c5caf0; }
-        .ss-cell {
-            border:1px solid #e0e0e0; padding:3px 5px; min-width:80px; max-width:200px;
-            height:24px; font-size:13px; font-family:'Sarabun',sans-serif;
-            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-            cursor:cell; position:relative; box-sizing:border-box;
-        }
-        .ss-cell:hover { background:#f0f2ff; }
-        .ss-cell.selected {
-            background:#e8f0fe !important; outline:2px solid #667eea; outline-offset:-2px; z-index:5;
-        }
-        .ss-cell.anchor {
-            background:#d2e3fc !important; outline:2px solid #1a73e8; outline-offset:-2px; z-index:6;
-        }
-        .ss-cell.in-range { background:#e8f0fe !important; }
-        .ss-cell.editing {
-            padding:0; overflow:visible; z-index:100;
-        }
-        .ss-cell.has-formula { color:#1a73e8; }
-        .ss-cell.error-cell { color:#dc3545; }
-        .ss-cell input.cell-editor {
-            position:absolute; inset:0; width:100%; height:100%;
-            border:none; outline:2px solid #1a73e8; padding:2px 5px;
-            font-size:13px; font-family:'Sarabun',sans-serif;
-            background:white; z-index:200; box-sizing:border-box;
-        }
-        .ss-col-resize {
-            position:absolute; right:0; top:0; bottom:0; width:4px; cursor:col-resize;
-            background:transparent;
-        }
-        .ss-col-resize:hover { background:#667eea44; }
-        .ss-status-bar {
-            background:white; border-radius:10px; padding:6px 16px;
-            margin-top:8px; box-shadow:0 2px 8px rgba(0,0,0,.08);
-            display:flex; gap:20px; font-size:12px; color:#666; align-items:center;
-        }
-        .ss-status-item strong { color:#333; }
-        .ss-select { padding:4px 8px; border:1.5px solid #ddd; border-radius:6px; font-size:13px; font-family:'Sarabun',sans-serif; outline:none; background:white; cursor:pointer; }
-        .ss-select:focus { border-color:#667eea; }
-        .ss-color-btn { width:26px; height:26px; border-radius:5px; border:1.5px solid #ddd; cursor:pointer; padding:0; }
-        .ss-number-input { width:44px; padding:4px 6px; border:1.5px solid #ddd; border-radius:6px; font-size:13px; text-align:center; outline:none; }
-        .ss-number-input:focus { border-color:#667eea; }
-        .ss-ctx-menu {
-            position:fixed; background:white; border-radius:10px; min-width:180px;
-            box-shadow:0 8px 30px rgba(0,0,0,.18); z-index:9999; padding:6px 0;
-            border:1px solid #e0e0e0; display:none;
-        }
-        .ss-ctx-menu.open { display:block; }
-        .ss-ctx-item {
-            padding:9px 18px; font-size:13px; font-family:'Sarabun',sans-serif;
-            cursor:pointer; color:#333; display:flex; align-items:center; gap:8px;
-        }
-        .ss-ctx-item:hover { background:#f0f2ff; color:#667eea; }
-        .ss-ctx-sep { border:none; border-top:1px solid #eee; margin:4px 0; }
-        .ss-sheet-tabs {
-            display:flex; gap:0; margin-top:8px; overflow-x:auto;
-        }
-        .ss-sheet-tab {
-            padding:6px 16px; background:#e8eaf6; border:1px solid #c0c8f0;
-            border-bottom:none; border-radius:8px 8px 0 0; cursor:pointer;
-            font-size:13px; font-family:'Sarabun',sans-serif; font-weight:600;
-            color:#667eea; white-space:nowrap; transition:background .15s;
-        }
-        .ss-sheet-tab.active { background:white; color:#333; }
-        .ss-sheet-tab:hover:not(.active) { background:#d5d8f0; }
-        .ss-add-sheet { padding:6px 12px; background:#f0f2ff; border:1.5px dashed #c0c8f0; border-radius:8px 8px 0 0; cursor:pointer; font-size:18px; color:#667eea; line-height:1; }
-        .ss-add-sheet:hover { background:#e0e3ff; }
-        .ss-find-bar {
-            position:absolute; right:16px; top:8px; background:white; border-radius:10px;
-            padding:10px 14px; box-shadow:0 6px 20px rgba(0,0,0,.18);
-            border:1.5px solid #c0c8f0; z-index:500; display:none;
-            gap:8px; align-items:center;
-        }
-        .ss-find-bar.open { display:flex; }
-        .ss-find-bar input { padding:5px 10px; border:1.5px solid #ddd; border-radius:6px; font-size:13px; outline:none; width:160px; }
-        .ss-find-bar input:focus { border-color:#667eea; }
-        /* ══════════════ END SPREADSHEET ══════════════ */
     </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ══════════ LOGIN ══════════ -->
 <div class="login-container" id="loginScreen">
-    <h1>🚛 JB Transport Service</h1>
-    <p>ระบบติดตามตู้คอนเทนเนอร์</p>
-    <div class="form-group"><label>ชื่อผู้ใช้</label><input type="text" id="loginUsername" placeholder="กรอกชื่อผู้ใช้"></div>
-    <div class="form-group"><label>รหัสผ่าน</label><input type="password" id="loginPassword" placeholder="กรอกรหัสผ่าน"></div>
-    <button class="btn" onclick="login()" id="loginBtn">เข้าสู่ระบบ</button>
+    <div class="login-logo">🚛</div>
+    <h1>JB Transport Service</h1>
+    <p class="sub">ระบบติดตามตู้คอนเทนเนอร์</p>
+    <div class="domain-badge">staff@jbts.qzz.io</div>
+    <div class="form-group" style="text-align:left;margin-bottom:16px;">
+        <label>อีเมล</label>
+        <input type="email" id="loginEmail" placeholder="staff@jbts.qzz.io" value="staff@jbts.qzz.io">
+    </div>
+    <div class="form-group" style="text-align:left;margin-bottom:20px;">
+        <label>รหัสผ่าน</label>
+        <input type="password" id="loginPassword" placeholder="รหัสผ่าน"
+               onkeydown="if(event.key==='Enter')loginWithEmail()">
+    </div>
+    <button class="google-btn" id="loginBtn" onclick="loginWithEmail()" style="justify-content:center;font-size:16px;">
+        🔐 เข้าสู่ระบบ
+    </button>
+    <div class="login-error" id="loginError"></div>
 </div>
 
-<!-- MAIN APP -->
+<!-- ══════════ MAIN APP ══════════ -->
 <div class="main-container" id="mainApp">
     <div class="header">
         <div>
             <h1>🚛 JB Transport Service</h1>
-            <p style="color:#666;margin-top:5px;">ระบบติดตามตู้คอนเทนเนอร์ <span class="sync-status" id="syncStatus">🔄 กำลังซิงค์...</span></p>
+            <p style="color:#888;font-size:13px;margin-top:3px;">
+                ระบบติดตามตู้คอนเทนเนอร์
+                <span class="sync-badge" id="syncBadge">🔄 กำลังซิงค์...</span>
+            </p>
         </div>
-        <div class="header-info">
-            <span id="currentUser" style="font-weight:600;color:#667eea;"></span>
-            <span id="currentDate"></span>
-            <button class="btn btn-secondary btn-small" onclick="logout()" style="margin-top:10px;">ออกจากระบบ</button>
+        <div class="header-right">
+            <div class="user-pill">
+                <img class="user-avatar" id="userAvatar" src="" alt="">
+                <span class="user-name" id="userName"></span>
+            </div>
+            <br>
+            <span id="currentDate" style="font-size:12px;color:#888;"></span><br>
+            <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="logout()">ออกจากระบบ</button>
         </div>
     </div>
 
     <!-- TABS -->
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('containers',this)">📦 ตู้คอนเทนเนอร์</button>
-        <button class="tab-btn" onclick="switchTab('files',this)">📁 แชร์ไฟล์ / ส่งไปเครื่อง</button>
-        <button class="tab-btn" onclick="switchTab('spreadsheet',this)">📊 สเปรดชีต</button>
+        <button class="tab-btn" onclick="switchTab('files',this)">📁 แชร์ไฟล์</button>
+        <button class="tab-btn" onclick="switchTab('sheets',this)">📊 Google Sheets</button>
     </div>
 
-    <!-- TAB 1: Containers -->
+    <!-- ── TAB 1: Containers ── -->
     <div class="tab-content active" id="tab-containers">
         <div class="dashboard">
             <div class="stat-card"><h3>ตู้ทั้งหมด</h3><div class="value" id="totalContainers">0</div></div>
             <div class="stat-card"><h3>ฟรีค่าเก็บ</h3><div class="value" id="freeContainers" style="color:#28a745;">0</div></div>
-            <div class="stat-card"><h3>คิดค่าเก็บแล้ว</h3><div class="value" id="chargingContainers" style="color:#ffc107;">0</div></div>
+            <div class="stat-card"><h3>คิดค่าเก็บแล้ว</h3><div class="value" id="chargingContainers" style="color:#fd7e14;">0</div></div>
             <div class="stat-card"><h3>รายได้รวม</h3><div class="value" id="totalRevenue" style="color:#667eea;">฿0</div></div>
         </div>
         <div class="controls">
             <div class="controls-row">
-                <div class="form-group"><label>ค้นหาเลขตู้</label><input type="text" id="searchContainer" placeholder="กรอกเลขตู้คอนเทนเนอร์" oninput="filterContainers()"></div>
-                <div class="form-group"><label>กรองตามขนาด</label>
+                <div class="form-group"><label>ค้นหาเลขตู้</label><input type="text" id="searchContainer" placeholder="เลขตู้คอนเทนเนอร์" oninput="filterContainers()"></div>
+                <div class="form-group"><label>ขนาด</label>
                     <select id="filterSize" onchange="filterContainers()">
-                        <option value="">ทุกขนาด</option><option value="20">20 ฟุต</option><option value="40">40 ฟุต</option>
-                        <option value="45">45 ฟุต</option><option value="40R">40 ฟุต (เย็น)</option><option value="45R">45 ฟุต (เย็น)</option>
+                        <option value="">ทุกขนาด</option>
+                        <option value="20">20 ฟุต</option><option value="40">40 ฟุต</option>
+                        <option value="45">45 ฟุต</option><option value="40R">40R เย็น</option><option value="45R">45R เย็น</option>
                     </select>
                 </div>
-                <div class="form-group"><label>กรองตามประเภท</label>
+                <div class="form-group"><label>ประเภท</label>
                     <select id="filterType" onchange="filterContainers()">
-                        <option value="">ทุกประเภท</option><option value="Normal">ธรรมดา</option><option value="R">ตู้เย็น (R)</option>
+                        <option value="">ทุกประเภท</option><option value="Normal">ธรรมดา</option><option value="R">ตู้เย็น</option>
                     </select>
                 </div>
-                <div class="form-group"><label>กรองตามสถานะ</label>
+                <div class="form-group"><label>สถานะ</label>
                     <select id="filterStatus" onchange="filterContainers()">
                         <option value="">ทุกสถานะ</option><option value="free">ฟรีค่าเก็บ</option>
                         <option value="charging">คิดค่าเก็บ</option><option value="overdue">เกิน 10 วัน</option>
                     </select>
                 </div>
             </div>
-            <div class="controls-row" style="margin-top:15px;">
-                <button class="btn btn-success btn-small" onclick="openAddModal()">➕ เพิ่มตู้คอนเทนเนอร์</button>
-
-                <!-- ── CSV Export Dropdown ── -->
-                <div class="csv-dropdown-wrap" id="csvDropdownWrap">
-                    <div class="csv-main-btn">
-                        <button class="csv-btn-label" onclick="exportToCSV()">📊 ส่งออกเป็น CSV</button>
-                        <button class="csv-arrow-btn" onclick="toggleCsvDropdown(event)" title="เลือกวิธีบันทึก">▾</button>
-                    </div>
-                    <div class="csv-dropdown-menu" id="csvDropdownMenu">
-                        <button onclick="exportToCSV(); closeCsvDropdown();">
-                            <span class="dd-icon">💾</span>
-                            <span>
-                                บันทึกลงเครื่อง
-                                <span class="dd-sub">ดาวน์โหลด .csv ไปยังอุปกรณ์นี้</span>
-                            </span>
+            <div class="controls-row" style="margin-top:12px;gap:8px;">
+                <button class="btn btn-success btn-sm" onclick="openAddModal()">➕ เพิ่มตู้</button>
+                <!-- CSV split-button -->
+                <div class="split-btn" id="csvWrap">
+                    <button class="btn btn-primary btn-sm main" onclick="exportToCSV()">📊 ส่งออก CSV</button>
+                    <button class="arrow" onclick="toggleDropdown(event,'csvMenu')">▾</button>
+                    <div class="dropdown-menu" id="csvMenu">
+                        <button class="dropdown-item" onclick="exportToCSV();closeDropdown('csvMenu')">
+                            <span class="icon">💾</span>
+                            <span>บันทึกลงเครื่อง<span class="sub">ดาวน์โหลด .csv มาที่อุปกรณ์นี้</span></span>
                         </button>
-                        <hr>
-                        <button onclick="exportToCloud(); closeCsvDropdown();">
-                            <span class="dd-icon">☁️</span>
-                            <span>
-                                บันทึกลงคลาวด์
-                                <span class="dd-sub">บันทึก .csv ไว้ใน Firebase (ดูใน Tab ไฟล์)</span>
-                            </span>
+                        <hr style="border:none;border-top:1px solid #eee;margin:0;">
+                        <button class="dropdown-item" onclick="exportToCloud();closeDropdown('csvMenu')">
+                            <span class="icon">☁️</span>
+                            <span>บันทึกลง Firebase<span class="sub">เก็บ .csv ไว้ใน Tab ไฟล์</span></span>
+                        </button>
+                        <hr style="border:none;border-top:1px solid #eee;margin:0;">
+                        <button class="dropdown-item" onclick="exportToGoogleSheets();closeDropdown('csvMenu')">
+                            <span class="icon">📊</span>
+                            <span>ส่งไป Google Sheets<span class="sub">อัปโหลดและเปิดใน Google Sheets</span></span>
                         </button>
                     </div>
                 </div>
-                <!-- ── End CSV Dropdown ── -->
             </div>
         </div>
-        <div class="table-container">
+        <div class="table-wrap">
             <div id="loadingIndicator" class="loading">กำลังโหลดข้อมูล...</div>
-            <table id="containerTableElement" style="display:none;">
+            <table id="containerTable" style="display:none;">
                 <thead><tr>
                     <th>เลขตู้</th><th>ขนาด</th><th>ประเภท</th><th>วันเวลาเข้า</th>
-                    <th>จำนวนวันเก็บ</th><th>ฟรีเหลือ</th>
-                    <th>Lift on+off</th>
-                    <th>ค่าเก็บปัจจุบัน</th>
-                    <th>สถานะ</th><th>หมายเหตุ</th><th>จัดการ</th>
+                    <th>จำนวนวัน</th><th>ฟรีเหลือ</th><th>Lift fee</th>
+                    <th>ค่าเก็บ</th><th>สถานะ</th><th>หมายเหตุ</th><th>จัดการ</th>
                 </tr></thead>
-                <tbody id="containerTable"></tbody>
+                <tbody id="containerBody"></tbody>
             </table>
         </div>
     </div>
 
-    <!-- TAB 2: Files -->
+    <!-- ── TAB 2: Files ── -->
     <div class="tab-content" id="tab-files">
         <div class="file-section">
             <h2>📤 อัปโหลดไฟล์</h2>
-            <p class="desc">ไฟล์จะถูกบันทึกลง Firebase Realtime Database โดยตรง (ฟรี 1GB) — ไม่ต้องใช้ Firebase Storage</p>
-            <div class="info-banner">
+            <p class="desc">ไฟล์ถูกเก็บใน Firebase Realtime DB (Base64) — metadata บันทึกลง Firestore</p>
+            <div class="info-box">
                 <span class="icon">💾</span>
-                <div>
-                    <strong>เก็บในฐานข้อมูลโดยตรง (Base64) — ฟรีทั้งหมด</strong><br>
-                    แนะนำไฟล์ขนาดเล็ก–กลาง (ภาพ, PDF, เอกสาร) ไม่เกิน <strong>5MB ต่อไฟล์</strong> เพื่อประหยัดพื้นที่ DB 1GB ให้ได้ไฟล์จำนวนมาก
-                </div>
+                <div><strong>เก็บใน DB โดยตรง — ไม่เสียค่าใช้จ่าย</strong><br>
+                ไฟล์ขนาดไม่เกิน <strong>10 MB</strong> ต่อไฟล์ รวมพื้นที่ DB 1 GB</div>
             </div>
-            <div class="db-usage-wrap">
-                <label>พื้นที่ฐานข้อมูลที่ใช้ (ประมาณการ)</label>
-                <div class="db-usage-bar-bg"><div class="db-usage-bar-fill" id="dbUsageBar" style="width:0%"></div></div>
-                <div class="db-usage-text" id="dbUsageText">กำลังคำนวณ...</div>
+            <div class="usage-wrap">
+                <label>พื้นที่ที่ใช้ไป</label>
+                <div class="usage-bg"><div class="usage-fill" id="usageBar" style="width:0%"></div></div>
+                <div class="usage-text" id="usageText">กำลังคำนวณ...</div>
             </div>
-            <div class="upload-meta-row">
-                <input type="text" id="fileCategory" placeholder="📁 หมวดหมู่ (เช่น ใบเสร็จ, รูปตู้, เอกสาร)">
+            <div class="meta-row">
+                <input type="text" id="fileCategory" placeholder="📁 หมวดหมู่">
                 <input type="text" id="fileUploader" placeholder="👤 ชื่อผู้อัปโหลด">
-                <input type="text" id="fileNote"     placeholder="📝 บันทึกเพิ่มเติม (ไม่บังคับ)">
+                <input type="text" id="fileNote" placeholder="📝 บันทึก (ไม่บังคับ)">
             </div>
             <div class="drop-zone" id="dropZone">
                 <span class="dz-icon">☁️</span>
-                <p><strong>ลากไฟล์มาวางที่นี่</strong> หรือ คลิกเพื่อเลือกไฟล์</p>
-                <p style="margin-top:6px;font-size:12px;">รองรับทุกประเภทไฟล์ — แนะนำขนาดไม่เกิน 5MB ต่อไฟล์</p>
+                <p><strong>ลากไฟล์มาวางที่นี่</strong> หรือคลิกเพื่อเลือก</p>
+                <p style="margin-top:6px;">รองรับทุกประเภทไฟล์ · ไม่เกิน 10 MB</p>
             </div>
             <input type="file" id="filePickerInput" multiple style="display:none;">
-            <div class="size-warn" id="sizeWarn">⚠️ ไฟล์ขนาดใหญ่จะใช้พื้นที่ DB มาก — ไฟล์ที่เกิน 10MB จะถูกปฏิเสธ</div>
-            <div class="upload-progress-wrap" id="uploadProgressWrap">
-                <div class="upload-progress-bar" id="uploadProgressBar">0%</div>
-            </div>
-            <div id="uploadStatusMsg" style="font-size:13px;margin-bottom:8px;min-height:20px;"></div>
-            <button class="btn btn-success btn-small" onclick="document.getElementById('filePickerInput').click()">📂 เลือกไฟล์</button>
+            <div class="size-warn" id="sizeWarn">⚠️ ไฟล์เกิน 10 MB จะถูกข้าม</div>
+            <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar">0%</div></div>
+            <div id="uploadMsg" style="font-size:13px;min-height:18px;margin-bottom:10px;"></div>
+            <button class="btn btn-success btn-sm" onclick="document.getElementById('filePickerInput').click()">📂 เลือกไฟล์</button>
         </div>
         <div class="file-section">
             <h2>📋 ไฟล์ทั้งหมด</h2>
-            <p class="desc">คลิก <strong>📲 ส่งไปเครื่อง</strong> เพื่อรับ QR Code / ลิงก์ดาวน์โหลดสำหรับอุปกรณ์อื่น</p>
-            <div class="search-filter-row">
-                <input type="text" id="searchFile" placeholder="🔍 ค้นหาชื่อไฟล์หรือหมวดหมู่..." oninput="renderFileList()">
-                <select id="filterFileCategory" onchange="renderFileList()">
-                    <option value="">ทุกหมวดหมู่</option>
-                </select>
+            <p class="desc">คลิก <strong>📲 ส่งไปเครื่อง</strong> เพื่อรับ QR / ลิงก์ดาวน์โหลด</p>
+            <div class="search-row">
+                <input type="text" id="searchFile" placeholder="🔍 ค้นหาชื่อไฟล์..." oninput="renderFileList()">
+                <select id="filterCat" onchange="renderFileList()"><option value="">ทุกหมวดหมู่</option></select>
             </div>
-            <div class="file-list" id="fileList"><div class="loading">กำลังโหลดไฟล์...</div></div>
+            <div id="fileList"><div class="loading">กำลังโหลด...</div></div>
         </div>
     </div>
-    <!-- TAB 3: Spreadsheet -->
-    <div class="tab-content" id="tab-spreadsheet">
 
-        <!-- Toolbar -->
-        <div class="ss-toolbar" id="ssToolbar">
-            <!-- File group -->
-            <div class="ss-toolbar-group">
-                <label class="ss-btn" title="นำเข้า CSV / Excel" style="cursor:pointer;">
-                    📂 เปิดไฟล์
-                    <input type="file" id="ssFileInput" accept=".csv,.xlsx,.xls,.tsv" style="display:none">
-                </label>
-                <button class="ss-btn" onclick="ssExportCSV()" title="ส่งออก CSV">💾 CSV</button>
-                <button class="ss-btn" onclick="ssExportXLSX()" title="ส่งออก Excel">📤 Excel</button>
+    <!-- ── TAB 3: Google Sheets ── -->
+    <div class="tab-content" id="tab-sheets">
+        <div class="sheets-container">
+            <div class="sheets-toolbar">
+                <h2>📊 Google Sheets</h2>
+                <button class="btn btn-success btn-sm" onclick="createNewSheet()">
+                    ➕ สร้าง Sheet ใหม่
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="uploadLocalFileToSheets()">
+                    📤 อัปโหลดไฟล์ → Sheets
+                </button>
+                <button class="btn btn-info btn-sm" onclick="exportContainersToSheets()">
+                    📦 ส่งข้อมูลตู้ → Sheets
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="loadSheetsList()">
+                    🔄 รีเฟรชรายการ
+                </button>
+                <input type="file" id="localFileInput" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleLocalFileUpload(event)">
             </div>
-            <!-- Edit group -->
-            <div class="ss-toolbar-group">
-                <button class="ss-btn ss-btn-icon" onclick="ssUndo()" title="Undo (Ctrl+Z)">↩</button>
-                <button class="ss-btn ss-btn-icon" onclick="ssRedo()" title="Redo (Ctrl+Y)">↪</button>
-            </div>
-            <!-- Format group -->
-            <div class="ss-toolbar-group">
-                <select class="ss-select" id="ssFontSize" onchange="ssApplyFormat('fontSize',this.value)">
-                    <option value="11">11</option><option value="12" selected>12</option>
-                    <option value="13">13</option><option value="14">14</option>
-                    <option value="16">16</option><option value="18">18</option>
-                    <option value="20">20</option><option value="24">24</option>
-                </select>
-                <button class="ss-btn ss-btn-icon" id="fmtBold" onclick="ssApplyFormat('bold')" title="Bold"><b>B</b></button>
-                <button class="ss-btn ss-btn-icon" id="fmtItalic" onclick="ssApplyFormat('italic')" title="Italic"><i>I</i></button>
-                <button class="ss-btn ss-btn-icon" id="fmtUnderline" onclick="ssApplyFormat('underline')" title="Underline"><u>U</u></button>
-            </div>
-            <!-- Align group -->
-            <div class="ss-toolbar-group">
-                <button class="ss-btn ss-btn-icon" onclick="ssApplyFormat('align','left')" title="Align Left">⬅</button>
-                <button class="ss-btn ss-btn-icon" onclick="ssApplyFormat('align','center')" title="Center">≡</button>
-                <button class="ss-btn ss-btn-icon" onclick="ssApplyFormat('align','right')" title="Align Right">➡</button>
-            </div>
-            <!-- Color group -->
-            <div class="ss-toolbar-group">
-                <label style="font-size:12px;color:#666;">ตัวอักษร</label>
-                <input type="color" class="ss-color-btn" id="fmtColor" value="#000000" onchange="ssApplyFormat('color',this.value)" title="Font Color">
-                <label style="font-size:12px;color:#666;">พื้นหลัง</label>
-                <input type="color" class="ss-color-btn" id="fmtBgColor" value="#ffffff" onchange="ssApplyFormat('bgColor',this.value)" title="Fill Color">
-            </div>
-            <!-- Number format group -->
-            <div class="ss-toolbar-group">
-                <select class="ss-select" id="ssNumFmt" onchange="ssApplyFormat('numFmt',this.value)">
-                    <option value="general">ทั่วไป</option>
-                    <option value="number">ตัวเลข</option>
-                    <option value="currency">เงิน (฿)</option>
-                    <option value="percent">เปอร์เซ็นต์</option>
-                    <option value="date">วันที่</option>
-                    <option value="text">ข้อความ</option>
-                </select>
-            </div>
-            <!-- Row/Col group -->
-            <div class="ss-toolbar-group">
-                <button class="ss-btn" onclick="ssInsertRow()">➕ แถว</button>
-                <button class="ss-btn" onclick="ssInsertCol()">➕ คอลัมน์</button>
-                <button class="ss-btn" onclick="ssDeleteRow()">➖ แถว</button>
-                <button class="ss-btn" onclick="ssDeleteCol()">➖ คอลัมน์</button>
-            </div>
-            <!-- Find group -->
-            <div class="ss-toolbar-group">
-                <button class="ss-btn" onclick="ssToggleFind()" title="Ctrl+F">🔍 ค้นหา</button>
-                <button class="ss-btn" onclick="ssClearSheet()" title="ล้างทั้งหมด">🗑 ล้าง</button>
+            <div class="sheets-frame-wrap" id="sheetsFrameWrap">
+                <!-- Placeholder shown until a sheet is opened -->
+                <div class="sheets-placeholder" id="sheetsPlaceholder">
+                    <span class="big-icon">📊</span>
+                    <h3>Google Sheets Integration</h3>
+                    <p>เชื่อมต่อกับ Google Drive ขององค์กร<br>
+                    สร้าง Sheet ใหม่, อัปโหลดไฟล์ CSV/Excel ให้แปลงเป็น Sheets<br>
+                    หรือส่งข้อมูลตู้คอนเทนเนอร์ตรงไปยัง Google Sheets</p>
+                    <div id="sheetsListContainer">
+                        <div class="loading">กำลังโหลดรายการ Sheets...</div>
+                    </div>
+                </div>
+                <!-- iframe shown when a sheet is opened -->
+                <iframe class="sheets-frame" id="sheetsFrame" style="display:none;" allowfullscreen></iframe>
             </div>
         </div>
-
-        <!-- Formula bar -->
-        <div class="ss-formula-bar">
-            <div class="ss-cell-ref" id="ssCellRef">A1</div>
-            <span class="ss-formula-icon">ƒx</span>
-            <input class="ss-formula-input" id="ssFormulaInput" placeholder="กรอกค่าหรือสูตร เช่น =SUM(A1:A10)" spellcheck="false">
-        </div>
-
-        <!-- Grid wrapper (position:relative for find bar) -->
-        <div style="position:relative;">
-            <!-- Find bar -->
-            <div class="ss-find-bar" id="ssFindBar">
-                <input id="ssFindInput" placeholder="ค้นหา..." oninput="ssFindHighlight()">
-                <input id="ssReplaceInput" placeholder="แทนที่ด้วย...">
-                <button class="ss-btn" onclick="ssReplaceAll()">แทนที่ทั้งหมด</button>
-                <button class="ss-btn ss-btn-icon" onclick="ssToggleFind()">✕</button>
-            </div>
-            <!-- Grid -->
-            <div class="ss-grid-wrap" id="ssGridWrap">
-                <table class="ss-table" id="ssTable"></table>
-            </div>
-        </div>
-
-        <!-- Sheet tabs -->
-        <div style="display:flex;align-items:flex-end;gap:0;margin-top:4px;">
-            <div class="ss-sheet-tabs" id="ssSheetTabs"></div>
-            <div class="ss-add-sheet" onclick="ssAddSheet()" title="เพิ่มชีต">＋</div>
-        </div>
-
-        <!-- Status bar -->
-        <div class="ss-status-bar" id="ssStatusBar">
-            <span>เลือก: <strong id="ssSelInfo">A1</strong></span>
-            <span>ผลรวม: <strong id="ssSum">0</strong></span>
-            <span>ค่าเฉลี่ย: <strong id="ssAvg">0</strong></span>
-            <span>นับ: <strong id="ssCnt">0</strong></span>
-            <span>Min: <strong id="ssMin">—</strong></span>
-            <span>Max: <strong id="ssMax">—</strong></span>
-        </div>
-
-    </div><!-- /tab-spreadsheet -->
-
+    </div>
 </div><!-- /main-container -->
 
-<!-- Context Menu -->
-<div class="ss-ctx-menu" id="ssCtxMenu">
-    <div class="ss-ctx-item" onclick="ssCtxAction('copy')">📋 คัดลอก (Ctrl+C)</div>
-    <div class="ss-ctx-item" onclick="ssCtxAction('cut')">✂️ ตัด (Ctrl+X)</div>
-    <div class="ss-ctx-item" onclick="ssCtxAction('paste')">📌 วาง (Ctrl+V)</div>
-    <hr class="ss-ctx-sep">
-    <div class="ss-ctx-item" onclick="ssCtxAction('insertRowAbove')">⬆ แทรกแถวด้านบน</div>
-    <div class="ss-ctx-item" onclick="ssCtxAction('insertRowBelow')">⬇ แทรกแถวด้านล่าง</div>
-    <div class="ss-ctx-item" onclick="ssCtxAction('insertColLeft')">⬅ แทรกคอลัมน์ซ้าย</div>
-    <div class="ss-ctx-item" onclick="ssCtxAction('insertColRight')">➡ แทรกคอลัมน์ขวา</div>
-    <hr class="ss-ctx-sep">
-    <div class="ss-ctx-item" onclick="ssCtxAction('deleteRow')" style="color:#dc3545;">🗑 ลบแถว</div>
-    <div class="ss-ctx-item" onclick="ssCtxAction('deleteCol')" style="color:#dc3545;">🗑 ลบคอลัมน์</div>
-    <hr class="ss-ctx-sep">
-    <div class="ss-ctx-item" onclick="ssCtxAction('clearCell')">🧹 ล้างเซลล์</div>
-</div>
-
-<!-- Cloud Toast -->
-<div class="cloud-toast" id="cloudToast">
-    <span class="toast-icon">☁️</span>
-    <span id="cloudToastMsg">บันทึก CSV ลงคลาวด์สำเร็จ!</span>
-</div>
-
-<!-- CONTAINER MODAL -->
+<!-- ══════════ CONTAINER MODAL ══════════ -->
 <div class="modal" id="containerModal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
+    <div class="modal-box">
+        <span class="modal-close" onclick="closeModal()">×</span>
         <h2 id="modalTitle">เพิ่มตู้คอนเทนเนอร์ใหม่</h2>
-        <form onsubmit="saveContainer(event)">
-            <div class="form-group"><label>เลขตู้คอนเทนเนอร์ *</label><input type="text" id="containerNo" required placeholder="เช่น ABCU1234567"></div>
-            <div class="form-group"><label>ขนาดตู้ *</label>
-                <select id="containerSize" required>
-                    <option value="">เลือกขนาด</option><option value="20">20 ฟุต</option><option value="40">40 ฟุต</option>
-                    <option value="45">45 ฟุต</option><option value="40R">40 ฟุต (เย็น)</option><option value="45R">45 ฟุต (เย็น)</option>
-                </select>
-            </div>
-            <div class="form-group"><label>ประเภท *</label>
-                <select id="containerType" required><option value="Normal">ธรรมดา</option><option value="R">ตู้เย็น (R) ❄️</option></select>
-            </div>
-            <div class="form-group"><label>วันเวลาเข้า *</label><input type="datetime-local" id="dateTimeIn" required></div>
-            <div class="form-group"><label>ฟรีค่าเก็บ (วัน)</label><input type="number" id="freeDays" value="5" readonly></div>
-            <div class="form-group"><label>หมายเหตุ</label><textarea id="notes" rows="3" placeholder="บันทึกเพิ่มเติม..."></textarea></div>
-            <button type="submit" class="btn" id="saveBtn">บันทึก</button>
-            <button type="button" class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button>
-        </form>
+        <div class="form-group"><label>เลขตู้ *</label><input type="text" id="containerNo" placeholder="เช่น ABCU1234567"></div>
+        <div class="form-group"><label>ขนาด *</label>
+            <select id="containerSize">
+                <option value="">เลือกขนาด</option>
+                <option value="20">20 ฟุต</option><option value="40">40 ฟุต</option>
+                <option value="45">45 ฟุต</option><option value="40R">40R เย็น</option><option value="45R">45R เย็น</option>
+            </select>
+        </div>
+        <div class="form-group"><label>ประเภท *</label>
+            <select id="containerType"><option value="Normal">ธรรมดา</option><option value="R">ตู้เย็น ❄️</option></select>
+        </div>
+        <div class="form-group"><label>วันเวลาเข้า *</label><input type="datetime-local" id="dateTimeIn"></div>
+        <div class="form-group"><label>ฟรีค่าเก็บ (วัน)</label><input type="number" id="freeDays" value="5" readonly></div>
+        <div class="form-group"><label>หมายเหตุ</label><textarea id="notes" rows="3" placeholder="บันทึกเพิ่มเติม..."></textarea></div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="saveBtn" onclick="saveContainer()">บันทึก</button>
+            <button class="btn btn-secondary" onclick="closeModal()">ยกเลิก</button>
+        </div>
     </div>
 </div>
 
-<!-- SEND-TO-PC MODAL -->
-<div class="send-modal" id="sendModal">
-    <div class="send-modal-box">
-        <h3>📲 ส่งไปเครื่องอื่น / ดาวน์โหลด</h3>
-        <p class="hint">สแกน QR Code หรือคัดลอกลิงก์ด้านล่าง — เปิดบนเบราว์เซอร์ใดก็ได้เพื่อดาวน์โหลดทันที ไม่ต้องล็อกอิน</p>
+<!-- ══════════ SEND-TO-DEVICE MODAL ══════════ -->
+<div class="modal" id="sendModal">
+    <div class="modal-box">
+        <span class="modal-close" onclick="closeSendModal()">×</span>
+        <h2>📲 ส่งไปเครื่องอื่น</h2>
+        <p style="color:#888;font-size:13px;margin-bottom:16px;">สแกน QR หรือคัดลอกลิงก์เพื่อดาวน์โหลดบนอุปกรณ์อื่น</p>
         <div class="link-box">
             <span id="sendLinkText">—</span>
-            <button class="btn btn-info btn-small" onclick="copyLink()" style="flex-shrink:0;">📋 คัดลอก</button>
+            <button class="btn btn-info btn-sm" onclick="copyLink()">📋 คัดลอก</button>
         </div>
         <div class="qr-wrap">
             <img id="qrImage" src="" alt="QR Code">
-            <p>สแกน QR Code ด้วยสมาร์ทโฟน / แท็บเล็ต</p>
+            <p style="font-size:12px;color:#999;margin-top:6px;">สแกนด้วยสมาร์ทโฟน</p>
         </div>
-        <div style="display:flex;gap:10px;">
-            <button class="btn btn-success btn-small" onclick="downloadFromModal()" style="flex:1;">⬇️ ดาวน์โหลดตรงนี้</button>
-            <button class="btn btn-secondary btn-small" onclick="closeSendModal()" style="flex:1;">ปิด</button>
+        <div class="modal-footer">
+            <button class="btn btn-success" onclick="downloadFromModal()">⬇️ ดาวน์โหลดตรงนี้</button>
+            <button class="btn btn-secondary" onclick="closeSendModal()">ปิด</button>
         </div>
     </div>
 </div>
 
+<!-- ══════════ GOOGLE DRIVE UPLOAD PROGRESS MODAL ══════════ -->
+<div class="modal" id="driveModal">
+    <div class="modal-box" style="max-width:420px;text-align:center;">
+        <div id="driveModalIcon" style="font-size:3rem;margin-bottom:12px;">☁️</div>
+        <h2 id="driveModalTitle" style="margin-bottom:8px;">กำลังอัปโหลด...</h2>
+        <p id="driveModalMsg" style="color:#888;font-size:13px;margin-bottom:20px;"></p>
+        <div class="progress-wrap" id="driveProgressWrap" style="display:block;">
+            <div class="progress-bar" id="driveProgressBar" style="width:0%;">0%</div>
+        </div>
+        <div id="driveModalActions" style="margin-top:20px;display:none;">
+            <a id="openSheetLink" href="#" target="_blank" class="btn btn-success" style="display:inline-flex;text-decoration:none;margin-right:8px;">
+                📊 เปิด Google Sheets
+            </a>
+            <button class="btn btn-secondary" onclick="closeDriveModal()">ปิด</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ TOAST ══════════ -->
+<div class="toast" id="toast">
+    <span class="ticon" id="toastIcon">✅</span>
+    <span id="toastMsg"></span>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref as dbRef, set, onValue, remove, push, get }
-        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref as dbRef, set, onValue, remove, push, get }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+    getFirestore, collection, doc, setDoc, getDocs,
+    deleteDoc, query, orderBy, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyARRWLc-UfDrnFCGnJLA7vAHMzMjPWUark",
-        authDomain: "jbts-2026.firebaseapp.com",
-        projectId: "jbts-2026",
-        storageBucket: "jbts-2026.firebasestorage.app",
-        messagingSenderId: "1073142548606",
-        appId: "1:1073142548606:web:2c7ae432661a06ed47b02f",
-        databaseURL: "https://jbts-2026-default-rtdb.asia-southeast1.firebasedatabase.app"
+/* ── Firebase config ── */
+const firebaseConfig = {
+    apiKey:            "AIzaSyARRWLc-UfDrnFCGnJLA7vAHMzMjPWUark",
+    authDomain:        "jbts-2026.firebaseapp.com",
+    projectId:         "jbts-2026",
+    storageBucket:     "jbts-2026.firebasestorage.app",
+    messagingSenderId: "1073142548606",
+    appId:             "1:1073142548606:web:2c7ae432661a06ed47b02f",
+    databaseURL:       "https://jbts-2026-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+const app      = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth     = getAuth(app);
+const firestore= getFirestore(app);
+
+const ALLOWED_EMAIL = 'staff@jbts.qzz.io';
+const MAX_FILE_BYTES  = 10 * 1024 * 1024;
+const DB_LIMIT_BYTES  = 1  * 1024 * 1024 * 1024;
+
+let containers   = {};
+let fileRecords  = {};
+let currentUser  = null;   // Firebase user object
+let googleToken  = null;   // OAuth access token for Drive API
+let editingKey   = null;
+let sendFileKey  = null;
+
+/* ══════════════════════════════════════════════
+   EXPOSE GLOBALS
+══════════════════════════════════════════════ */
+Object.assign(window, {
+    loginWithEmail, logout,
+    switchTab, openAddModal, closeModal, saveContainer,
+    filterContainers, checkOut, deleteContainer,
+    exportToCSV, exportToCloud, exportToGoogleSheets, exportContainersToSheets,
+    toggleDropdown, closeDropdown,
+    renderFileList, openSendModal, closeSendModal, copyLink,
+    deleteFileRecord, downloadFromModal,
+    createNewSheet, uploadLocalFileToSheets, handleLocalFileUpload,
+    loadSheetsList, openSheet, closeDriveModal,
+});
+
+/* ══════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════ */
+async function loginWithEmail() {
+    const btn   = document.getElementById('loginBtn');
+    const errEl = document.getElementById('loginError');
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPassword').value;
+    errEl.style.display = 'none';
+    if (!email || !pass) { errEl.textContent = 'กรุณากรอกอีเมลและรหัสผ่าน'; errEl.style.display = 'block'; return; }
+    btn.disabled = true; btn.textContent = 'กำลังเข้าสู่ระบบ...';
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        // googleToken stays null — Drive features require re-auth with Google separately
+    } catch (e) {
+        const msgs = {
+            'auth/invalid-credential':   'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
+            'auth/user-not-found':       'ไม่พบบัญชีนี้ในระบบ',
+            'auth/wrong-password':       'รหัสผ่านไม่ถูกต้อง',
+            'auth/too-many-requests':    'ลองเข้าสู่ระบบบ่อยเกินไป กรุณารอสักครู่',
+            'auth/user-disabled':        'บัญชีนี้ถูกปิดใช้งาน',
+        };
+        errEl.textContent   = msgs[e.code] || e.message;
+        errEl.style.display = 'block';
+        btn.disabled = false; btn.textContent = '🔐 เข้าสู่ระบบ';
+    }
+}
+
+async function logout() {
+    if (!confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) return;
+    await signOut(auth);
+}
+
+onAuthStateChanged(auth, user => {
+    if (user) {
+        currentUser = user;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display     = 'block';
+        document.getElementById('userAvatar').src = user.photoURL || '';
+        document.getElementById('userName').textContent      = user.displayName || user.email;
+        updateCurrentDate();
+        loadContainers();
+        loadFileRecords();
+        loadSheetsList();
+    } else {
+        currentUser = null;
+        googleToken = null;
+        document.getElementById('loginScreen').style.display = 'block';
+        document.getElementById('mainApp').style.display     = 'none';
+        document.getElementById('loginPassword').value = '';
+        const btn = document.getElementById('loginBtn');
+        btn.disabled = false; btn.textContent = '🔐 เข้าสู่ระบบ';
+    }
+});
+
+/* ══════════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════════ */
+function showToast(msg, isError = false) {
+    const t   = document.getElementById('toast');
+    const ico = document.getElementById('toastIcon');
+    document.getElementById('toastMsg').textContent = msg;
+    t.className = 'toast' + (isError ? ' error' : '');
+    ico.textContent = isError ? '❌' : '✅';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+function switchTab(name, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+}
+
+function toggleDropdown(e, id) {
+    e.stopPropagation();
+    document.getElementById(id).classList.toggle('open');
+}
+function closeDropdown(id) {
+    document.getElementById(id)?.classList.remove('open');
+}
+document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown-menu.open').forEach(m => m.classList.remove('open'));
+});
+
+function updateCurrentDate() {
+    const now = new Date();
+    const m = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    document.getElementById('currentDate').textContent =
+        `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()+543} ` +
+        `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} น.`;
+}
+setInterval(updateCurrentDate, 60000);
+
+function fmtSize(b) {
+    if (!b || b < 0) return '—';
+    if (b < 1024) return b + 'B';
+    if (b < 1048576) return (b/1024).toFixed(1) + 'KB';
+    if (b < 1073741824) return (b/1048576).toFixed(1) + 'MB';
+    return (b/1073741824).toFixed(2) + 'GB';
+}
+function fmtDate(ts) {
+    if (!ts) return '—';
+    const d = new Date(ts);
+    const m = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()+543} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+/* ══════════════════════════════════════════════
+   CONTAINERS
+══════════════════════════════════════════════ */
+function loadContainers() {
+    onValue(dbRef(database, 'containers'), snap => {
+        containers = snap.val() || {};
+        renderContainers(); updateStats(); setSyncStatus(true);
+        document.getElementById('loadingIndicator').style.display = 'none';
+        document.getElementById('containerTable').style.display   = 'table';
+    }, () => setSyncStatus(false));
+}
+
+function setSyncStatus(ok) {
+    const b = document.getElementById('syncBadge');
+    b.textContent  = ok ? '✓ ซิงค์แล้ว' : '✗ ซิงค์ล้มเหลว';
+    b.className    = 'sync-badge' + (ok ? '' : ' error');
+}
+
+function calcDays(dt) { return Math.floor((Date.now() - new Date(dt)) / 86400000); }
+function getLiftFee(size) { return {'20':200,'40':400,'45':500,'40R':600,'45R':700}[size] || 0; }
+function calcPrice(c) {
+    if (c.checkedOut) return c.finalPrice;
+    const storage = Math.max(0, calcDays(c.dateTimeIn) - c.freeDays) * (c.size === '20' ? 30 : 50);
+    return storage + getLiftFee(c.size);
+}
+function getStatus(c) {
+    const d = calcDays(c.dateTimeIn), fl = c.freeDays - d;
+    if (fl > 0) return { text:'🟢 ฟรีค่าเก็บ', cls:'badge-free', val:'free' };
+    if (d < 10) return { text:'🟡 คิดค่าเก็บ', cls:'badge-charging', val:'charging' };
+    return             { text:'🔴 เกิน 10 วัน', cls:'badge-overdue', val:'overdue' };
+}
+function filterContainersArr() {
+    const s  = document.getElementById('searchContainer').value.toUpperCase();
+    const sz = document.getElementById('filterSize').value;
+    const tp = document.getElementById('filterType').value;
+    const st = document.getElementById('filterStatus').value;
+    return Object.entries(containers).filter(([,c]) =>
+        (!s || c.containerNo.includes(s)) && (!sz || c.size === sz) &&
+        (!tp || c.type === tp) && (!st || getStatus(c).val === st));
+}
+function filterContainers() { renderContainers(); updateStats(); }
+function renderContainers() {
+    const tbody = document.getElementById('containerBody');
+    tbody.innerHTML = '';
+    const TH = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    const rows = filterContainersArr();
+    if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="11" class="empty-state"><span>📭</span>ไม่มีข้อมูลตู้</td></tr>`;
+        return;
+    }
+    rows.forEach(([key, c]) => {
+        const d = calcDays(c.dateTimeIn), fl = Math.max(0, c.freeDays - d);
+        const p = calcPrice(c), st = getStatus(c), lf = getLiftFee(c.size);
+        const di = new Date(c.dateTimeIn);
+        const ds = `${di.getDate()} ${TH[di.getMonth()]} ${di.getFullYear()+543} ${String(di.getHours()).padStart(2,'0')}:${String(di.getMinutes()).padStart(2,'0')}`;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${c.containerNo}</strong></td>
+            <td>${c.size}ฟุต${c.size.includes('R')?'<span class="cold"> ❄️</span>':''}</td>
+            <td>${c.type==='R'?'<span class="cold">❄️ เย็น</span>':'ธรรมดา'}</td>
+            <td>${ds}</td><td>${d} วัน</td><td>${fl} วัน</td>
+            <td style="color:#764ba2;font-weight:700;">฿${lf.toLocaleString()}</td>
+            <td><strong>฿${p.toLocaleString()}</strong></td>
+            <td><span class="badge ${st.cls}">${st.text}</span></td>
+            <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${c.notes||'—'}</td>
+            <td style="white-space:nowrap;">
+                ${!c.checkedOut
+                    ? `<button class="btn btn-success btn-sm" onclick="checkOut('${key}')">เช็คเอาท์</button> `
+                    : '<span style="color:green;font-size:12px;font-weight:700;">✓ เช็คเอาท์</span> '}
+                <button class="btn btn-danger btn-sm" onclick="deleteContainer('${key}')">ลบ</button>
+            </td>`;
+        tbody.appendChild(tr);
+    });
+}
+function updateStats() {
+    const all = Object.values(containers);
+    let free = 0, ch = 0, rev = 0;
+    all.forEach(c => { const s = getStatus(c); s.val === 'free' ? free++ : ch++; rev += calcPrice(c); });
+    document.getElementById('totalContainers').textContent    = all.length;
+    document.getElementById('freeContainers').textContent     = free;
+    document.getElementById('chargingContainers').textContent = ch;
+    document.getElementById('totalRevenue').textContent       = `฿${rev.toLocaleString()}`;
+}
+function openAddModal() {
+    editingKey = null;
+    document.getElementById('modalTitle').textContent = 'เพิ่มตู้คอนเทนเนอร์ใหม่';
+    ['containerNo','notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('containerSize').value = '';
+    document.getElementById('containerType').value = 'Normal';
+    document.getElementById('freeDays').value = '5';
+    const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById('dateTimeIn').value = now.toISOString().slice(0,16);
+    document.getElementById('containerModal').classList.add('open');
+}
+function closeModal() { document.getElementById('containerModal').classList.remove('open'); }
+async function saveContainer() {
+    const btn = document.getElementById('saveBtn');
+    btn.disabled = true; btn.textContent = 'กำลังบันทึก...';
+    const cNo = document.getElementById('containerNo').value.toUpperCase();
+    if (!cNo || !document.getElementById('containerSize').value) {
+        alert('กรุณากรอกข้อมูลที่จำเป็น'); btn.disabled = false; btn.textContent = 'บันทึก'; return;
+    }
+    const dup = Object.values(containers).some(c => c.containerNo === cNo);
+    if (dup && !editingKey) {
+        alert('มีเลขตู้นี้ในระบบแล้ว!'); btn.disabled = false; btn.textContent = 'บันทึก'; return;
+    }
+    const container = {
+        containerNo: cNo, size: document.getElementById('containerSize').value,
+        type: document.getElementById('containerType').value,
+        dateTimeIn: document.getElementById('dateTimeIn').value,
+        freeDays: parseInt(document.getElementById('freeDays').value),
+        notes: document.getElementById('notes').value,
+        checkedOut: false, finalPrice: 0,
+        createdAt: Date.now(), createdBy: currentUser?.email || 'staff'
     };
+    try {
+        if (editingKey) await set(dbRef(database, `containers/${editingKey}`), container);
+        else { const nr = push(dbRef(database, 'containers')); await set(nr, container); }
+        closeModal(); showToast('บันทึกข้อมูลสำเร็จ!');
+    } catch (e) { alert('เกิดข้อผิดพลาด: ' + e.message); }
+    btn.disabled = false; btn.textContent = 'บันทึก';
+}
+async function checkOut(key) {
+    if (!confirm('เช็คเอาท์ตู้นี้?')) return;
+    const c = containers[key], fp = calcPrice(c);
+    c.checkedOut = true; c.finalPrice = fp; c.checkOutDate = new Date().toISOString();
+    try { await set(dbRef(database, `containers/${key}`), c); showToast(`เช็คเอาท์สำเร็จ! ฿${fp.toLocaleString()}`); }
+    catch (e) { alert('เกิดข้อผิดพลาด: ' + e.message); }
+}
+async function deleteContainer(key) {
+    if (!confirm('ลบตู้นี้?')) return;
+    try { await remove(dbRef(database, `containers/${key}`)); showToast('ลบข้อมูลแล้ว'); }
+    catch (e) { alert('เกิดข้อผิดพลาด: ' + e.message); }
+}
 
-    const app      = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+/* ── CSV export ── */
+function buildCSV(rows) {
+    let csv = 'เลขตู้,ขนาด,ประเภท,วันเวลาเข้า,จำนวนวัน,ฟรีเหลือ,Lift fee (฿),ค่าเก็บ (฿),สถานะ,หมายเหตุ\n';
+    rows.forEach(([,c]) => {
+        const d = calcDays(c.dateTimeIn), fl = Math.max(0, c.freeDays - d);
+        csv += `${c.containerNo},${c.size},${c.type},"${new Date(c.dateTimeIn).toLocaleString('th-TH')}",${d},${fl},${getLiftFee(c.size)},${calcPrice(c)},"${getStatus(c).text}","${c.notes||''}"\n`;
+    });
+    return csv;
+}
+function exportToCSV() {
+    const rows = filterContainersArr();
+    if (!rows.length) { alert('ไม่มีข้อมูล'); return; }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF' + buildCSV(rows)], {type:'text/csv;charset=utf-8;'}));
+    a.download = `containers_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+}
+async function exportToCloud() {
+    const rows = filterContainersArr();
+    if (!rows.length) { alert('ไม่มีข้อมูล'); return; }
+    const csv = buildCSV(rows);
+    const filename = `containers_${new Date().toISOString().slice(0,10)}.csv`;
+    const blob = new Blob(['\uFEFF' + csv], {type:'text/csv'});
+    const b64 = await blobToBase64(blob);
+    try {
+        const nr = push(dbRef(database, 'files'));
+        await set(nr, { name: filename, size: blob.size, type: 'text/csv', b64, category: 'CSV Export',
+            uploadedBy: currentUser?.email || 'system', note: `ส่งออก ${rows.length} รายการ`, uploadedAt: Date.now() });
+        showToast(`☁️ บันทึก "${filename}" สำเร็จ! ดูใน Tab ไฟล์`);
+    } catch (e) { showToast('บันทึกล้มเหลว: ' + e.message, true); }
+}
 
-    let containers  = {};
-    let fileRecords = {};
-    let currentUser = null;
-    let editingKey  = null;
-    let sendModalFileKey = null;
+/* ── Export containers → Google Sheets ── */
+async function exportContainersToSheets() {
+    const rows = filterContainersArr();
+    if (!rows.length) { alert('ไม่มีข้อมูล'); return; }
+    const csv  = buildCSV(rows);
+    const name = `containers_${new Date().toISOString().slice(0,10)}`;
+    const blob = new Blob(['\uFEFF' + csv], {type:'text/csv'});
+    await uploadToGoogleSheets(blob, name + '.csv', name);
+}
 
-    const MAX_FILE_BYTES = 10 * 1024 * 1024;
-    const DB_LIMIT_BYTES = 1 * 1024 * 1024 * 1024;
+/* ══════════════════════════════════════════════
+   FILES TAB
+══════════════════════════════════════════════ */
+function loadFileRecords() {
+    onValue(dbRef(database, 'files'), snap => {
+        fileRecords = snap.val() || {};
+        renderFileList(); populateCatFilter(); updateUsage();
+    });
+}
+function updateUsage() {
+    let total = 0;
+    Object.values(fileRecords).forEach(f => { total += (f.size||0) * 1.37 + 200; });
+    const pct = Math.min(100, (total / DB_LIMIT_BYTES) * 100);
+    document.getElementById('usageBar').style.width = pct.toFixed(1) + '%';
+    document.getElementById('usageText').textContent =
+        `${fmtSize(total)} / 1 GB (${pct.toFixed(2)}%) · ${Object.keys(fileRecords).length} ไฟล์`;
+}
+function populateCatFilter() {
+    const cats = [...new Set(Object.values(fileRecords).map(f => f.category).filter(Boolean))];
+    const sel  = document.getElementById('filterCat');
+    const cur  = sel.value;
+    sel.innerHTML = '<option value="">ทุกหมวดหมู่</option>' + cats.map(c =>
+        `<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');
+}
+function fileIcon(name) {
+    const e = (name||'').split('.').pop().toLowerCase();
+    return {pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',ppt:'📋',pptx:'📋',
+            jpg:'🖼️',jpeg:'🖼️',png:'🖼️',gif:'🖼️',webp:'🖼️',
+            mp4:'🎬',mov:'🎬',mp3:'🎵',wav:'🎵',zip:'🗜️',rar:'🗜️',csv:'📊',txt:'📃'}[e] || '📁';
+}
+function renderFileList() {
+    const s   = (document.getElementById('searchFile')?.value || '').toLowerCase();
+    const cat = document.getElementById('filterCat')?.value || '';
+    const list= document.getElementById('fileList');
+    const entries = Object.entries(fileRecords)
+        .filter(([,f]) => (!s || f.name.toLowerCase().includes(s) || (f.category||'').toLowerCase().includes(s))
+                       && (!cat || f.category === cat))
+        .sort((a,b) => (b[1].uploadedAt||0) - (a[1].uploadedAt||0));
+    if (!entries.length) { list.innerHTML = '<div class="empty-state"><span>📭</span>ยังไม่มีไฟล์ในระบบ</div>'; return; }
+    list.innerHTML = entries.map(([key,f]) => `
+        <div class="file-row">
+            <div class="ficon">${fileIcon(f.name)}</div>
+            <div class="finfo">
+                <div class="fname">${f.name}</div>
+                <div class="fmeta">
+                    ${f.category?`<span class="file-cat-tag">${f.category}</span> `:''}
+                    ${fmtSize(f.size)} · ${f.uploadedBy?`👤 ${f.uploadedBy} · `:''}🕐 ${fmtDate(f.uploadedAt)}
+                    ${f.note?` · 📝 ${f.note}`:''}
+                </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;">
+                <button class="btn btn-info btn-sm" onclick="openSendModal('${key}')">📲 ส่งไปเครื่อง</button>
+                <button class="btn btn-success btn-sm" onclick="downloadFile('${key}')">⬇️ ดาวน์โหลด</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteFileRecord('${key}')">🗑️</button>
+            </div>
+        </div>`).join('');
+}
 
-    window.login             = login;
-    window.logout            = logout;
-    window.switchTab         = switchTab;
-    window.openAddModal      = openAddModal;
-    window.closeModal        = closeModal;
-    window.saveContainer     = saveContainer;
-    window.filterContainers  = filterContainers;
-    window.checkOut          = checkOut;
-    window.deleteContainer   = deleteContainer;
-    window.exportToCSV       = exportToCSV;
-    window.exportToCloud     = exportToCloud;
-    window.toggleCsvDropdown = toggleCsvDropdown;
-    window.closeCsvDropdown  = closeCsvDropdown;
-    window.renderFileList    = renderFileList;
-    window.openSendModal     = openSendModal;
-    window.closeSendModal    = closeSendModal;
-    window.copyLink          = copyLink;
-    window.deleteFileRecord  = deleteFileRecord;
-    window.downloadFromModal = downloadFromModal;
+const dz = document.getElementById('dropZone');
+const fp = document.getElementById('filePickerInput');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); [...e.dataTransfer.files].forEach(handleFileUpload); });
+dz.addEventListener('click', () => fp.click());
+fp.addEventListener('change', () => { [...fp.files].forEach(handleFileUpload); fp.value = ''; });
 
-    /* ── CSV Dropdown ── */
-    function toggleCsvDropdown(e) {
-        e.stopPropagation();
-        document.getElementById('csvDropdownMenu').classList.toggle('open');
+async function handleFileUpload(file) {
+    const warn = document.getElementById('sizeWarn');
+    const msg  = document.getElementById('uploadMsg');
+    const pw   = document.getElementById('progressWrap');
+    const pb   = document.getElementById('progressBar');
+    if (file.size > MAX_FILE_BYTES) {
+        warn.style.display = 'block';
+        msg.style.color = '#dc3545';
+        msg.textContent = `❌ "${file.name}" เกิน 10 MB — ถูกข้าม`;
+        return;
     }
-    function closeCsvDropdown() {
-        document.getElementById('csvDropdownMenu').classList.remove('open');
-    }
-    document.addEventListener('click', ()=>closeCsvDropdown());
-
-    function showCloudToast(msg) {
-        const t = document.getElementById('cloudToast');
-        document.getElementById('cloudToastMsg').textContent = msg;
-        t.classList.add('show');
-        setTimeout(()=>t.classList.remove('show'), 3500);
-    }
-
-    function switchTab(name, btn) {
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-'+name).classList.add('active');
-    }
-
-    function login() {
-        const u=document.getElementById('loginUsername').value;
-        const p=document.getElementById('loginPassword').value;
-        const btn=document.getElementById('loginBtn');
-        if (u==='JBTS' && p==='JBTS2011') {
-            btn.disabled=true; btn.textContent='กำลังเข้าสู่ระบบ...';
-            currentUser=u;
-            document.getElementById('loginScreen').style.display='none';
-            document.getElementById('mainApp').style.display='block';
-            document.getElementById('currentUser').textContent='ผู้ใช้: '+u;
-            updateCurrentDate(); loadContainers(); loadFileRecords();
-            btn.disabled=false; btn.textContent='เข้าสู่ระบบ';
-        } else { alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!'); }
-    }
-    function logout() {
-        if (!confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) return;
-        currentUser=null;
-        document.getElementById('loginScreen').style.display='block';
-        document.getElementById('mainApp').style.display='none';
-        document.getElementById('loginUsername').value='';
-        document.getElementById('loginPassword').value='';
-    }
-    function updateCurrentDate() {
-        const now=new Date();
-        const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-        document.getElementById('currentDate').textContent=
-            `${now.getDate()} ${m[now.getMonth()]} ${now.getFullYear()+543} `+
-            `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} น.`;
-    }
-    setInterval(updateCurrentDate,60000);
-
-    function loadContainers() {
-        onValue(dbRef(database,'containers'), snap=>{
-            containers=snap.val()||{};
-            renderContainers(); updateStats(); updateSyncStatus(true);
-            document.getElementById('loadingIndicator').style.display='none';
-            document.getElementById('containerTableElement').style.display='table';
-        }, ()=>updateSyncStatus(false));
-    }
-    function updateSyncStatus(ok) {
-        const s=document.getElementById('syncStatus');
-        s.textContent=ok?'✓ ซิงค์แล้ว':'✗ ซิงค์ล้มเหลว';
-        s.style.background=ok?'#d4edda':'#f8d7da';
-        s.style.color=ok?'#155724':'#721c24';
-    }
-    function openAddModal() {
-        editingKey=null;
-        document.getElementById('modalTitle').textContent='เพิ่มตู้คอนเทนเนอร์ใหม่';
-        document.getElementById('containerNo').value=''; document.getElementById('notes').value='';
-        document.getElementById('containerSize').value=''; document.getElementById('containerType').value='Normal';
-        document.getElementById('freeDays').value='5';
-        const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-        document.getElementById('dateTimeIn').value=now.toISOString().slice(0,16);
-        document.getElementById('containerModal').style.display='flex';
-    }
-    function closeModal() { document.getElementById('containerModal').style.display='none'; }
-    async function saveContainer(e) {
-        e.preventDefault();
-        const btn=document.getElementById('saveBtn'); btn.disabled=true; btn.textContent='กำลังบันทึก...';
-        const cNo=document.getElementById('containerNo').value.toUpperCase();
-        const dup=Object.values(containers).some(c=>c.containerNo===cNo&&
-            (!editingKey||Object.keys(containers).find(k=>containers[k].containerNo===cNo)!==editingKey));
-        if(dup){alert('มีเลขตู้นี้อยู่ในระบบแล้ว!');btn.disabled=false;btn.textContent='บันทึก';return;}
-        const container={containerNo:cNo,size:document.getElementById('containerSize').value,
-            type:document.getElementById('containerType').value,dateTimeIn:document.getElementById('dateTimeIn').value,
-            freeDays:parseInt(document.getElementById('freeDays').value),notes:document.getElementById('notes').value,
-            checkedOut:false,finalPrice:0,createdAt:Date.now(),createdBy:currentUser};
+    warn.style.display = 'none';
+    msg.style.color = '#667eea'; msg.textContent = `⏳ เตรียม "${file.name}"...`;
+    pw.style.display = 'block'; pb.style.width = '10%'; pb.textContent = '10%';
+    const category = document.getElementById('fileCategory').value.trim() || 'ทั่วไป';
+    const uploader = document.getElementById('fileUploader').value.trim() || currentUser?.email || 'ไม่ระบุ';
+    const note     = document.getElementById('fileNote').value.trim();
+    try {
+        const b64 = await readAsBase64(file, pct => {
+            const v = 10 + Math.round(pct * 80);
+            pb.style.width = v + '%'; pb.textContent = v + '%';
+        });
+        msg.textContent = '⏳ บันทึกลง Firebase...';
+        pb.style.width = '95%'; pb.textContent = '95%';
+        const nr = push(dbRef(database, 'files'));
+        const record = { name:file.name, size:file.size, type:file.type||'application/octet-stream',
+            b64, category, uploadedBy:uploader, note, uploadedAt:Date.now() };
+        await set(nr, record);
+        // Also write metadata to Firestore (without b64)
         try {
-            if(editingKey) await set(dbRef(database,`containers/${editingKey}`),container);
-            else { const nr=push(dbRef(database,'containers')); await set(nr,container); }
-            closeModal();
-        } catch(err){alert('เกิดข้อผิดพลาดในการบันทึก: '+err.message);}
-        btn.disabled=false; btn.textContent='บันทึก';
+            const { b64: _, ...meta } = record;
+            await setDoc(doc(firestore, 'file_metadata', nr.key), { ...meta, rtdbKey: nr.key });
+        } catch {}
+        pb.style.width = '100%'; pb.textContent = '100%';
+        msg.style.color = '#28a745'; msg.textContent = `✅ อัปโหลด "${file.name}" (${fmtSize(file.size)}) สำเร็จ!`;
+        setTimeout(() => { pw.style.display = 'none'; pb.style.width = '0%'; }, 1500);
+    } catch (e) {
+        pw.style.display = 'none'; msg.style.color = '#dc3545'; msg.textContent = `❌ ${e.message}`;
     }
-    function calcDays(dt){return Math.floor((Date.now()-new Date(dt))/86400000);}
+}
 
-    /* ── Lift on + Lift off fee by container size ── */
-    function getLiftFee(size){
-        const fees={'20':200,'40':400,'45':500,'40R':600,'45R':700};
-        return fees[size]||0;
-    }
-    function calcStorageOnly(c){
-        if(c.checkedOut) return c.finalPrice - getLiftFee(c.size);
-        return Math.max(0, calcDays(c.dateTimeIn)-c.freeDays) * (c.size==='20'?30:50);
-    }
-    function calcPrice(c){
-        if(c.checkedOut) return c.finalPrice;
-        return calcStorageOnly(c) + getLiftFee(c.size);
-    }
+function readAsBase64(file, onProgress) {
+    return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onprogress = e => { if (e.lengthComputable && onProgress) onProgress(e.loaded/e.total); };
+        r.onload  = () => resolve(r.result.split(',')[1]);
+        r.onerror = () => reject(new Error('อ่านไฟล์ไม่ได้'));
+        r.readAsDataURL(file);
+    });
+}
+function blobToBase64(blob) {
+    return new Promise(res => {
+        const r = new FileReader(); r.onload = () => res(r.result.split(',')[1]); r.readAsDataURL(blob);
+    });
+}
 
-    function getStatus(c){
-        const d=calcDays(c.dateTimeIn),fl=c.freeDays-d;
-        if(fl>0)return{text:'🟢 ฟรีค่าเก็บ',class:'status-free',value:'free'};
-        if(d<10) return{text:'🟡 คิดค่าเก็บ',class:'status-charging',value:'charging'};
-        return        {text:'🔴 เกิน 10 วัน',class:'status-overdue',value:'overdue'};
-    }
-    function filterContainersArr() {
-        const s=document.getElementById('searchContainer').value.toUpperCase();
-        const sz=document.getElementById('filterSize').value;
-        const tp=document.getElementById('filterType').value;
-        const st=document.getElementById('filterStatus').value;
-        return Object.entries(containers).filter(([,c])=>
-            (!s||c.containerNo.includes(s))&&(!sz||c.size===sz)&&(!tp||c.type===tp)&&(!st||getStatus(c).value===st));
-    }
-    function filterContainers(){renderContainers();updateStats();}
-    function renderContainers() {
-        const tbody=document.getElementById('containerTable'); tbody.innerHTML='';
-        const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-        filterContainersArr().forEach(([key,c])=>{
-            const d=calcDays(c.dateTimeIn),fl=Math.max(0,c.freeDays-d),p=calcPrice(c),st=getStatus(c);
-            const liftFee=getLiftFee(c.size);
-            const di=new Date(c.dateTimeIn);
-            const ds=`${di.getDate()} ${m[di.getMonth()]} ${di.getFullYear()+543} ${String(di.getHours()).padStart(2,'0')}:${String(di.getMinutes()).padStart(2,'0')}`;
-            const row=document.createElement('tr');
-            row.innerHTML=`<td><strong>${c.containerNo}</strong></td>
-                <td>${c.size} ฟุต${c.size.includes('R')?` <span class="cold-indicator">❄️</span>`:''}</td>
-                <td>${c.type==='R'?'<span class="cold-indicator">❄️ ตู้เย็น</span>':'ธรรมดา'}</td>
-                <td>${ds}</td><td>${d} วัน</td><td>${fl} วัน</td>
-                <td style="color:#764ba2;font-weight:600;">฿${liftFee.toLocaleString()}</td>
-                <td><strong>฿${p.toLocaleString()}</strong></td>
-                <td><span class="status-badge ${st.class}">${st.text}</span></td>
-                <td>${c.notes||'-'}</td>
-                <td><div class="action-buttons">
-                    ${!c.checkedOut?`<button class="btn btn-success btn-small" onclick="checkOut('${key}')">เช็คเอาท์</button>`:'<span style="color:green;font-weight:bold;">✓ เช็คเอาท์แล้ว</span>'}
-                    <button class="btn btn-danger btn-small" onclick="deleteContainer('${key}')">ลบ</button>
-                </div></td>`;
-            tbody.appendChild(row);
-        });
-    }
-    function updateStats() {
-        const all=Object.values(containers); let free=0,ch=0,rev=0;
-        all.forEach(c=>{const s=getStatus(c);s.value==='free'?free++:ch++;rev+=calcPrice(c);});
-        document.getElementById('totalContainers').textContent=all.length;
-        document.getElementById('freeContainers').textContent=free;
-        document.getElementById('chargingContainers').textContent=ch;
-        document.getElementById('totalRevenue').textContent=`฿${rev.toLocaleString()}`;
-    }
-    async function checkOut(key) {
-        if(!confirm('คุณต้องการเช็คเอาท์ตู้นี้ใช่หรือไม่?'))return;
-        const c=containers[key],fp=calcPrice(c);
-        c.checkedOut=true;c.finalPrice=fp;c.checkOutDate=new Date().toISOString();
-        try{await set(dbRef(database,`containers/${key}`),c);alert(`เช็คเอาท์สำเร็จ! ฿${fp.toLocaleString()}`);}
-        catch(e){alert('เกิดข้อผิดพลาด: '+e.message);}
-    }
-    async function deleteContainer(key) {
-        if(!confirm('คุณต้องการลบตู้นี้ใช่หรือไม่?'))return;
-        try{await remove(dbRef(database,`containers/${key}`));}
-        catch(e){alert('เกิดข้อผิดพลาด: '+e.message);}
-    }
+window.downloadFile = async function(key) {
+    const meta = fileRecords[key]; if (!meta) { alert('ไม่พบไฟล์'); return; }
+    const btn  = event?.target; if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+    try {
+        const snap = await get(dbRef(database, `files/${key}/b64`));
+        const b64  = snap.val(); if (!b64) { alert('ข้อมูลไม่พบ'); return; }
+        triggerDownload(b64, meta.type || 'application/octet-stream', meta.name);
+    } catch (e) { alert('เกิดข้อผิดพลาด: ' + e.message); }
+    finally { if (btn) { btn.disabled = false; btn.textContent = '⬇️ ดาวน์โหลด'; } }
+};
+function triggerDownload(b64, mime, filename) {
+    const bin = atob(b64), arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    const url = URL.createObjectURL(new Blob([arr], {type:mime}));
+    const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
 
-    /* ── Export to Device (download .csv) ── */
-    function buildCsvContent(rows) {
-        let csv='เลขตู้,ขนาด,ประเภท,วันเวลาเข้า,จำนวนวันเก็บ,ฟรีเหลือ,Lift on+off (฿),ค่าเก็บปัจจุบัน (฿),สถานะ,หมายเหตุ\n';
-        rows.forEach(([,c])=>{
-            const d=calcDays(c.dateTimeIn),fl=Math.max(0,c.freeDays-d);
-            csv+=`${c.containerNo},${c.size},${c.type},${new Date(c.dateTimeIn).toLocaleString('th-TH')},${d},${fl},${getLiftFee(c.size)},${calcPrice(c)},${getStatus(c).text},${c.notes||''}\n`;
-        });
-        return csv;
-    }
-    function exportToCSV() {
-        const rows=filterContainersArr();
-        if(!rows.length){alert('ไม่มีข้อมูลสำหรับส่งออก');return;}
-        const csv=buildCsvContent(rows);
-        const a=document.createElement('a');
-        a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}));
-        a.download=`containers_${new Date().toISOString().slice(0,10)}.csv`;a.click();
-    }
+function openSendModal(key) {
+    sendFileKey = key;
+    const f = fileRecords[key]; if (!f) { alert('ไม่พบไฟล์'); return; }
+    const url = window.location.href.split('#')[0] + '#download:' + key;
+    document.getElementById('sendLinkText').textContent = url;
+    document.getElementById('qrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=175x175&data=${encodeURIComponent(url)}`;
+    document.getElementById('sendModal').classList.add('open');
+}
+function closeSendModal() { document.getElementById('sendModal').classList.remove('open'); sendFileKey = null; }
+function copyLink() {
+    const txt = document.getElementById('sendLinkText').textContent;
+    navigator.clipboard.writeText(txt).then(() => showToast('คัดลอกลิงก์แล้ว!')).catch(() => { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('คัดลอกลิงก์แล้ว!'); });
+}
+async function downloadFromModal() { if (sendFileKey) await window.downloadFile(sendFileKey); }
+async function deleteFileRecord(key) {
+    if (!confirm('ลบไฟล์นี้?')) return;
+    try {
+        await remove(dbRef(database, `files/${key}`));
+        try { await deleteDoc(doc(firestore, 'file_metadata', key)); } catch {}
+        showToast('ลบไฟล์แล้ว');
+    } catch (e) { alert('เกิดข้อผิดพลาด: ' + e.message); }
+}
 
-    /* ── Export to Cloud (save .csv as file record in Firebase) ── */
-    async function exportToCloud() {
-        const rows=filterContainersArr();
-        if(!rows.length){alert('ไม่มีข้อมูลสำหรับบันทึก');return;}
-        const csv=buildCsvContent(rows);
-        const filename=`containers_${new Date().toISOString().slice(0,10)}.csv`;
-        const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-
-        // Convert to base64
-        const b64=await new Promise(res=>{
-            const r=new FileReader();
-            r.onload=()=>res(r.result.split(',')[1]);
-            r.readAsDataURL(blob);
-        });
-
+/* ── Deep link download ── */
+async function checkHashDownload() {
+    const hash = window.location.hash;
+    if (!hash.startsWith('#download:')) return;
+    const key = hash.replace('#download:', '');
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;z-index:9999;';
+    overlay.innerHTML = `<div style="background:white;border-radius:20px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+        <div style="font-size:3rem;margin-bottom:14px;">📥</div>
+        <h2 style="color:#667eea;margin-bottom:8px;">JB Transport Service</h2>
+        <p id="dlStatus" style="color:#666;margin-bottom:24px;">กำลังโหลด...</p>
+        <button id="dlBtn" onclick="doHashDownload('${key}')" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:10px;padding:14px 32px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;width:100%;">⬇️ ดาวน์โหลดไฟล์</button>
+        <button onclick="this.closest('div').parentElement.remove();history.replaceState(null,'',location.pathname);" style="margin-top:10px;background:#6c757d;color:white;border:none;border-radius:10px;padding:10px 24px;font-size:14px;cursor:pointer;font-family:'Sarabun',sans-serif;width:100%;">← กลับ</button>
+    </div>`;
+    document.body.appendChild(overlay);
+    try {
+        const snap = await get(dbRef(database, `files/${key}`));
+        const f = snap.val();
+        document.getElementById('dlStatus').textContent = f ? `ไฟล์: ${f.name} (${fmtSize(f.size)})` : 'ไม่พบไฟล์';
+        if (!f) document.getElementById('dlBtn').disabled = true;
+    } catch { document.getElementById('dlStatus').textContent = 'เกิดข้อผิดพลาด'; }
+    window.doHashDownload = async function(k) {
+        const btn = document.getElementById('dlBtn'); btn.disabled = true; btn.textContent = '⏳ กำลังดาวน์โหลด...';
         try {
-            const newRef=push(dbRef(database,'files'));
-            await set(newRef,{
-                name: filename,
-                size: blob.size,
-                type: 'text/csv',
-                b64:  b64,
-                category: 'CSV Export',
-                uploadedBy: currentUser||'ระบบ',
-                note: `ส่งออกจากระบบตู้คอนเทนเนอร์ (${rows.length} รายการ)`,
-                uploadedAt: Date.now()
+            const snap = await get(dbRef(database, `files/${k}`));
+            const f = snap.val(); if (!f?.b64) { alert('ไม่พบข้อมูล'); return; }
+            triggerDownload(f.b64, f.type||'application/octet-stream', f.name);
+            btn.textContent = '✅ ดาวน์โหลดแล้ว!';
+        } catch (e) { btn.disabled = false; btn.textContent = '⬇️ ลองอีกครั้ง'; alert(e.message); }
+    };
+}
+checkHashDownload();
+
+/* ══════════════════════════════════════════════
+   GOOGLE DRIVE / SHEETS INTEGRATION
+══════════════════════════════════════════════ */
+
+/* Ensure we have a fresh token — re-sign-in silently if needed */
+async function ensureToken() {
+    if (googleToken) return googleToken;
+    // Re-trigger sign-in to get a fresh token
+    const result = await signInWithPopup(auth, GOOGLE_PROVIDER);
+    const cred   = GoogleAuthProvider.credentialFromResult(result);
+    googleToken  = cred.accessToken;
+    return googleToken;
+}
+
+/* Drive progress modal helpers */
+function showDriveModal(title, msg, pct = 0) {
+    document.getElementById('driveModalTitle').textContent = title;
+    document.getElementById('driveModalMsg').textContent   = msg;
+    document.getElementById('driveProgressBar').style.width = pct + '%';
+    document.getElementById('driveProgressBar').textContent = pct + '%';
+    document.getElementById('driveProgressWrap').style.display = 'block';
+    document.getElementById('driveModalActions').style.display = 'none';
+    document.getElementById('driveModal').classList.add('open');
+}
+function updateDriveModal(msg, pct) {
+    document.getElementById('driveModalMsg').textContent = msg;
+    document.getElementById('driveProgressBar').style.width = pct + '%';
+    document.getElementById('driveProgressBar').textContent = pct + '%';
+}
+function finishDriveModal(sheetUrl) {
+    document.getElementById('driveModalIcon').textContent = '🎉';
+    document.getElementById('driveModalTitle').textContent = 'สำเร็จแล้ว!';
+    document.getElementById('driveModalMsg').textContent   = 'ไฟล์ถูกแปลงเป็น Google Sheets เรียบร้อย';
+    document.getElementById('driveProgressWrap').style.display = 'none';
+    document.getElementById('driveModalActions').style.display = 'block';
+    document.getElementById('openSheetLink').href = sheetUrl;
+    // Also embed in the Sheets tab
+    embedSheet(sheetUrl);
+}
+function errorDriveModal(msg) {
+    document.getElementById('driveModalIcon').textContent  = '❌';
+    document.getElementById('driveModalTitle').textContent = 'เกิดข้อผิดพลาด';
+    document.getElementById('driveModalMsg').textContent   = msg;
+    document.getElementById('driveProgressWrap').style.display = 'none';
+    document.getElementById('driveModalActions').style.display = 'block';
+    document.getElementById('openSheetLink').style.display = 'none';
+}
+function closeDriveModal() {
+    document.getElementById('driveModal').classList.remove('open');
+    document.getElementById('openSheetLink').style.display = '';
+}
+
+/**
+ * Core Google Drive upload + convert to Google Sheets
+ * @param {Blob}   blob     - CSV or XLSX blob
+ * @param {string} filename - e.g. "data.csv"
+ * @param {string} title    - Display name for the Sheet
+ */
+async function uploadToGoogleSheets(blob, filename, title) {
+    showDriveModal('กำลังเตรียมไฟล์...', 'ขอ access token จาก Google', 5);
+    let token;
+    try { token = await ensureToken(); }
+    catch (e) { errorDriveModal('ไม่สามารถรับ access token: ' + e.message); return; }
+
+    updateDriveModal('กำลังอัปโหลดไปยัง Google Drive...', 20);
+
+    /* Step 1: upload the raw CSV/XLSX as a Drive file with mimeType=Google Sheets */
+    const metadata = {
+        name: title,
+        mimeType: 'application/vnd.google-apps.spreadsheet',
+    };
+    const form = new FormData();
+    form.append('metadata', new Blob([JSON.stringify(metadata)], {type:'application/json'}));
+    form.append('file', blob);
+
+    let uploadResp;
+    try {
+        uploadResp = await fetch(
+            'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink',
+            { method:'POST', headers:{ Authorization:'Bearer '+token }, body: form }
+        );
+    } catch (e) { errorDriveModal('เครือข่ายขัดข้อง: ' + e.message); return; }
+
+    updateDriveModal('กำลังแปลงเป็น Google Sheets...', 60);
+
+    if (!uploadResp.ok) {
+        const err = await uploadResp.json().catch(() => ({}));
+        const msg = err?.error?.message || uploadResp.statusText;
+        errorDriveModal(`อัปโหลดล้มเหลว (${uploadResp.status}): ${msg}`);
+        return;
+    }
+
+    const file = await uploadResp.json();
+    updateDriveModal('เสร็จสิ้น — เปิด Sheets...', 100);
+
+    /* Save metadata to Firestore */
+    try {
+        await setDoc(doc(firestore, 'google_sheets', file.id), {
+            name: file.name, driveId: file.id, webViewLink: file.webViewLink,
+            createdAt: serverTimestamp(), createdBy: currentUser?.email,
+        });
+    } catch {}
+
+    loadSheetsList();
+    finishDriveModal(file.webViewLink);
+    showToast('📊 สร้าง Google Sheet สำเร็จ!');
+}
+
+/* Create a brand-new blank Google Sheet */
+async function createNewSheet() {
+    const name = prompt('ชื่อ Sheet ใหม่:', `JBTS Sheet ${new Date().toLocaleDateString('th-TH')}`);
+    if (!name) return;
+    showDriveModal('กำลังสร้าง Sheet ใหม่...', '', 10);
+    let token;
+    try { token = await ensureToken(); }
+    catch (e) { errorDriveModal('ไม่สามารถรับ token: ' + e.message); return; }
+
+    updateDriveModal('กำลังสร้างผ่าน Google Drive API...', 40);
+    try {
+        const resp = await fetch('https://www.googleapis.com/drive/v3/files?fields=id,name,webViewLink', {
+            method: 'POST',
+            headers: { Authorization:'Bearer '+token, 'Content-Type':'application/json' },
+            body: JSON.stringify({ name, mimeType:'application/vnd.google-apps.spreadsheet' })
+        });
+        if (!resp.ok) { const e = await resp.json(); errorDriveModal(e?.error?.message || resp.statusText); return; }
+        const file = await resp.json();
+        try {
+            await setDoc(doc(firestore, 'google_sheets', file.id), {
+                name: file.name, driveId: file.id, webViewLink: file.webViewLink,
+                createdAt: serverTimestamp(), createdBy: currentUser?.email,
             });
-            showCloudToast(`☁️ บันทึก "${filename}" ลงคลาวด์สำเร็จ! ดูได้ใน Tab ไฟล์`);
-        } catch(e){alert('เกิดข้อผิดพลาดในการบันทึกคลาวด์: '+e.message);}
-    }
+        } catch {}
+        updateDriveModal('สำเร็จ!', 100);
+        loadSheetsList();
+        finishDriveModal(file.webViewLink);
+        showToast('📊 สร้าง Sheet ใหม่สำเร็จ!');
+    } catch (e) { errorDriveModal(e.message); }
+}
 
-    /* ═══════════════════════════════════════════════════
-       FILE SHARING — stored as Base64 in Realtime DB
-       ═══════════════════════════════════════════════════ */
-    function loadFileRecords() {
-        onValue(dbRef(database,'files'), snap=>{
-            fileRecords = snap.val()||{};
-            renderFileList(); populateCategoryFilter(); updateDbUsage();
-        });
-    }
-    function updateDbUsage() {
-        let totalBytes = 0;
-        Object.values(fileRecords).forEach(f=>{ totalBytes += (f.size||0) * 1.37 + 200; });
-        const pct = Math.min(100, (totalBytes/DB_LIMIT_BYTES)*100);
-        document.getElementById('dbUsageBar').style.width = pct.toFixed(1)+'%';
-        document.getElementById('dbUsageText').textContent =
-            `${fmtSize(totalBytes)} / 1GB ใช้ไปแล้ว (${pct.toFixed(2)}%) — เหลือประมาณ ${fmtSize(DB_LIMIT_BYTES-totalBytes)} · ${Object.keys(fileRecords).length} ไฟล์`;
-    }
-    function populateCategoryFilter() {
-        const cats=[...new Set(Object.values(fileRecords).map(f=>f.category).filter(Boolean))];
-        const sel=document.getElementById('filterFileCategory');
-        const cur=sel.value;
-        sel.innerHTML='<option value="">ทุกหมวดหมู่</option>'+cats.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');
-    }
-    function fileIcon(name) {
-        const e=(name||'').split('.').pop().toLowerCase();
-        const m={pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',ppt:'📋',pptx:'📋',
-                 jpg:'🖼️',jpeg:'🖼️',png:'🖼️',gif:'🖼️',webp:'🖼️',
-                 mp4:'🎬',mov:'🎬',mp3:'🎵',wav:'🎵',zip:'🗜️',rar:'🗜️',xml:'🗂️',csv:'📊',txt:'📃'};
-        return m[e]||'📁';
-    }
-    function fmtSize(b){if(!b||b<0)return'—';if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';if(b<1073741824)return(b/1048576).toFixed(1)+'MB';return(b/1073741824).toFixed(2)+'GB';}
-    function fmtDateMs(ts) {
-        if(!ts)return'—';
-        const d=new Date(ts);
-        const m=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-        return`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()+543} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    }
-    function renderFileList() {
-        const search=(document.getElementById('searchFile')?.value||'').toLowerCase();
-        const cat=document.getElementById('filterFileCategory')?.value||'';
-        const list=document.getElementById('fileList');
-        const entries=Object.entries(fileRecords)
-            .filter(([,f])=>
-                (!search||f.name.toLowerCase().includes(search)||(f.category||'').toLowerCase().includes(search))&&
-                (!cat||f.category===cat))
-            .sort((a,b)=>(b[1].uploadedAt||0)-(a[1].uploadedAt||0));
-        if(!entries.length){list.innerHTML='<div class="empty-state"><span>📭</span><p>ยังไม่มีไฟล์ในระบบ</p></div>';return;}
-        list.innerHTML=entries.map(([key,f])=>`
-            <div class="file-row">
-                <div class="file-icon">${fileIcon(f.name)}</div>
-                <div class="file-info">
-                    <div class="file-name">${f.name}</div>
-                    <div class="file-meta">
-                        ${f.category?`<span class="file-cat">${f.category}</span> `:''}
-                        ${fmtSize(f.size)} &nbsp;·&nbsp;
-                        ${f.uploadedBy?`👤 ${f.uploadedBy} &nbsp;·&nbsp;`:''}
-                        🕐 ${fmtDateMs(f.uploadedAt)}
-                        ${f.note?` &nbsp;·&nbsp; 📝 ${f.note}`:''}
-                    </div>
-                </div>
-                <div class="file-actions">
-                    <button class="btn btn-info btn-small" onclick="openSendModal('${key}')">📲 ส่งไปเครื่อง</button>
-                    <button class="btn btn-success btn-small" onclick="downloadFile('${key}')">⬇️ ดาวน์โหลด</button>
-                    <button class="btn btn-danger btn-small" onclick="deleteFileRecord('${key}')">🗑️</button>
-                </div>
-            </div>`).join('');
-    }
+/* Upload a local CSV/XLSX file selected by the user → convert to Google Sheets */
+function uploadLocalFileToSheets() {
+    document.getElementById('localFileInput').click();
+}
+async function handleLocalFileUpload(event) {
+    const file = event.target.files[0]; if (!file) return;
+    event.target.value = '';
+    const name = file.name.replace(/\.[^.]+$/, '');
+    await uploadToGoogleSheets(file, file.name, name);
+}
 
-    window.downloadFile = async function(key) {
-        const meta = fileRecords[key];
-        if(!meta){alert('ไม่พบไฟล์');return;}
-        const btn = event?.target; if(btn){btn.disabled=true;btn.textContent='⏳';}
-        try {
-            const snap = await get(dbRef(database,`files/${key}/b64`));
-            const b64  = snap.val();
-            if(!b64){alert('ข้อมูลไฟล์ไม่พบ');return;}
-            triggerB64Download(b64, meta.type||'application/octet-stream', meta.name);
-        } catch(e){alert('เกิดข้อผิดพลาด: '+e.message);}
-        finally{if(btn){btn.disabled=false;btn.textContent='⬇️ ดาวน์โหลด';}}
-    };
+/* Export current container data → Google Sheets */
+async function exportToGoogleSheets() {
+    await exportContainersToSheets();
+}
 
-    function triggerB64Download(b64, mime, filename) {
-        const bin  = atob(b64);
-        const arr  = new Uint8Array(bin.length);
-        for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
-        const blob = new Blob([arr],{type:mime});
-        const url  = URL.createObjectURL(blob);
-        const a    = document.createElement('a');
-        a.href=url; a.download=filename; a.click();
-        setTimeout(()=>URL.revokeObjectURL(url),5000);
-    }
-
-    const dz=document.getElementById('dropZone');
-    const fp=document.getElementById('filePickerInput');
-    dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
-    dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
-    dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');[...e.dataTransfer.files].forEach(handleFileUpload);});
-    dz.addEventListener('click',()=>fp.click());
-    fp.addEventListener('change',()=>{[...fp.files].forEach(handleFileUpload);fp.value='';});
-
-    async function handleFileUpload(file) {
-        const warn=document.getElementById('sizeWarn');
-        const sm=document.getElementById('uploadStatusMsg');
-        const pw=document.getElementById('uploadProgressWrap');
-        const pb=document.getElementById('uploadProgressBar');
-        if(file.size > MAX_FILE_BYTES){
-            warn.style.display='block';
-            sm.style.color='#dc3545';
-            sm.textContent=`❌ "${file.name}" ใหญ่เกิน 10MB (${fmtSize(file.size)}) — ถูกข้าม`;
+/* ── List Sheets stored in Firestore ── */
+async function loadSheetsList() {
+    const container = document.getElementById('sheetsListContainer');
+    if (!container) return;
+    container.innerHTML = '<div class="loading">กำลังโหลด...</div>';
+    try {
+        const snap = await getDocs(query(collection(firestore, 'google_sheets'), orderBy('createdAt','desc')));
+        if (snap.empty) {
+            container.innerHTML = '<div class="empty-state"><span>📋</span><p>ยังไม่มี Sheet ในระบบ<br>กดปุ่มด้านบนเพื่อสร้างหรืออัปโหลด</p></div>';
             return;
         }
-        warn.style.display='none';
-        sm.style.color='#667eea'; sm.textContent=`⏳ กำลังเตรียม "${file.name}"...`;
-        pw.style.display='block'; pb.style.width='10%'; pb.textContent='10%';
-        const category = document.getElementById('fileCategory').value.trim()||'ทั่วไป';
-        const uploader = document.getElementById('fileUploader').value.trim()||currentUser||'ไม่ระบุ';
-        const note     = document.getElementById('fileNote').value.trim();
-        try {
-            const b64 = await readFileAsBase64(file, pct=>{
-                const v=10+Math.round(pct*0.8);
-                pb.style.width=v+'%'; pb.textContent=v+'%';
-            });
-            sm.textContent=`⏳ กำลังบันทึกลง Firebase...`;
-            pb.style.width='95%'; pb.textContent='95%';
-            const newRef = push(dbRef(database,'files'));
-            await set(newRef, {
-                name:file.name, size:file.size, type:file.type||'application/octet-stream',
-                b64:b64, category:category, uploadedBy:uploader, note:note, uploadedAt:Date.now()
-            });
-            pb.style.width='100%'; pb.textContent='100%';
-            sm.style.color='#28a745';
-            sm.textContent=`✅ อัปโหลด "${file.name}" (${fmtSize(file.size)}) สำเร็จ!`;
-            setTimeout(()=>{pw.style.display='none'; pb.style.width='0%';},1500);
-        } catch(e) {
-            pw.style.display='none';
-            sm.style.color='#dc3545';
-            sm.textContent=`❌ อัปโหลดล้มเหลว: ${e.message}`;
-        }
+        container.innerHTML = '<div class="sheets-list" style="max-width:600px;margin:0 auto;">' +
+            snap.docs.map(d => {
+                const s = d.data();
+                return `<div class="sheet-item" onclick="openSheet('${s.webViewLink}','${s.name}')">
+                    <span class="sicon">📊</span>
+                    <div class="sinfo">
+                        <div class="sname">${s.name}</div>
+                        <div class="smeta">สร้างโดย ${s.createdBy||'ไม่ระบุ'}</div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openSheet('${s.webViewLink}','${s.name}')">เปิด ↗</button>
+                </div>`;
+            }).join('') + '</div>';
+    } catch (e) {
+        container.innerHTML = `<div class="empty-state"><span>⚠️</span><p>โหลดรายการไม่ได้<br><small>${e.message}</small></p></div>`;
     }
+}
 
-    function readFileAsBase64(file, onProgress) {
-        return new Promise((resolve,reject)=>{
-            const reader = new FileReader();
-            reader.onprogress = e=>{ if(e.lengthComputable && onProgress) onProgress(e.loaded/e.total); };
-            reader.onload  = ()=>{ const b64 = reader.result.split(',')[1]; resolve(b64); };
-            reader.onerror = ()=>reject(new Error('ไม่สามารถอ่านไฟล์ได้'));
-            reader.readAsDataURL(file);
-        });
-    }
+/* Embed a Google Sheet in the iframe */
+function embedSheet(url) {
+    // Convert webViewLink to embed URL
+    const embedUrl = url.replace('/edit', '/edit?embedded=true&rm=minimal');
+    const frame    = document.getElementById('sheetsFrame');
+    const ph       = document.getElementById('sheetsPlaceholder');
+    frame.src = embedUrl;
+    frame.style.display = 'block';
+    ph.style.display    = 'none';
+    // Switch to Sheets tab
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelector('[onclick*="sheets"]').classList.add('active');
+    document.getElementById('tab-sheets').classList.add('active');
+}
+function openSheet(url, name) {
+    embedSheet(url);
+}
 
-    function openSendModal(key) {
-        sendModalFileKey = key;
-        const f = fileRecords[key];
-        if(!f){alert('ไม่พบไฟล์');return;}
-        const pageUrl = window.location.href.split('#')[0];
-        const shareUrl = `${pageUrl}#download:${key}`;
-        document.getElementById('sendLinkText').textContent = shareUrl;
-        document.getElementById('qrImage').src =
-            `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(shareUrl)}`;
-        document.getElementById('sendModal').style.display='flex';
-    }
-    function closeSendModal(){document.getElementById('sendModal').style.display='none'; sendModalFileKey=null;}
-    function copyLink(){
-        const txt=document.getElementById('sendLinkText').textContent;
-        navigator.clipboard.writeText(txt).then(()=>alert('คัดลอกลิงก์แล้ว! 📋')).catch(()=>{
-            const ta=document.createElement('textarea');ta.value=txt;
-            document.body.appendChild(ta);ta.select();document.execCommand('copy');
-            document.body.removeChild(ta);alert('คัดลอกลิงก์แล้ว! 📋');
-        });
-    }
-    async function downloadFromModal() {
-        if(!sendModalFileKey)return;
-        await window.downloadFile(sendModalFileKey);
-    }
-    async function deleteFileRecord(key) {
-        if(!confirm('คุณต้องการลบไฟล์นี้ใช่หรือไม่?'))return;
-        try{ await remove(dbRef(database,`files/${key}`)); }
-        catch(e){alert('เกิดข้อผิดพลาด: '+e.message);}
-    }
-
-    async function checkHashDownload() {
-        const hash = window.location.hash;
-        if(!hash.startsWith('#download:')) return;
-        const key = hash.replace('#download:','');
-        const overlay=document.createElement('div');
-        overlay.style.cssText='position:fixed;inset:0;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;z-index:9999;';
-        overlay.innerHTML=`
-            <div style="background:white;border-radius:20px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);">
-                <div style="font-size:3rem;margin-bottom:16px;">📥</div>
-                <h2 style="color:#667eea;margin-bottom:8px;">JB Transport Service</h2>
-                <p id="dlStatus" style="color:#666;margin-bottom:24px;">กำลังโหลดไฟล์...</p>
-                <button id="dlBtn" onclick="doHashDownload('${key}')"
-                    style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:10px;padding:14px 32px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;width:100%;">
-                    ⬇️ ดาวน์โหลดไฟล์
-                </button>
-                <button onclick="this.parentElement.parentElement.remove();history.replaceState(null,'',window.location.pathname);"
-                    style="margin-top:12px;background:#6c757d;color:white;border:none;border-radius:10px;padding:10px 24px;font-size:14px;cursor:pointer;font-family:'Sarabun',sans-serif;width:100%;">
-                    ← กลับสู่หน้าหลัก
-                </button>
-            </div>`;
-        document.body.appendChild(overlay);
-        try {
-            const snap = await get(dbRef(database,`files/${key}`));
-            const f = snap.val();
-            if(f){ document.getElementById('dlStatus').textContent=`ไฟล์: ${f.name} (${fmtSize(f.size)})`; }
-            else { document.getElementById('dlStatus').textContent='ไม่พบไฟล์นี้ในระบบ'; document.getElementById('dlBtn').disabled=true; }
-        } catch(e){ document.getElementById('dlStatus').textContent='เกิดข้อผิดพลาดในการโหลด'; }
-
-        window.doHashDownload = async function(k) {
-            const btn=document.getElementById('dlBtn');
-            btn.disabled=true; btn.textContent='⏳ กำลังดาวน์โหลด...';
-            try {
-                const snap=await get(dbRef(database,`files/${k}`));
-                const f=snap.val();
-                if(!f||!f.b64){alert('ไม่พบข้อมูลไฟล์');return;}
-                triggerB64Download(f.b64, f.type||'application/octet-stream', f.name);
-                btn.textContent='✅ ดาวน์โหลดแล้ว!';
-            } catch(e){alert('เกิดข้อผิดพลาด: '+e.message); btn.disabled=false; btn.textContent='⬇️ ลองอีกครั้ง';}
-        };
-    }
-
-    checkHashDownload();
-
-    /* ═══════════════════════════════════════════════════════
-       SPREADSHEET ENGINE
-    ═══════════════════════════════════════════════════════ */
-    (() => {
-    const ROWS = 100, COLS = 26;
-
-    // ── State ──────────────────────────────────────────────
-    let sheets = [{ name:'Sheet1', data:{}, fmt:{} }];
-    let sheetIdx = 0;
-    let anchorR=0, anchorC=0, selR=0, selC=0;
-    let selR2=0, selC2=0; // range end
-    let isRange = false;
-    let editing = false;
-    let clipboard = null;
-    let undoStack = [], redoStack = [];
-    let colWidths = {}; // col -> px
-    let resizing = null;
-    let findResults = [], findIdx = 0;
-
-    const data = () => sheets[sheetIdx].data;
-    const fmt  = () => sheets[sheetIdx].fmt;
-    const cellKey = (r,c) => `${r}_${c}`;
-    const colName = c => { let s='',n=c+1; while(n>0){s=String.fromCharCode(64+(n%26||26))+s;n=Math.floor((n-1)/26);} return s; };
-    const rowColFromKey = k => k.split('_').map(Number);
-    const addrToRC = a => {
-        const m = a.toUpperCase().match(/^([A-Z]+)(\d+)$/);
-        if(!m) return null;
-        let c=0; for(let ch of m[1]) c=c*26+(ch.charCodeAt(0)-64);
-        return [parseInt(m[2])-1, c-1];
-    };
-    const rcToAddr = (r,c) => colName(c)+(r+1);
-
-    // ── DOM refs ───────────────────────────────────────────
-    const table      = document.getElementById('ssTable');
-    const cellRef    = document.getElementById('ssCellRef');
-    const formulaInp = document.getElementById('ssFormulaInput');
-    const ctxMenu    = document.getElementById('ssCtxMenu');
-    const sheetTabs  = document.getElementById('ssSheetTabs');
-    const findBar    = document.getElementById('ssFindBar');
-    const fileInput  = document.getElementById('ssFileInput');
-
-    // ── Build grid ─────────────────────────────────────────
-    function buildGrid() {
-        table.innerHTML='';
-        // Header row
-        const head = table.createTHead();
-        const hr = head.insertRow();
-        const th0 = document.createElement('th'); th0.className='col-header'; hr.appendChild(th0);
-        for(let c=0;c<COLS;c++){
-            const th=document.createElement('th'); th.className='col-header';
-            th.style.minWidth=(colWidths[c]||80)+'px';
-            th.style.width=(colWidths[c]||80)+'px';
-            th.textContent=colName(c);
-            th.dataset.col=c;
-            th.addEventListener('click',e=>selectColumn(c,e));
-            // resize handle
-            const rh=document.createElement('div'); rh.className='ss-col-resize';
-            rh.addEventListener('mousedown',ev=>startResize(ev,c));
-            th.appendChild(rh); th.style.position='relative';
-            hr.appendChild(th);
-        }
-        // Body
-        const body=table.createTBody();
-        for(let r=0;r<ROWS;r++){
-            const row=body.insertRow();
-            const rh=document.createElement('td'); rh.className='row-header'; rh.textContent=r+1;
-            rh.dataset.row=r;
-            rh.addEventListener('click',ev=>selectRow(r,ev));
-            row.appendChild(rh);
-            for(let c=0;c<COLS;c++){
-                const td=document.createElement('td');
-                td.className='ss-cell'; td.dataset.r=r; td.dataset.c=c;
-                td.addEventListener('mousedown',ev=>onCellMouseDown(ev,r,c));
-                td.addEventListener('dblclick',()=>startEdit(r,c));
-                row.appendChild(td);
-            }
-        }
-        renderAll();
-    }
-
-    // ── Render ─────────────────────────────────────────────
-    function renderAll() {
-        const d=data(), f=fmt();
-        const tds = table.querySelectorAll('td.ss-cell');
-        tds.forEach(td=>{
-            const r=+td.dataset.r, c=+td.dataset.c;
-            const k=cellKey(r,c);
-            const raw = d[k]||'';
-            const fmtObj = f[k]||{};
-            const val = computeCell(raw, d);
-            // display
-            td.textContent = formatDisplay(val, fmtObj.numFmt||'general');
-            td.className='ss-cell';
-            if(typeof val==='string'&&val.startsWith('#')) td.classList.add('error-cell');
-            else if(typeof raw==='string'&&raw.startsWith('=')) td.classList.add('has-formula');
-            // formatting
-            td.style.fontWeight   = fmtObj.bold?'bold':'';
-            td.style.fontStyle    = fmtObj.italic?'italic':'';
-            td.style.textDecoration= fmtObj.underline?'underline':'';
-            td.style.textAlign    = fmtObj.align || (typeof val==='number'?'right':'left');
-            td.style.color        = fmtObj.color||'';
-            td.style.background   = fmtObj.bgColor||'';
-            td.style.fontSize     = fmtObj.fontSize ? fmtObj.fontSize+'px' : '';
-            td.style.width        = (colWidths[c]||80)+'px';
-            td.style.minWidth     = (colWidths[c]||80)+'px';
-        });
-        highlightSelection();
-        updateStatusBar();
-        updateFormulaBar();
-    }
-
-    function formatDisplay(val, numFmt) {
-        if(val===''||val===null||val===undefined) return '';
-        if(numFmt==='percent' && typeof val==='number') return (val*100).toFixed(2)+'%';
-        if(numFmt==='currency' && typeof val==='number') return '฿'+val.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
-        if(numFmt==='number' && typeof val==='number') return val.toLocaleString('th-TH');
-        if(numFmt==='date') {
-            const d=new Date(val); if(!isNaN(d)) return d.toLocaleDateString('th-TH');
-        }
-        return String(val);
-    }
-
-    function highlightSelection() {
-        document.querySelectorAll('.ss-cell.selected,.ss-cell.anchor,.ss-cell.in-range').forEach(el=>el.classList.remove('selected','anchor','in-range'));
-        document.querySelectorAll('.row-header.selected,.col-header.selected').forEach(el=>el.classList.remove('selected'));
-        const minR=Math.min(anchorR,selR2), maxR=Math.max(anchorR,selR2);
-        const minC=Math.min(anchorC,selC2), maxC=Math.max(anchorC,selC2);
-        document.querySelectorAll('td.ss-cell').forEach(td=>{
-            const r=+td.dataset.r, c=+td.dataset.c;
-            if(r>=minR&&r<=maxR&&c>=minC&&c<=maxC) td.classList.add('in-range');
-        });
-        const anchor=table.querySelector(`td[data-r="${anchorR}"][data-c="${anchorC}"]`);
-        if(anchor){anchor.classList.remove('in-range');anchor.classList.add('anchor');}
-        // row/col headers
-        const rh=table.querySelector(`.row-header[data-row="${selR}"]`);
-        if(rh) rh.classList.add('selected');
-    }
-
-    // ── Formula engine ─────────────────────────────────────
-    function computeCell(raw, d, depth=0) {
-        if(depth>50) return '#CIRCULAR';
-        if(typeof raw!=='string'||!raw.startsWith('=')) {
-            if(raw===''||raw===undefined) return '';
-            const n=parseFloat(raw);
-            return isNaN(n)||raw.trim()===''?raw:n;
-        }
-        try { return evalFormula(raw.slice(1).trim(), d, depth); }
-        catch(e){ return '#ERR: '+e.message; }
-    }
-
-    function evalFormula(expr, d, depth) {
-        // Replace cell refs and ranges, then eval
-        const resolved = expr
-            .replace(/([A-Z]+\d+):([A-Z]+\d+)/gi, (_, a, b)=>{
-                const rc1=addrToRC(a), rc2=addrToRC(b);
-                if(!rc1||!rc2) return '[]';
-                const arr=[]; for(let r=rc1[0];r<=rc2[0];r++) for(let c=rc1[1];c<=rc2[1];c++){
-                    const v=computeCell(d[cellKey(r,c)]||'',d,depth+1);
-                    if(typeof v==='number') arr.push(v);
-                }
-                return 'RANGE(['+arr.join(',')+'])';
-            })
-            .replace(/([A-Z]+)(\d+)/gi, (_, col, rowStr)=>{
-                const rc=addrToRC(col+(rowStr));
-                if(!rc) return '""';
-                const v=computeCell(d[cellKey(rc[0],rc[1])]||'',d,depth+1);
-                if(typeof v==='number') return v;
-                return '"'+String(v).replace(/"/g,'\\"')+'"';
-            });
-
-        const fns = {
-            SUM:   a=>(Array.isArray(a)?a:[a]).flat(9).filter(v=>typeof v==='number').reduce((s,v)=>s+v,0),
-            AVERAGE:a=>{const arr=(Array.isArray(a)?a:[a]).flat(9).filter(v=>typeof v==='number');return arr.length?arr.reduce((s,v)=>s+v,0)/arr.length:'#DIV/0!';},
-            COUNT: a=>(Array.isArray(a)?a:[a]).flat(9).filter(v=>typeof v==='number').length,
-            COUNTA:a=>(Array.isArray(a)?a:[a]).flat(9).filter(v=>v!==''&&v!==null&&v!==undefined).length,
-            MAX:   a=>Math.max(...(Array.isArray(a)?a:[a]).flat(9).filter(v=>typeof v==='number')),
-            MIN:   a=>Math.min(...(Array.isArray(a)?a:[a]).flat(9).filter(v=>typeof v==='number')),
-            ABS:   a=>Math.abs(a), SQRT:a=>Math.sqrt(a), ROUND:(a,b)=>Math.round(a*(10**(b||0)))/(10**(b||0)),
-            CEILING:(a,b)=>Math.ceil(a/(b||1))*(b||1), FLOOR:(a,b)=>Math.floor(a/(b||1))*(b||1),
-            INT:   a=>Math.trunc(a), MOD:(a,b)=>a%b, POWER:(a,b)=>Math.pow(a,b),
-            LEN:   a=>String(a).length, LEFT:(a,b)=>String(a).slice(0,b), RIGHT:(a,b)=>String(a).slice(-b),
-            MID:   (a,s,l)=>String(a).slice(s-1,s-1+l), UPPER:a=>String(a).toUpperCase(), LOWER:a=>String(a).toLowerCase(),
-            TRIM:  a=>String(a).trim(), CONCAT:(...args)=>args.join(''), TEXTJOIN:(d,...args)=>args.flat(9).join(d),
-            TEXT:  (a,fmt)=>typeof a==='number'?a.toFixed(2):String(a),
-            VALUE: a=>parseFloat(a),
-            IF:    (c,t,f)=>c?t:f, AND:(...a)=>a.every(Boolean), OR:(...a)=>a.some(Boolean), NOT:a=>!a,
-            IFERROR:(a,b)=>{ try{return typeof a==='string'&&a.startsWith('#')?b:a}catch{return b;}},
-            ISBLANK:a=>a===''||a===null||a===undefined, ISNUMBER:a=>typeof a==='number',
-            ISTEXT: a=>typeof a==='string'&&a!=='',
-            NOW:   ()=>new Date().toLocaleString('th-TH'), TODAY:()=>new Date().toLocaleDateString('th-TH'),
-            YEAR:  a=>{const d=new Date(a);return isNaN(d)?'#VALUE!':d.getFullYear();},
-            MONTH: a=>{const d=new Date(a);return isNaN(d)?'#VALUE!':d.getMonth()+1;},
-            DAY:   a=>{const d=new Date(a);return isNaN(d)?'#VALUE!':d.getDate();},
-            DATE:  (y,m,d)=>new Date(y,m-1,d).toLocaleDateString('th-TH'),
-            DATEDIF:(s,e,u)=>{const a=new Date(s),b=new Date(e);const ms=b-a;
-                if(u==='D')return Math.floor(ms/86400000);
-                if(u==='M')return (b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth();
-                if(u==='Y')return b.getFullYear()-a.getFullYear(); return '#ERR';},
-            SUMIF: (range,crit,sumRange)=>{
-                const arr=Array.isArray(range)?range.flat(9):[range];
-                const sr=Array.isArray(sumRange)?sumRange.flat(9):[sumRange];
-                return arr.reduce((s,v,i)=>{ const sv=typeof sr[i]==='number'?sr[i]:0;
-                    if(typeof crit==='string'&&crit.startsWith('>')) return v>parseFloat(crit.slice(1))?s+sv:s;
-                    if(typeof crit==='string'&&crit.startsWith('<')) return v<parseFloat(crit.slice(1))?s+sv:s;
-                    return v==crit?s+sv:s; },0);},
-            COUNTIF:(range,crit)=>{const arr=Array.isArray(range)?range.flat(9):[range];
-                return arr.filter(v=>{ if(typeof crit==='string'&&crit.startsWith('>')) return v>parseFloat(crit.slice(1));
-                    if(typeof crit==='string'&&crit.startsWith('<')) return v<parseFloat(crit.slice(1));
-                    return v==crit; }).length;},
-            VLOOKUP:(v,tableArr,colIdx)=>{
-                const rows=Array.isArray(tableArr)?tableArr:[tableArr];
-                for(let row of rows){ if(Array.isArray(row)&&row[0]==v) return row[colIdx-1]||'#N/A';}
-                return '#N/A';},
-            INDEX:(arr,r,c)=>{const a=Array.isArray(arr)?arr:[arr]; return (a[r-1]&&c)?a[r-1][c-1]:a[r-1]||'#REF!';},
-            MATCH:(v,arr)=>{const a=Array.isArray(arr)?arr.flat(9):[arr]; const i=a.indexOf(v); return i>=0?i+1:'#N/A';},
-            PI:()=>Math.PI, EXP:a=>Math.exp(a), LOG:(a,b)=>Math.log(a)/Math.log(b||10), LN:a=>Math.log(a),
-            SIN:a=>Math.sin(a), COS:a=>Math.cos(a), TAN:a=>Math.tan(a), RAND:()=>Math.random(),
-            RANDBETWEEN:(a,b)=>Math.floor(Math.random()*(b-a+1))+a,
-        };
-
-        const safeEval = new Function('RANGE',...Object.keys(fns),'return ('+resolved+')')
-        return safeEval(a=>a,...Object.values(fns));
-    }
-
-    // ── Selection ──────────────────────────────────────────
-    let mouseSelecting=false;
-    function onCellMouseDown(ev,r,c) {
-        if(ev.button!==0) return;
-        commitEdit();
-        if(ev.shiftKey){selR2=r;selC2=c;}
-        else{anchorR=selR=r;anchorC=selC=c;selR2=r;selC2=c;}
-        mouseSelecting=true;
-        renderAll();
-        ev.preventDefault();
-    }
-    document.addEventListener('mousemove',ev=>{
-        if(!mouseSelecting) return;
-        const td=ev.target.closest('td.ss-cell');
-        if(td){selR2=+td.dataset.r;selC2=+td.dataset.c;highlightSelection();}
-    });
-    document.addEventListener('mouseup',()=>{mouseSelecting=false;});
-
-    function selectRow(r,ev) {
-        commitEdit();
-        anchorR=selR=r; anchorC=0; selR2=r; selC2=COLS-1;
-        renderAll();
-    }
-    function selectColumn(c,ev) {
-        commitEdit();
-        anchorC=selC=c; anchorR=0; selR2=ROWS-1; selC2=c;
-        renderAll();
-    }
-
-    // ── Keyboard ───────────────────────────────────────────
-    document.addEventListener('keydown',ev=>{
-        const inSS = document.getElementById('tab-spreadsheet').classList.contains('active');
-        if(!inSS) return;
-        if(ev.target===formulaInp) return; // handled separately
-        if(editing) { handleEditKey(ev); return; }
-        const k=ev.key;
-        if((ev.ctrlKey||ev.metaKey)&&k==='z'){ev.preventDefault();ssUndo();return;}
-        if((ev.ctrlKey||ev.metaKey)&&k==='y'){ev.preventDefault();ssRedo();return;}
-        if((ev.ctrlKey||ev.metaKey)&&k==='c'){ev.preventDefault();ssCopy();return;}
-        if((ev.ctrlKey||ev.metaKey)&&k==='x'){ev.preventDefault();ssCut();return;}
-        if((ev.ctrlKey||ev.metaKey)&&k==='v'){ev.preventDefault();ssPaste();return;}
-        if((ev.ctrlKey||ev.metaKey)&&k==='f'){ev.preventDefault();ssToggleFind();return;}
-        if((ev.ctrlKey||ev.metaKey)&&k==='a'){ev.preventDefault();anchorR=0;anchorC=0;selR2=ROWS-1;selC2=COLS-1;highlightSelection();return;}
-        if(k==='Delete'||k==='Backspace'){clearSelection();return;}
-        if(k==='F2'||k==='Enter'||k==='Return'){startEdit(anchorR,anchorC);return;}
-        if(k==='Tab'){ev.preventDefault();moveAnchor(0,ev.shiftKey?-1:1,ev);return;}
-        if(k==='ArrowRight'){ev.preventDefault();moveAnchor(0,1,ev);return;}
-        if(k==='ArrowLeft'){ev.preventDefault();moveAnchor(0,-1,ev);return;}
-        if(k==='ArrowDown'){ev.preventDefault();moveAnchor(1,0,ev);return;}
-        if(k==='ArrowUp'){ev.preventDefault();moveAnchor(-1,0,ev);return;}
-        if(k==='Home'){ev.preventDefault();moveAnchorTo(anchorR,0,ev);return;}
-        if(k==='End'){ev.preventDefault();moveAnchorTo(anchorR,COLS-1,ev);return;}
-        if(k.length===1&&!ev.ctrlKey&&!ev.metaKey&&!ev.altKey){startEdit(anchorR,anchorC,k);return;}
-    });
-
-    function moveAnchor(dr,dc,ev) { moveAnchorTo(anchorR+dr,anchorC+dc,ev); }
-    function moveAnchorTo(r,c,ev) {
-        r=Math.max(0,Math.min(ROWS-1,r)); c=Math.max(0,Math.min(COLS-1,c));
-        if(ev&&ev.shiftKey){ selR2=r;selC2=c; }
-        else { anchorR=selR=r; anchorC=selC=c; selR2=r; selC2=c; }
-        scrollToCell(r,c); renderAll();
-    }
-
-    function scrollToCell(r,c) {
-        const wrap=document.getElementById('ssGridWrap');
-        const td=table.querySelector(`td[data-r="${r}"][data-c="${c}"]`);
-        if(!td||!wrap) return;
-        const wr=wrap.getBoundingClientRect(), tr=td.getBoundingClientRect();
-        if(tr.bottom>wr.bottom) wrap.scrollTop+=tr.bottom-wr.bottom+10;
-        if(tr.top<wr.top+30)   wrap.scrollTop-=wr.top+30-tr.top+10;
-        if(tr.right>wr.right)  wrap.scrollLeft+=tr.right-wr.right+10;
-        if(tr.left<wr.left+44) wrap.scrollLeft-=wr.left+44-tr.left+10;
-    }
-
-    // ── Editing ────────────────────────────────────────────
-    let editTd=null, editorEl=null;
-    function startEdit(r,c,initChar=null) {
-        if(editing) commitEdit();
-        editing=true; anchorR=r; anchorC=c; selR2=r; selC2=c;
-        const td=table.querySelector(`td[data-r="${r}"][data-c="${c}"]`);
-        if(!td) return; editTd=td;
-        td.classList.add('editing');
-        const input=document.createElement('input'); input.className='cell-editor';
-        const d=data(); const k=cellKey(r,c);
-        input.value = initChar!==null ? initChar : (d[k]||'');
-        td.textContent=''; td.appendChild(input); input.focus();
-        if(initChar===null) input.select();
-        editorEl=input;
-        input.addEventListener('keydown',handleEditKey);
-        input.addEventListener('input',()=>{
-            formulaInp.value=input.value;
-        });
-        highlightSelection();
-    }
-
-    function handleEditKey(ev) {
-        if(!editing) return;
-        const k=ev.key;
-        if(k==='Escape'){cancelEdit();ev.preventDefault();return;}
-        if(k==='Enter'||k==='Return'){ev.preventDefault();commitEdit();moveAnchor(1,0);return;}
-        if(k==='Tab'){ev.preventDefault();commitEdit();moveAnchor(0,ev.shiftKey?-1:1);return;}
-        if(k==='ArrowUp'&&!editorEl.value.startsWith('=')){ev.preventDefault();commitEdit();moveAnchor(-1,0);return;}
-        if(k==='ArrowDown'&&!editorEl.value.startsWith('=')){ev.preventDefault();commitEdit();moveAnchor(1,0);return;}
-    }
-
-    function commitEdit() {
-        if(!editing||!editorEl) return;
-        const val=editorEl.value;
-        pushUndo();
-        data()[cellKey(anchorR,anchorC)]=val;
-        editing=false; editorEl=null;
-        if(editTd){editTd.classList.remove('editing');}
-        renderAll();
-    }
-    function cancelEdit() {
-        editing=false; editorEl=null;
-        if(editTd){editTd.classList.remove('editing');}
-        renderAll();
-    }
-
-    // Formula bar interaction
-    formulaInp.addEventListener('keydown',ev=>{
-        const inSS=document.getElementById('tab-spreadsheet').classList.contains('active');
-        if(!inSS) return;
-        if(ev.key==='Enter'||ev.key==='Return'){
-            ev.preventDefault();
-            pushUndo();
-            data()[cellKey(anchorR,anchorC)]=formulaInp.value;
-            moveAnchor(1,0); renderAll();
-        }
-        if(ev.key==='Escape'){ev.preventDefault();updateFormulaBar();}
-    });
-    formulaInp.addEventListener('focus',()=>{
-        const k=cellKey(anchorR,anchorC); formulaInp.value=data()[k]||'';
-    });
-
-    function updateFormulaBar() {
-        cellRef.textContent=rcToAddr(anchorR,anchorC);
-        const k=cellKey(anchorR,anchorC); formulaInp.value=data()[k]||'';
-    }
-
-    // ── Status bar ─────────────────────────────────────────
-    function updateStatusBar() {
-        const minR=Math.min(anchorR,selR2), maxR=Math.max(anchorR,selR2);
-        const minC=Math.min(anchorC,selC2), maxC=Math.max(anchorC,selC2);
-        const d=data(); const vals=[];
-        for(let r=minR;r<=maxR;r++) for(let c=minC;c<=maxC;c++){
-            const v=computeCell(d[cellKey(r,c)]||'',d);
-            if(typeof v==='number') vals.push(v);
-        }
-        const selStr = minR===maxR&&minC===maxC ? rcToAddr(anchorR,anchorC)
-            : rcToAddr(minR,minC)+':'+rcToAddr(maxR,maxC);
-        document.getElementById('ssSelInfo').textContent=selStr;
-        document.getElementById('ssSum').textContent=vals.length?vals.reduce((a,b)=>a+b,0).toFixed(4).replace(/\.?0+$/,''):'0';
-        document.getElementById('ssAvg').textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(4).replace(/\.?0+$/,''):'0';
-        document.getElementById('ssCnt').textContent=vals.length;
-        document.getElementById('ssMin').textContent=vals.length?Math.min(...vals):'—';
-        document.getElementById('ssMax').textContent=vals.length?Math.max(...vals):'—';
-    }
-
-    // ── Formatting ─────────────────────────────────────────
-    window.ssApplyFormat = function(prop, val) {
-        pushUndo();
-        const f=fmt();
-        const minR=Math.min(anchorR,selR2), maxR=Math.max(anchorR,selR2);
-        const minC=Math.min(anchorC,selC2), maxC=Math.max(anchorC,selC2);
-        for(let r=minR;r<=maxR;r++) for(let c=minC;c<=maxC;c++){
-            const k=cellKey(r,c);
-            if(!f[k]) f[k]={};
-            if(prop==='bold')      f[k].bold      = !f[k].bold;
-            else if(prop==='italic')   f[k].italic   = !f[k].italic;
-            else if(prop==='underline')f[k].underline= !f[k].underline;
-            else f[k][prop]=val;
-        }
-        renderAll();
-    };
-
-    // ── Undo/Redo ──────────────────────────────────────────
-    function pushUndo() {
-        undoStack.push(JSON.stringify(sheets));
-        if(undoStack.length>50) undoStack.shift();
-        redoStack=[];
-    }
-    window.ssUndo = function(){ if(!undoStack.length) return; redoStack.push(JSON.stringify(sheets)); sheets=JSON.parse(undoStack.pop()); renderAll(); renderSheetTabs(); };
-    window.ssRedo = function(){ if(!redoStack.length) return; undoStack.push(JSON.stringify(sheets)); sheets=JSON.parse(redoStack.pop()); renderAll(); renderSheetTabs(); };
-
-    // ── Copy/Cut/Paste ─────────────────────────────────────
-    function ssCopy(cut=false) {
-        const d=data(), f=fmt();
-        const minR=Math.min(anchorR,selR2), maxR=Math.max(anchorR,selR2);
-        const minC=Math.min(anchorC,selC2), maxC=Math.max(anchorC,selC2);
-        clipboard={data:[],fmt:[],rows:maxR-minR+1,cols:maxC-minC+1,cut};
-        for(let r=minR;r<=maxR;r++){
-            const dr=[],df=[];
-            for(let c=minC;c<=maxC;c++){dr.push(d[cellKey(r,c)]||'');df.push(f[cellKey(r,c)]||{});}
-            clipboard.data.push(dr); clipboard.fmt.push(df);
-        }
-        if(cut){pushUndo();for(let r=minR;r<=maxR;r++)for(let c=minC;c<=maxC;c++){delete d[cellKey(r,c)];delete f[cellKey(r,c)];}renderAll();}
-    }
-    window.ssCopy = ssCopy;
-    window.ssCut  = ()=>ssCopy(true);
-    window.ssPaste = function(){
-        if(!clipboard) return; pushUndo();
-        const d=data(), f=fmt();
-        for(let dr=0;dr<clipboard.rows;dr++) for(let dc=0;dc<clipboard.cols;dc++){
-            const k=cellKey(anchorR+dr,anchorC+dc);
-            d[k]=clipboard.data[dr][dc]; f[k]={...clipboard.fmt[dr][dc]};
-        }
-        renderAll();
-    };
-
-    // ── Row/Col operations ─────────────────────────────────
-    window.ssInsertRow = function(at=anchorR) {
-        pushUndo(); const d=data(),f=fmt();
-        const nd={},nf={};
-        Object.keys(d).forEach(k=>{const[r,c]=rowColFromKey(k);if(r>=at){nd[cellKey(r+1,c)]=d[k];nf[cellKey(r+1,c)]=f[k]||{};}else{nd[k]=d[k];nf[k]=f[k]||{};}});
-        sheets[sheetIdx].data=nd; sheets[sheetIdx].fmt=nf; renderAll();
-    };
-    window.ssInsertCol = function(at=anchorC) {
-        pushUndo(); const d=data(),f=fmt();
-        const nd={},nf={};
-        Object.keys(d).forEach(k=>{const[r,c]=rowColFromKey(k);if(c>=at){nd[cellKey(r,c+1)]=d[k];nf[cellKey(r,c+1)]=f[k]||{};}else{nd[k]=d[k];nf[k]=f[k]||{};}});
-        sheets[sheetIdx].data=nd; sheets[sheetIdx].fmt=nf; renderAll();
-    };
-    window.ssDeleteRow = function(at=anchorR) {
-        pushUndo(); const d=data(),f=fmt();
-        const nd={},nf={};
-        Object.keys(d).forEach(k=>{const[r,c]=rowColFromKey(k);if(r>at){nd[cellKey(r-1,c)]=d[k];nf[cellKey(r-1,c)]=f[k]||{};}else if(r<at){nd[k]=d[k];nf[k]=f[k]||{};}});
-        sheets[sheetIdx].data=nd; sheets[sheetIdx].fmt=nf; renderAll();
-    };
-    window.ssDeleteCol = function(at=anchorC) {
-        pushUndo(); const d=data(),f=fmt();
-        const nd={},nf={};
-        Object.keys(d).forEach(k=>{const[r,c]=rowColFromKey(k);if(c>at){nd[cellKey(r,c-1)]=d[k];nf[cellKey(r,c-1)]=f[k]||{};}else if(c<at){nd[k]=d[k];nf[k]=f[k]||{};}});
-        sheets[sheetIdx].data=nd; sheets[sheetIdx].fmt=nf; renderAll();
-    };
-
-    function clearSelection() {
-        pushUndo(); const d=data(),f=fmt();
-        const minR=Math.min(anchorR,selR2),maxR=Math.max(anchorR,selR2);
-        const minC=Math.min(anchorC,selC2),maxC=Math.max(anchorC,selC2);
-        for(let r=minR;r<=maxR;r++) for(let c=minC;c<=maxC;c++){delete d[cellKey(r,c)];delete f[cellKey(r,c)];}
-        renderAll();
-    }
-    window.ssClearSheet = function(){ if(!confirm('ล้างข้อมูลทั้งชีตใช่ไหม?'))return; pushUndo(); sheets[sheetIdx].data={}; sheets[sheetIdx].fmt={}; renderAll(); };
-
-    // ── Sheets ─────────────────────────────────────────────
-    window.ssAddSheet = function(){
-        sheets.push({name:'Sheet'+(sheets.length+1),data:{},fmt:{}}); sheetIdx=sheets.length-1;
-        renderSheetTabs(); buildGrid();
-    };
-    function switchSheet(i){ sheetIdx=i; renderSheetTabs(); buildGrid(); }
-    function renderSheetTabs(){
-        sheetTabs.innerHTML='';
-        sheets.forEach((s,i)=>{
-            const t=document.createElement('div'); t.className='ss-sheet-tab'+(i===sheetIdx?' active':'');
-            t.textContent=s.name; t.onclick=()=>switchSheet(i);
-            t.ondblclick=()=>renameSheet(i,t);
-            sheetTabs.appendChild(t);
-        });
-    }
-    function renameSheet(i,el){
-        const name=prompt('ชื่อชีต:',sheets[i].name); if(name){ sheets[i].name=name; renderSheetTabs(); }
-    }
-
-    // ── Column resize ──────────────────────────────────────
-    function startResize(ev,c){
-        ev.stopPropagation(); ev.preventDefault();
-        const startX=ev.clientX, startW=colWidths[c]||80;
-        resizing=c;
-        const onMove=e=>{const w=Math.max(30,startW+(e.clientX-startX));colWidths[c]=w;renderAll();};
-        const onUp=()=>{resizing=null;document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);};
-        document.addEventListener('mousemove',onMove); document.addEventListener('mouseup',onUp);
-    }
-
-    // ── Context menu ───────────────────────────────────────
-    table.addEventListener('contextmenu',ev=>{
-        const td=ev.target.closest('td.ss-cell');
-        if(!td) return; ev.preventDefault();
-        ctxMenu.style.left=ev.clientX+'px'; ctxMenu.style.top=ev.clientY+'px';
-        ctxMenu.classList.add('open');
-    });
-    document.addEventListener('click',()=>ctxMenu.classList.remove('open'));
-    window.ssCtxAction = function(action){
-        ctxMenu.classList.remove('open');
-        if(action==='copy') ssCopy();
-        else if(action==='cut') ssCut();
-        else if(action==='paste') ssPaste();
-        else if(action==='insertRowAbove') ssInsertRow(anchorR);
-        else if(action==='insertRowBelow') ssInsertRow(anchorR+1);
-        else if(action==='insertColLeft')  ssInsertCol(anchorC);
-        else if(action==='insertColRight') ssInsertCol(anchorC+1);
-        else if(action==='deleteRow')  ssDeleteRow(anchorR);
-        else if(action==='deleteCol')  ssDeleteCol(anchorC);
-        else if(action==='clearCell')  clearSelection();
-    };
-
-    // ── Import ─────────────────────────────────────────────
-    fileInput.addEventListener('change',ev=>{
-        const file=ev.target.files[0]; if(!file) return; fileInput.value='';
-        const name=file.name.toLowerCase();
-        if(name.endsWith('.csv')||name.endsWith('.tsv')) importCSV(file);
-        else if(name.endsWith('.xlsx')||name.endsWith('.xls')) importXLSX(file);
-        else alert('รองรับ .csv, .tsv, .xlsx เท่านั้น');
-    });
-
-    function importCSV(file){
-        const reader=new FileReader();
-        reader.onload=e=>{
-            pushUndo();
-            const sep=file.name.endsWith('.tsv')?'\t':detectSep(e.target.result);
-            const lines=parseCSVLines(e.target.result,sep);
-            sheets[sheetIdx].data={}; sheets[sheetIdx].fmt={};
-            const d=data();
-            lines.forEach((row,r)=>row.forEach((val,c)=>{if(val!=='')d[cellKey(r,c)]=val;}));
-            // New sheet named after file
-            sheets[sheetIdx].name=file.name.replace(/\.[^.]+$/,'').slice(0,20);
-            renderSheetTabs(); buildGrid();
-        };
-        reader.readAsText(file,'UTF-8');
-    }
-
-    function detectSep(txt){ const first=txt.split('\n')[0]; if(first.includes('\t'))return'\t'; if(first.includes(';'))return';'; return',';}
-
-    function parseCSVLines(text,sep){
-        const rows=[];
-        const lines=text.replace(/\r\n?/g,'\n').split('\n');
-        for(const line of lines){
-            if(line.trim()===''&&rows.length)continue;
-            const row=[]; let cur='',inQ=false;
-            for(let i=0;i<line.length;i++){
-                const ch=line[i];
-                if(ch==='"'){ if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ; }
-                else if(ch===sep&&!inQ){row.push(cur.trim());cur='';}
-                else cur+=ch;
-            }
-            row.push(cur.trim()); rows.push(row);
-        }
-        return rows;
-    }
-
-    async function importXLSX(file){
-        // Dynamically load SheetJS
-        if(!window.XLSX){
-            await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
-        }
-        const buf=await file.arrayBuffer();
-        const wb=XLSX.read(buf,{type:'array'});
-        pushUndo();
-        // Load all sheets
-        sheets=wb.SheetNames.map(name=>{
-            const ws=wb.Sheets[name];
-            const d={},f={};
-            const range=XLSX.utils.decode_range(ws['!ref']||'A1:A1');
-            for(let r=range.s.r;r<=range.e.r;r++) for(let c=range.s.c;c<=range.e.c;c++){
-                const addr=XLSX.utils.encode_cell({r,c});
-                const cell=ws[addr]; if(!cell) continue;
-                d[cellKey(r,c)]=cell.f?'='+cell.f:(cell.v!==undefined?String(cell.v):'');
-            }
-            return {name,data:d,fmt:f};
-        });
-        sheetIdx=0; renderSheetTabs(); buildGrid();
-    }
-
-    // ── Export ─────────────────────────────────────────────
-    window.ssExportCSV = function(){
-        const d=data(); const rows=[];
-        for(let r=0;r<ROWS;r++){
-            const row=[];let hasVal=false;
-            for(let c=0;c<COLS;c++){const v=computeCell(d[cellKey(r,c)]||'',d);const s=v===''?'':String(v);if(s)hasVal=true;row.push(s.includes(',')||s.includes('"')||s.includes('\n')?'"'+s.replace(/"/g,'""')+'"':s);}
-            if(hasVal) rows.push(row.join(','));
-        }
-        const bom='\uFEFF'; const blob=new Blob([bom+rows.join('\n')],{type:'text/csv;charset=utf-8'});
-        const url=URL.createObjectURL(blob);const a=document.createElement('a');
-        a.href=url;a.download=(sheets[sheetIdx].name||'spreadsheet')+'.csv';a.click();
-        setTimeout(()=>URL.revokeObjectURL(url),3000);
-    };
-
-    window.ssExportXLSX = async function(){
-        if(!window.XLSX){
-            await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
-        }
-        const wb=XLSX.utils.book_new();
-        sheets.forEach(sh=>{
-            const d=sh.data; const aoa=[];
-            for(let r=0;r<ROWS;r++){
-                const row=[];let hasVal=false;
-                for(let c=0;c<COLS;c++){const v=computeCell(d[cellKey(r,c)]||'',d);if(v!=='')hasVal=true;row.push(v===''?null:v);}
-                if(hasVal) aoa.push(row); else if(aoa.length) aoa.push(row);
-            }
-            while(aoa.length&&aoa[aoa.length-1].every(v=>v===null||v===''))aoa.pop();
-            const ws=XLSX.utils.aoa_to_sheet(aoa);
-            XLSX.utils.book_append_sheet(wb,ws,sh.name);
-        });
-        XLSX.writeFile(wb,(sheets[sheetIdx].name||'spreadsheet')+'.xlsx');
-    };
-
-    // ── Find / Replace ─────────────────────────────────────
-    window.ssToggleFind = function(){
-        findBar.classList.toggle('open');
-        if(findBar.classList.contains('open')) document.getElementById('ssFindInput').focus();
-    };
-    window.ssFindHighlight = function(){
-        const q=document.getElementById('ssFindInput').value.toLowerCase();
-        findResults=[];
-        document.querySelectorAll('td.ss-cell').forEach(td=>{
-            const txt=td.textContent.toLowerCase();
-            if(q&&txt.includes(q)){ td.style.outline='2px solid #fd7e14'; findResults.push(td); }
-            else if(!td.classList.contains('anchor')&&!td.classList.contains('in-range')) td.style.outline='';
-        });
-    };
-    window.ssReplaceAll = function(){
-        const q=document.getElementById('ssFindInput').value;
-        const rep=document.getElementById('ssReplaceInput').value;
-        if(!q) return; pushUndo(); const d=data(); let cnt=0;
-        Object.keys(d).forEach(k=>{ if(String(d[k]).includes(q)){d[k]=String(d[k]).replaceAll(q,rep);cnt++;} });
-        renderAll(); alert(`แทนที่ ${cnt} เซลล์`);
-    };
-
-    // ── Init ───────────────────────────────────────────────
-    buildGrid();
-    renderSheetTabs();
-
-    // expose helpers needed by HTML onclick attrs
-    window.ssInsertRow=window.ssInsertRow;
-    window.ssInsertCol=window.ssInsertCol;
-    window.ssDeleteRow=window.ssDeleteRow;
-    window.ssDeleteCol=window.ssDeleteCol;
-
-    })(); // end IIFE
-    /* ═══════════════════════════════════════════════════════
-       END SPREADSHEET ENGINE
-    ═══════════════════════════════════════════════════════ */
 </script>
 </body>
 </html>
